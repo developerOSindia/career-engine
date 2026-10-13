@@ -465,12 +465,12 @@ class LinkedInFormFiller:
         except Exception:
             pass
 
-    async def _handle_resume_upload(self, modal: Locator):
-        """Uploads candidate resume if file input is present."""
+    async def _handle_resume_upload(self, modal: Locator, job_title: str = ""):
+        """Uploads candidate resume matching the job role if file input is present."""
         try:
             file_inputs = await modal.locator("input[type='file']").all()
             for file_inp in file_inputs:
-                resume_path = self.personal.get("resume_path") or getattr(self.config, "resume_path", "resume.pdf")
+                resume_path = self.config.get_resume_for_job(job_title)
                 abs_path = os.path.abspath(resume_path)
                 if os.path.exists(abs_path):
                     await file_inp.set_input_files(abs_path)

@@ -14,11 +14,15 @@ profile_config.json
 config.yaml
 learned_answers.json
 
-# Resumes and Personal Documents
+# Resumes and Personal Documents (All PDF documents strictly ignored)
 *.pdf
 *.docx
 *.doc
 *.rtf
+resumes/*.pdf
+resume/*.pdf
+/resume
+!resumes/README.md
 
 # Application State & Databases
 jobs.db

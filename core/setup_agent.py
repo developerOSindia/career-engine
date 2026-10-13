@@ -78,13 +78,30 @@ class SetupAgent:
         linkedin_url = "" if defaults_only else self.prompt_input("LinkedIn Profile URL (optional)", "")
         github_url = "" if defaults_only else self.prompt_input("GitHub or Portfolio URL (optional)", "")
 
-        # --- STEP 2: Resume File ---
-        print("\n📄 [Step 2/5] Resume Document")
+        # --- STEP 2: Resume Files & Role-Based Selector ---
+        print("\n📄 [Step 2/5] Resumes & Multi-Role Setup")
         print("-" * 50)
-        resume_input = "resume.pdf" if defaults_only else self.prompt_input("Path to your Resume PDF", "resume.pdf")
+        print("💡 CareerOS includes an Intelligent Resume Selector!")
+        print("   Drop your specialized resume PDFs into the 'resumes/' directory:")
+        print("   • Data Engineering:     resumes/*_DE*.pdf or resumes/*_data_engineer*.pdf")
+        print("   • Data Science / ML:    resumes/*_DS*.pdf or resumes/*_data_science*.pdf")
+        print("   • AI / GenAI Platforms: resumes/*_AI*.pdf or resumes/*_genai*.pdf")
+        print("   • Software Engineering: resumes/*_SWE*.pdf or resumes/*_software*.pdf")
+        print("   • MLOps / DevOps:       resumes/*_MLOps*.pdf or resumes/*_devops*.pdf")
+        print("-" * 50)
+        
+        from core.resume_selector import get_resume_selector
+        selector = get_resume_selector()
+        found_resumes = selector.list_available_resumes()
+        if found_resumes:
+            print(f"  🔍 Detected {len(found_resumes)} resume(s) in resumes/ folder:")
+            for r in found_resumes:
+                print(f"     • {r.name}")
+            resume_input = str(found_resumes[0])
+        else:
+            resume_input = "resumes/resume.pdf" if defaults_only else self.prompt_input("Default Resume PDF path", "resumes/resume.pdf")
+
         resume_path = os.path.abspath(os.path.expanduser(resume_input))
-        if not os.path.exists(resume_path):
-            print(f"  ℹ️ Note: File '{resume_input}' not found yet. You can place your resume PDF there later.")
 
         # --- STEP 3: Career & Compensation ---
         print("\n💼 [Step 3/5] Career & Compensation Facts")
@@ -242,6 +259,7 @@ DEFAULT_WORK_MODE={work_pref}
             "paths": {
                 "profile_config": "profile_config.json",
                 "resume_pdf": os.path.basename(resume_path),
+                "resumes_dir": "resumes",
                 "history_file": "applied_jobs.json",
                 "screenshots_dir": "screenshots"
             }

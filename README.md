@@ -229,19 +229,35 @@ Example Output:
 
 ---
 
+## 📄 Multi-Role Intelligent Resume Selector
+
+CareerOS can automatically choose between multiple tailored resumes depending on the job you are applying to. Simply place your resume PDFs into the [`resumes/`](resumes/) folder using role tags:
+
+| Target Role | Filename Pattern | Examples |
+|---|---|---|
+| **Data Engineering** | `*_DE*.pdf`, `*_data_engineer*.pdf` | `resumes/Alex_DE_resume.pdf` |
+| **Data Science / ML** | `*_DS*.pdf`, `*_data_science*.pdf` | `resumes/Alex_DS_resume.pdf` |
+| **AI / GenAI Platforms** | `*_AI*.pdf`, `*_genai*.pdf`, `*_llm*.pdf` | `resumes/Alex_AI_resume.pdf` |
+| **Software Engineering** | `*_SWE*.pdf`, `*_software*.pdf`, `*_backend*.pdf` | `resumes/Alex_SWE_resume.pdf` |
+| **MLOps / Cloud** | `*_MLOps*.pdf`, `*_devops*.pdf` | `resumes/Alex_MLOps_resume.pdf` |
+
+*CareerOS analyzes the job title and description in real-time and attaches the best matching resume automatically.*
+
+---
+
 ## 👤 Candidate Profile & Customization
 
-The candidate facts used to answer form questions and compose recruiter messages are defined in [`profile_config.json`](profile_config.json):
+The candidate facts used to answer form questions and compose recruiter messages are defined locally in `profile_config.json`:
 
-| Metric / Fact | Value | Rules Enforced |
+| Metric / Fact | Default Example | Rules Enforced |
 |---|---|---|
-| **Total Experience** | 5 years | Strictly 5 years (excluding internships) |
-| **Current Role** | Senior Data Engineer @ Nasdaq | Verified Nasdaq experience |
-| **Current CTC** | 30 LPA | 24 LPA Fixed + 6 LPA Variable/Benefits |
-| **Expected CTC** | 40 LPA | Precedence given over fixed base |
-| **Notice Period** | 30 days | Official 60 days, negotiable to 30 days |
-| **Core Technical Skills** | Python, PySpark, Databricks, AWS, Delta Lake, SQL, MLOps, AI | 5 years each |
-| **Location Authorization** | Bengaluru, India | Legally authorized to work, No visa sponsorship needed |
+| **Total Experience** | Configurable (e.g. 5 yrs) | Used for experience verification |
+| **Current Role** | Configurable | Verified from profile summary |
+| **Current CTC** | Configurable (e.g. 30 LPA) | Fixed base + variable split |
+| **Expected CTC** | Configurable (e.g. 40 LPA) | Enforced on compensation fields |
+| **Notice Period** | Configurable (e.g. 30 days) | Answered across dropdowns & numeric inputs |
+| **Core Technical Skills** | Configurable | Filtered against role requirements |
+| **Location Authorization** | Configurable | Work authorization & relocation preferences |
 
 ### Dynamic Questionnaire Memory:
 Whenever a new unique question is encountered, the AI generates the appropriate response based on your profile and records it into `profile_config.json["custom_answers"]`. You can edit or fine-tune any saved response directly in that file.

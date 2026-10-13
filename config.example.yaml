@@ -33,6 +33,7 @@ job_search:
 
 paths:
   profile_config: "profile_config.json"
-  resume_pdf: "resume.pdf"
+  resume_pdf: "resumes/resume.pdf"
+  resumes_dir: "resumes"
   history_file: "applied_jobs.json"
   screenshots_dir: "screenshots"

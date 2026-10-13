@@ -340,7 +340,7 @@ class NaukriPlatform(BasePlatform):
         await asyncio.sleep(2.5)
 
         # Check for Naukri Chatbot / Questionnaire Dialog
-        answered_qa = await self._handle_naukri_chatbot_questions()
+        answered_qa = await self._handle_naukri_chatbot_questions(job_title=job_title)
         await asyncio.sleep(2.0)
 
         # Final Confirmation Check
@@ -402,7 +402,7 @@ class NaukriPlatform(BasePlatform):
         except Exception:
             return False
 
-    async def _handle_naukri_chatbot_questions(self) -> Dict[str, str]:
+    async def _handle_naukri_chatbot_questions(self, job_title: str = "") -> Dict[str, str]:
         """
         Intelligently answers interactive screening questions in Naukri's chatbot drawer.
         Enforces strict rules:
@@ -453,7 +453,7 @@ class NaukriPlatform(BasePlatform):
 
                 file_input = drawer.locator("input[type='file']").first
                 if await file_input.count() > 0 and await file_input.is_visible():
-                    resume_file = self.profile.get("personal_info", {}).get("resume_path") or self.config.resume_path
+                    resume_file = self.config.get_resume_for_job(job_title)
                     if os.path.exists(resume_file):
                         print(f"  📄 Uploading resume PDF: {resume_file}")
                         await file_input.set_input_files(resume_file)

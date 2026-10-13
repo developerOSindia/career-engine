@@ -116,6 +116,12 @@ class Config:
         yaml_resume = self.yaml_config.get("paths", {}).get("resume_pdf", "resume.pdf")
         return str(self.root_dir / yaml_resume)
 
+    def get_resume_for_job(self, job_title: str = "") -> str:
+        """Dynamically selects the best matching resume based on job role and keywords."""
+        from core.resume_selector import get_resume_selector
+        selector = get_resume_selector()
+        return selector.select_resume_for_job(job_title=job_title, default_path=self.resume_path)
+
     # --- Search Settings ---
     @property
     def search_keywords(self) -> List[str]:
