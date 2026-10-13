@@ -10,16 +10,18 @@
 
 ---
 
-### 🌐 Part of the developerOS Career Suite
+### 🌐 The developerOS Career Suite
 
-**developerOS** is a suite of free tools for engineers' careers, covering learning, tracking, and applying:
-- **[CareerOS](https://careeros.developeros.in/)**: Web platform to track applications, interviews, and offers in ₹ lakhs.
-- **[ResumeOS](https://developeros.in/)**: AI-tailored resumes matched to engineering job descriptions.
-- **[CloudPrep](https://developeros.in/)**: Hands-on learning for cloud certifications.
-- **[DevTrack](https://developeros.in/)**: Analytics for developer GitHub activity.
-- **CareerEngine (This Repo)**: The open-source automation layer that runs on your local machine, connecting to your authentic Google Chrome browser over port 9222 to search and apply for jobs across LinkedIn and Naukri.
+developerOS is a suite of free tools for engineers' careers, covering learning, tracking and applying:
+- **[CloudPrep](https://developeros.in/)**: Teaches cloud certifications hands-on (AWS, GCP, Azure).
+- **[ResumeOS](https://developeros.in/)**: Tailors your ATS resume with semantic AI matching.
+- **[CareerOS](https://careeros.developeros.in/)**: Tracks applications, interviews, and offers in ₹ lakhs.
+- **[DevTrack](https://developeros.in/)**: Analyses developer engineering activity and git metrics.
+- **[Insights](https://developeros.in/)**: The engineering blog and industry salary benchmarks.
+- **[Toolkit](https://developeros.in/)**: Browser-native utilities for everyday developer workflows.
+- **CareerEngine (This Repository)**: The open-source automation layer: it applies to jobs through your own Chrome and runs on your machine. **CareerOS** is where you then track and compare what comes back.
 
-> ℹ️ *Note: CareerEngine is a standalone open-source companion and does not sync automatically with CareerOS web yet.*
+> ℹ️ *Everything shares one developerOS sign-in, one design system and the same dark palette. CareerEngine is a standalone tool and does not sync with CareerOS yet.*
 
 ---
 
@@ -52,7 +54,7 @@ Automating job applications can breach the terms of service of platforms like Li
 - **Recruiter InMail Auto-Reply Engine**:
   - Inspects incoming LinkedIn messaging threads and drafts personalized responses highlighting candidate strengths, confirmed notice period (e.g. 30 days), and expected compensation.
 - **Supported Platforms**:
-  - Pre-built connectors for **LinkedIn** (Easy Apply & InMail) and **Naukri** (Batch Quick Apply & Chatbot questions).
+  - Pre-built connectors for **LinkedIn** (Easy Apply & InMail fully operational) and **Naukri** (Batch Quick Apply & Chatbot questions scaffolds ready; test with `--preview`).
 - **Relational Local History**:
   - Stored in SQLite database (`jobs.db`) and exported to spreadsheet format (`applied_jobs.csv`).
 
