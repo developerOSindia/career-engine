@@ -175,6 +175,15 @@ def handle_status(args):
 
     print("\n" + "="*60 + "\n")
 
+def handle_score(args):
+    """Audits and scores candidate profile completeness, market readiness, and ATS fit."""
+    from core.profile_scorer import profile_scorer
+    llm = getattr(args, "llm", False)
+    if llm:
+        print("\n⏳ Running comprehensive ATS evaluation with AI executive assessment...")
+    report = profile_scorer.evaluate(include_llm_critique=llm)
+    print(profile_scorer.format_cli_scorecard(report))
+
 def handle_studio(args):
     """Launches the CareerEngine Local Web Studio GUI server."""
     from core.studio import start_studio_server
@@ -281,6 +290,13 @@ Examples:
     parser_studio.add_argument("--host", type=str, default="127.0.0.1", help="Host interface to bind to (default: 127.0.0.1)")
     parser_studio.add_argument("--port", type=int, default=8501, help="Port to listen on (default: 8501)")
 
+    # Command: score (or audit)
+    parser_score = subparsers.add_parser("score", help="Audit and score candidate profile completeness and ATS readiness")
+    parser_score.add_argument("--llm", action="store_true", help="Include AI executive critique from connected LLM")
+
+    parser_audit = subparsers.add_parser("audit", help="Alias for score command")
+    parser_audit.add_argument("--llm", action="store_true", help="Include AI executive critique from connected LLM")
+
     # Command: setup
     parser_setup = subparsers.add_parser("setup", help="Interactive onboarding agent to configure personal profile and API keys")
     parser_setup.add_argument("--defaults", action="store_true", help="Quick setup with default configuration placeholders")
@@ -301,6 +317,8 @@ Examples:
         handle_status(args)
     elif args.command == "studio":
         handle_studio(args)
+    elif args.command in ("score", "audit"):
+        handle_score(args)
     else:
         parser.print_help()
 

@@ -319,9 +319,30 @@ Example Output:
   • Software Engineer @ Software Engineer [Remote] | Hirer: Khursheed Ahmed
   • Remote Java Developer @ Remote Java Developer  [Remote]
   • (Senior) ServiceNow AI Engineer  @ (Senior) ServiceNow AI [Remote] | Hirer: Ravi prajapati
-  • Fabric Azure Data Engineer @ Fabric Azure Data Engi [Remote] | Hirer: Rashi Shukla
 ============================================================
 ```
+
+---
+
+### 6. Candidate Profile Scoring & ATS Audit (`score` / `audit`)
+
+Audit and benchmark your candidate profile completeness, market readiness, and ATS fit before launching automated application campaigns:
+```bash
+# Run local deterministic ATS scoring and audit:
+python3 main.py score
+
+# Run scoring with AI executive critique from connected LLM (Claude, OpenAI, or Gemini):
+python3 main.py score --llm
+```
+
+**Evaluated Criteria (100 Points Total):**
+1. **Contact & Online Presence (15 pts)**: Full name, verified email, telephone with country code, location anchor, and active LinkedIn / GitHub / portfolio links.
+2. **Work Experience & Compensation Fundamentals (25 pts)**: Current role, company, years of experience, metric-rich achievement descriptions, notice period calibration, and current vs. expected CTC in LPA.
+3. **Technical Skill Density & Recency (20 pts)**: Skill catalog breadth, core programming languages, relational/NoSQL databases, cloud infrastructure, and modern specializations.
+4. **Multi-Role Resume Tag Readiness (20 pts)**: Physical PDF resumes in `resumes/` folder tagged with `_DE`, `_DS`, `_AI`, `_SWE`, and `_MLOps` for automated dynamic role switching.
+5. **Screening Memory & Automation Defaults (20 pts)**: Legal work authorization, visa sponsorship flags, joining availability, and cached `custom_answers` depth.
+
+Produces an overall score, letter grade (`A+`, `A`, `B+`, `B`, `C`), multi-role fit % for 5 engineering tracks, and prioritized actionable recommendations to achieve 100%.
 
 ---
 
@@ -416,13 +437,20 @@ To implement a new job board (e.g. `naukri`, `wellfound`, `indeed`):
 Yes. Automated job applications can breach platform terms of service on LinkedIn and Naukri, and risk account restriction. CareerEngine controls your genuine Chrome browser with organic dwell times and typing jitter to minimize detection, but we strongly advise testing with `--dry-run` / `--preview` first, inspecting applications, and keeping application limits conservative (5–15 jobs per session).
 
 ### Which AI models are supported for form filling?
-CareerEngine rotates between Google Gemini 3.5 Flash-lite and Gemini 3.1 Flash-lite across multiple free API keys to prevent rate limits, with automatic fallback to NVIDIA DeepSeek V4. It caches learned answers locally in `profile_config.json`.
+CareerEngine features a multi-provider fallback pipeline:
+1. **Google Gemini** (Gemini 3.5 Flash-lite / 3.1 Flash-lite via `GEMINI_API_KEY_1..3`)
+2. **Anthropic Claude** (Claude 3.5 Haiku / Sonnet via `ANTHROPIC_API_KEY` or `CLAUDE_API_KEY`)
+3. **OpenAI** (GPT-4o / GPT-4o-mini via `OPENAI_API_KEY`)
+4. **NVIDIA DeepSeek** (DeepSeek V4 via `NVIDIA_API_KEY`)
+5. **Local Ollama** (Offline zero-cost model via `http://localhost:11434`)
+
+Learned answers are cached locally in `profile_config.json["custom_answers"]` to eliminate repetitive API latency and costs.
 
 ### How does the Multi-Role Resume Selector choose a resume?
 CareerEngine inspects the job title and requirements, matching them against tagged PDFs in `resumes/` (e.g. `_DE` for Data Engineering, `_DS` for Data Science, `_AI` for GenAI Platforms, `_SWE` for Backend, and `_MLOps` for DevOps).
 
 ### Is candidate data sent to the cloud?
-Your candidate profile, resumes, API keys, and local SQLite database (`jobs.db`) stay strictly on your local machine. Only the raw questionnaire text prompts are sent to the Google Gemini API keys that you supply in `.env` to evaluate answers.
+Your candidate profile, resumes, API keys, and local SQLite database (`jobs.db`) stay strictly on your local machine. Only the raw questionnaire text prompts are sent to the LLM API keys that you configure in `.env` to evaluate answers.
 
 ---
 

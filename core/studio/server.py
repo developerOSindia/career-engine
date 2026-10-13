@@ -152,6 +152,11 @@ class StudioRequestHandler(BaseHTTPRequestHandler):
             self.handle_serve_screenshot(filename)
             return
 
+        # API: Profile score & ATS audit report
+        if path == "/api/profile/score":
+            self.handle_get_profile_score()
+            return
+
         # API: Profile config
         if path == "/api/profile":
             self.handle_get_profile()
@@ -412,6 +417,15 @@ class StudioRequestHandler(BaseHTTPRequestHandler):
             self.send_json(data)
         except Exception as e:
             self.send_json({"error": f"Failed to load profile: {e}"}, 500)
+
+    def handle_get_profile_score(self):
+        """Computes candidate ATS profile score and audit recommendations."""
+        try:
+            from core.profile_scorer import profile_scorer
+            report = profile_scorer.evaluate()
+            self.send_json(report.to_dict())
+        except Exception as e:
+            self.send_json({"error": f"Failed to compute profile score: {e}"}, 500)
 
 def start_studio_server(host: str = "127.0.0.1", port: int = 8501):
     """Starts the CareerEngine Local Web Studio HTTP server."""

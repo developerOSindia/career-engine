@@ -138,6 +138,8 @@ class SetupAgent:
         print("💡 Free Gemini API keys can be generated at: https://aistudio.google.com/")
         gemini_key_1 = "" if defaults_only else self.prompt_input("Gemini API Key 1", "")
         gemini_key_2 = "" if defaults_only else self.prompt_input("Gemini API Key 2 (Optional backup)", "")
+        claude_key = "" if defaults_only else self.prompt_input("Anthropic / Claude API Key (Optional)", "")
+        openai_key = "" if defaults_only else self.prompt_input("OpenAI API Key (Optional)", "")
         nvidia_key = "" if defaults_only else self.prompt_input("NVIDIA / DeepSeek API Key (Optional)", "")
         cdp_port = "9222" if defaults_only else self.prompt_input("Chrome Remote Debugging Port", "9222")
 
@@ -152,6 +154,14 @@ class SetupAgent:
 GEMINI_API_KEY_1={gemini_key_1}
 GEMINI_API_KEY_2={gemini_key_2}
 GEMINI_API_KEY_3=
+
+# Anthropic Claude API (Optional fallback: https://console.anthropic.com/)
+ANTHROPIC_API_KEY={claude_key}
+ANTHROPIC_MODEL=claude-3-5-haiku-20241022
+
+# OpenAI API (Optional fallback: https://platform.openai.com/)
+OPENAI_API_KEY={openai_key}
+OPENAI_MODEL=gpt-4o-mini
 
 # Optional NVIDIA / DeepSeek Fallback API Key
 NVIDIA_API_KEY={nvidia_key}

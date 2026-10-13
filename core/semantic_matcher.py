@@ -83,6 +83,10 @@ Evaluate this job posting for the candidate. Return ONLY a valid JSON object mat
         try:
             raw_res = self.ai._call_gemini(prompt, max_tokens=220)
             if not raw_res:
+                raw_res = self.ai._call_claude(prompt, max_tokens=220)
+            if not raw_res:
+                raw_res = self.ai._call_openai(prompt, max_tokens=220)
+            if not raw_res:
                 raw_res = self.ai._call_nvidia(prompt)
 
             if raw_res and raw_res[0]:
@@ -177,6 +181,10 @@ Job Description Context:
 """
         try:
             res = self.ai._call_gemini(prompt, max_tokens=150)
+            if not res:
+                res = self.ai._call_claude(prompt, max_tokens=150)
+            if not res:
+                res = self.ai._call_openai(prompt, max_tokens=150)
             if not res:
                 res = self.ai._call_nvidia(prompt)
             if res and res[0]:

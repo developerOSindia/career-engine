@@ -613,6 +613,80 @@
 
     <!-- VIEW 5: PROFILE & MEMORY -->
     <section id="tab-profile" class="view-section">
+      <!-- Card 1: ATS Readiness Scorecard -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 700;">Candidate Profile Scoring & ATS Readiness</h3>
+              <span id="score-grade-badge" class="badge-cyan" style="font-size: 14px; font-weight: 700; padding: 4px 10px;">A+</span>
+            </div>
+            <p id="score-grade-title" style="font-size: 13px; color: var(--fg-subtle); margin-top: 4px;">Auditing candidate facts, multi-role resume tags, and learned screening memory...</p>
+          </div>
+          <button id="refresh-score-btn" class="btn-ghost" style="display: flex; align-items: center; gap: 6px;">
+            <span>🔄</span> Recalculate Score
+          </button>
+        </div>
+
+        <!-- 2 Column Audit Grid -->
+        <div style="display: grid; grid-template-columns: 280px 1fr; gap: 24px; align-items: start;">
+          <!-- Left Column: Big Score Dial & Badges -->
+          <div style="background: var(--bg-elev-2); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 24px; text-align: center;">
+            <div style="font-size: 11px; font-family: var(--font-mono); color: var(--fg-faint); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Overall Readiness</div>
+            <div style="display: flex; align-items: baseline; justify-content: center; gap: 4px; margin-bottom: 4px;">
+              <span id="score-total-val" style="font-family: var(--font-display); font-size: 54px; font-weight: 800; color: #4ade80;">--</span>
+              <span style="font-family: var(--font-mono); font-size: 20px; color: var(--fg-faint);">/100</span>
+            </div>
+            <div id="score-grade-desc" style="font-size: 12px; color: var(--fg-muted); margin-bottom: 16px;">Top 2% Automated Candidate Readiness</div>
+
+            <div style="border-top: 1px solid var(--border); padding-top: 16px; text-align: left;">
+              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--fg-faint); text-transform: uppercase; margin-bottom: 8px;">Detected Resumes</div>
+              <div id="score-resumes-list" style="display: flex; flex-direction: column; gap: 6px;">
+                <!-- Populated via JS -->
+              </div>
+            </div>
+
+            <div style="border-top: 1px solid var(--border); padding-top: 16px; margin-top: 16px; text-align: left;">
+              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--fg-faint); text-transform: uppercase; margin-bottom: 8px;">Key Strengths</div>
+              <div id="score-strengths-list" style="display: flex; flex-direction: column; gap: 6px;">
+                <!-- Populated via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Category Breakdown & Role Readiness -->
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            <!-- Category Progress Bars -->
+            <div style="background: var(--bg-elev-2); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 20px;">
+              <div style="font-size: 12px; font-family: var(--font-mono); color: var(--fg-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px;">Scoring Dimensions</div>
+              <div id="score-categories-list" style="display: flex; flex-direction: column; gap: 12px;">
+                <!-- Category items populated via JS -->
+              </div>
+            </div>
+
+            <!-- Role Readiness Grid -->
+            <div style="background: var(--bg-elev-2); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 20px;">
+              <div style="font-size: 12px; font-family: var(--font-mono); color: var(--fg-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px;">Multi-Role Domain Readiness (% Fit)</div>
+              <div id="score-roles-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+                <!-- Role readiness cards populated via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommendations Strip -->
+        <div id="score-recommendations-wrap" style="margin-top: 20px; background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: var(--radius-control); padding: 16px 20px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+            <span style="color: #f59e0b; font-size: 15px;">⚡</span>
+            <strong style="font-size: 13px; color: #fbbf24; text-transform: uppercase; letter-spacing: 0.06em; font-family: var(--font-mono);">Actionable Optimizations to reach 100% Score:</strong>
+          </div>
+          <ul id="score-recommendations-list" style="margin-left: 20px; font-size: 13px; color: var(--fg-muted); line-height: 1.6;">
+            <!-- List items populated via JS -->
+          </ul>
+        </div>
+      </div>
+
+      <!-- Card 2: JSON Profile Editor -->
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
           <div>
@@ -808,16 +882,123 @@
       }
     }
 
-    // Profile Editor
+    // Profile Editor & Scoring
+    async function loadProfileScore() {
+      try {
+        const res = await fetch('/api/profile/score');
+        if (!res.ok) return;
+        const data = await res.json();
+
+        const scoreVal = document.getElementById('score-total-val');
+        const gradeBadge = document.getElementById('score-grade-badge');
+        const gradeTitle = document.getElementById('score-grade-title');
+        const gradeDesc = document.getElementById('score-grade-desc');
+
+        if (scoreVal) {
+          scoreVal.textContent = data.total_score;
+          scoreVal.style.color = data.total_score >= 80 ? '#4ade80' : (data.total_score >= 65 ? '#f59e0b' : '#f43f5e');
+        }
+        if (gradeBadge) {
+          gradeBadge.textContent = data.letter_grade;
+          gradeBadge.style.color = data.total_score >= 80 ? '#4ade80' : (data.total_score >= 65 ? '#f59e0b' : '#f43f5e');
+        }
+        if (gradeTitle) gradeTitle.textContent = data.grade_title;
+        if (gradeDesc) gradeDesc.textContent = (data.total_score >= 90 ? 'Top 2% Automated Candidate Readiness' : (data.total_score >= 80 ? 'Strong Candidate Readiness' : 'Needs Optimization'));
+
+        // Resumes
+        const resWrap = document.getElementById('score-resumes-list');
+        if (resWrap && data.resumes_detected) {
+          resWrap.innerHTML = data.resumes_detected.map(r => `
+            <div style="font-size: 11px; font-family: var(--font-mono); color: #38bdf8; background: rgba(56, 189, 248, 0.08); padding: 4px 8px; border-radius: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              📄 ${escapeHtml(r)}
+            </div>
+          `).join('') || '<div style="font-size: 11px; color: #f43f5e;">No resumes found in resumes/</div>';
+        }
+
+        // Strengths
+        const strWrap = document.getElementById('score-strengths-list');
+        if (strWrap && data.strengths) {
+          strWrap.innerHTML = data.strengths.slice(0, 4).map(s => `
+            <div style="font-size: 12px; color: #4ade80; display: flex; align-items: flex-start; gap: 6px;">
+              <span>✓</span><span>${escapeHtml(s)}</span>
+            </div>
+          `).join('');
+        }
+
+        // Categories
+        const catWrap = document.getElementById('score-categories-list');
+        if (catWrap && data.categories) {
+          catWrap.innerHTML = Object.values(data.categories).map(cat => {
+            const pct = cat.percentage;
+            const color = pct >= 80 ? '#4ade80' : (pct >= 60 ? '#f59e0b' : '#f43f5e');
+            return `
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                  <span style="font-weight: 500; color: var(--fg);">${escapeHtml(cat.name)}</span>
+                  <span style="font-family: var(--font-mono); color: var(--fg-subtle);">${cat.score}/${cat.max_score} (${pct}%)</span>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.07); height: 6px; border-radius: 3px; overflow: hidden;">
+                  <div style="background: ${color}; width: ${pct}%; height: 100%; border-radius: 3px;"></div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        // Roles
+        const roleWrap = document.getElementById('score-roles-grid');
+        if (roleWrap && data.role_readiness) {
+          roleWrap.innerHTML = Object.entries(data.role_readiness).map(([tag, role]) => {
+            const pct = role.readiness_percent;
+            const color = pct >= 80 ? '#4ade80' : (pct >= 60 ? '#f59e0b' : '#94a3b8');
+            const badge = role.has_dedicated_resume 
+              ? '<span style="color: #4ade80; font-size: 10px; font-family: var(--font-mono);">✓ Tagged</span>'
+              : '<span style="color: #f59e0b; font-size: 10px; font-family: var(--font-mono);">⚠ Generic</span>';
+            return `
+              <div style="background: var(--bg-elev-1); border: 1px solid var(--border); border-radius: var(--radius-control); padding: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <span style="font-size: 12px; font-weight: 600; color: var(--fg);">${escapeHtml(role.label)}</span>
+                  ${badge}
+                </div>
+                <div style="font-family: var(--font-display); font-size: 20px; font-weight: 700; color: ${color}; margin-bottom: 6px;">
+                  ${pct}%
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.07); height: 4px; border-radius: 2px; overflow: hidden;">
+                  <div style="background: ${color}; width: ${pct}%; height: 100%;"></div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        // Recommendations
+        const recWrap = document.getElementById('score-recommendations-list');
+        if (recWrap && data.actionable_recommendations) {
+          recWrap.innerHTML = data.actionable_recommendations.map(r => `
+            <li style="margin-bottom: 4px;">${escapeHtml(r)}</li>
+          `).join('') || '<li>Profile is 100% complete and fully optimized!</li>';
+        }
+      } catch (e) {
+        console.error('Failed to load profile score:', e);
+      }
+    }
+
     async function loadProfile() {
       try {
-        const res = await fetch('/api/profile');
-        const data = await res.json();
+        const [profRes] = await Promise.all([
+          fetch('/api/profile'),
+          loadProfileScore()
+        ]);
+        const data = await profRes.json();
         document.getElementById('profile-json-editor').value = JSON.stringify(data, null, 2);
       } catch (e) {
         console.error('Failed to load profile:', e);
       }
     }
+
+    document.getElementById('refresh-score-btn')?.addEventListener('click', () => {
+      loadProfileScore();
+    });
 
     document.getElementById('save-profile-btn')?.addEventListener('click', async () => {
       try {
@@ -829,6 +1010,7 @@
         });
         const resp = await res.json();
         alert(resp.message || 'Profile saved successfully!');
+        loadProfileScore();
       } catch (e) {
         alert('Error saving profile: ' + e);
       }

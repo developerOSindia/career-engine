@@ -14,8 +14,8 @@ from core.config_loader import get_config
 from ai.prompts import SYSTEM_PROMPT_QA, SYSTEM_PROMPT_INMAIL
 
 class UnifiedAISolver:
-    def __init__(self, profile_data: Optional[Dict[str, Any]] = None):
-        config = get_config()
+    def __init__(self, profile_data: Optional[Dict[str, Any]] = None, config=None):
+        config = config or get_config()
         self.profile = profile_data or config.profile
         
         # 1. Gemini Configuration (Keys from .env via Config)
@@ -35,7 +35,15 @@ class UnifiedAISolver:
         self.nvidia_url = f"{config.nvidia_base_url.rstrip('/')}/chat/completions"
         self.nvidia_model = config.nvidia_model
 
-        # 3. Ollama Configuration (Local Offline)
+        # 3. OpenAI Configuration
+        self.openai_api_key = config.openai_api_key
+        self.openai_model = config.openai_model
+
+        # 4. Anthropic / Claude Configuration
+        self.anthropic_api_key = config.anthropic_api_key
+        self.anthropic_model = config.anthropic_model
+
+        # 5. Ollama Configuration (Local Offline)
         self.ollama_url = "http://localhost:11434/api/generate"
 
         personal = self.profile.get("personal_info", {})
@@ -131,6 +139,71 @@ GitHub: {personal.get('github_url', '')} | LinkedIn: {personal.get('linkedin_url
                 self._model_cooldowns["nvidia"] = time.time() + 60
         except Exception:
             self._model_cooldowns["nvidia"] = time.time() + 30
+        return None
+
+    def _call_openai(self, prompt: str, max_tokens: int = 40) -> Optional[tuple]:
+        """Calls OpenAI API (GPT-4o / GPT-4o-mini)."""
+        if not self.openai_api_key or self.openai_api_key.startswith("your_"):
+            return None
+        now = time.time()
+        if now < self._model_cooldowns.get("openai", 0):
+            return None
+        headers = {
+            "Authorization": f"Bearer {self.openai_api_key}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "model": self.openai_model,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.2,
+            "max_tokens": max_tokens
+        }
+        try:
+            resp = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload, timeout=4.0)
+            if resp.status_code == 200:
+                data = resp.json()
+                choices = data.get("choices", [])
+                if choices:
+                    msg = choices[0].get("message", {}).get("content", "").strip()
+                    if msg:
+                        return msg, f"OpenAI ({self.openai_model})"
+            elif resp.status_code in (429, 503, 500):
+                self._model_cooldowns["openai"] = time.time() + 60
+        except Exception:
+            self._model_cooldowns["openai"] = time.time() + 30
+        return None
+
+    def _call_claude(self, prompt: str, max_tokens: int = 40) -> Optional[tuple]:
+        """Calls Anthropic Claude API (Claude 3.5 Haiku / Sonnet)."""
+        if not self.anthropic_api_key or self.anthropic_api_key.startswith("your_"):
+            return None
+        now = time.time()
+        if now < self._model_cooldowns.get("claude", 0):
+            return None
+        headers = {
+            "x-api-key": self.anthropic_api_key,
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json"
+        }
+        payload = {
+            "model": self.anthropic_model,
+            "max_tokens": max_tokens,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.2
+        }
+        try:
+            resp = requests.post("https://api.anthropic.com/v1/messages", headers=headers, json=payload, timeout=4.0)
+            if resp.status_code == 200:
+                data = resp.json()
+                content = data.get("content", [])
+                if content and "text" in content[0]:
+                    msg = content[0]["text"].strip()
+                    if msg:
+                        return msg, f"Claude ({self.anthropic_model})"
+            elif resp.status_code in (429, 529, 500):
+                self._model_cooldowns["claude"] = time.time() + 60
+        except Exception:
+            self._model_cooldowns["claude"] = time.time() + 30
         return None
 
     def _call_ollama(self, prompt: str) -> Optional[tuple]:
@@ -234,6 +307,10 @@ Field Type: {field_type}
 
         result = self._call_gemini(prompt, max_tokens=max_toks)
         if not result:
+            result = self._call_claude(prompt, max_tokens=max_toks)
+        if not result:
+            result = self._call_openai(prompt, max_tokens=max_toks)
+        if not result:
             result = self._call_nvidia(prompt, max_tokens=max_toks)
         if not result:
             result = self._call_ollama(prompt)
@@ -274,6 +351,10 @@ TASK:
 Write the complete reply message to {sender_name}.
 """
         result = self._call_gemini(prompt, max_tokens=250)
+        if not result:
+            result = self._call_claude(prompt, max_tokens=250)
+        if not result:
+            result = self._call_openai(prompt, max_tokens=250)
         if not result:
             result = self._call_nvidia(prompt, max_tokens=250)
         if not result:

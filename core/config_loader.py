@@ -67,6 +67,24 @@ class Config:
     def nvidia_model(self) -> str:
         return os.getenv("NVIDIA_MODEL", "deepseek-ai/deepseek-v4-pro-0813").strip()
 
+    @property
+    def openai_api_key(self) -> str:
+        """Returns the OpenAI API key."""
+        return os.getenv("OPENAI_API_KEY", "").strip()
+
+    @property
+    def openai_model(self) -> str:
+        return os.getenv("OPENAI_MODEL", "gpt-4o-mini").strip()
+
+    @property
+    def anthropic_api_key(self) -> str:
+        """Returns the Claude / Anthropic API key."""
+        return (os.getenv("ANTHROPIC_API_KEY") or os.getenv("CLAUDE_API_KEY", "")).strip()
+
+    @property
+    def anthropic_model(self) -> str:
+        return os.getenv("ANTHROPIC_MODEL", "claude-3-5-haiku-20241022").strip()
+
     # --- Browser & Connection ---
     @property
     def cdp_url(self) -> str:
