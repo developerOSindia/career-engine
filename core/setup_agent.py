@@ -1,5 +1,5 @@
 """
-CareerOS Onboarding & Profile Setup Agent.
+CareerEngine Onboarding & Profile Setup Agent.
 Interactive CLI agent that prompts the user for their profile, resume,
 search criteria, and API keys, automatically creating all local configuration files.
 """
@@ -47,9 +47,9 @@ class SetupAgent:
     def run(self, defaults_only: bool = False):
         """Runs the interactive onboarding agent."""
         print("\n" + "=" * 70)
-        print("🤖 CareerOS - Automated Onboarding & Profile Setup Agent")
+        print("🤖 CareerEngine - Automated Onboarding & Profile Setup Agent")
         print("=" * 70)
-        print("Welcome to CareerOS! This agent will configure your profile, resume,")
+        print("Welcome to CareerEngine! This agent will configure your profile, resume,")
         print("job search keywords, and AI keys securely on your local system.")
         print("🔒 Privacy Notice: All your credentials and profile data remain strictly local.")
         print("=" * 70 + "\n")
@@ -81,7 +81,7 @@ class SetupAgent:
         # --- STEP 2: Resume Files & Role-Based Selector ---
         print("\n📄 [Step 2/5] Resumes & Multi-Role Setup")
         print("-" * 50)
-        print("💡 CareerOS includes an Intelligent Resume Selector!")
+        print("💡 CareerEngine includes an Intelligent Resume Selector!")
         print("   Drop your specialized resume PDFs into the 'resumes/' directory:")
         print("   • Data Engineering:     resumes/*_DE*.pdf or resumes/*_data_engineer*.pdf")
         print("   • Data Science / ML:    resumes/*_DS*.pdf or resumes/*_data_science*.pdf")
@@ -134,7 +134,7 @@ class SetupAgent:
         # --- STEP 5: AI & Browser Keys ---
         print("\n🔑 [Step 5/5] AI Reasoning Keys & Browser Port")
         print("-" * 50)
-        print("CareerOS uses Google Gemini for ultra-fast, intelligent form filling.")
+        print("CareerEngine uses Google Gemini for ultra-fast, intelligent form filling.")
         print("💡 Free Gemini API keys can be generated at: https://aistudio.google.com/")
         gemini_key_1 = "" if defaults_only else self.prompt_input("Gemini API Key 1", "")
         gemini_key_2 = "" if defaults_only else self.prompt_input("Gemini API Key 2 (Optional backup)", "")
@@ -145,7 +145,7 @@ class SetupAgent:
         print("\n⚙️ Generating local configuration files...")
 
         # 1. Generate .env
-        env_content = f"""# CareerOS Environment Configuration
+        env_content = f"""# CareerEngine Environment Configuration
 # Generated automatically by Setup Agent
 
 # Google Gemini API Keys (Free keys from https://aistudio.google.com/)
@@ -272,7 +272,7 @@ DEFAULT_WORK_MODE={work_pref}
         self._init_db()
 
         print("\n" + "=" * 70)
-        print("🎉 CareerOS Setup Completed Successfully!")
+        print("🎉 CareerEngine Setup Completed Successfully!")
         print("=" * 70)
         print("🚀 NEXT STEPS:")
         print(f"  1. Start Chrome with remote debugging: ./scripts/launch_chrome.sh")

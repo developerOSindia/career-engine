@@ -1,13 +1,13 @@
-# 🎯 CareerOS: Autonomous Multi-Platform Career Operating System & Recruiter Agent
+# 🎯 CareerEngine: Autonomous Multi-Platform Career Operating System & Recruiter Agent
 
-[![Documentation](https://img.shields.io/badge/Docs-GitHub%20Pages-6366F1?style=for-the-badge&logo=github)](https://developerosindia.github.io/careeros/)
+[![Documentation](https://img.shields.io/badge/Docs-GitHub%20Pages-6366F1?style=for-the-badge&logo=github)](https://developerosindia.github.io/career-engine/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-38BDF8?style=for-the-badge)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-10B981?style=for-the-badge&logo=python)](https://python.org)
-[![Privacy: 100% Local](https://img.shields.io/badge/Privacy-100%25%20Local-purple?style=for-the-badge)](https://developerosindia.github.io/careeros/#privacy)
+[![Privacy: 100% Local](https://img.shields.io/badge/Privacy-100%25%20Local-purple?style=for-the-badge)](https://developerosindia.github.io/career-engine/#privacy)
 
-> 📖 **Interactive Documentation & Setup Guide**: [https://developerosindia.github.io/careeros/](https://developerosindia.github.io/careeros/)
+> 📖 **Interactive Documentation & Setup Guide**: [https://developerosindia.github.io/career-engine/](https://developerosindia.github.io/career-engine/)
 
-> **CareerOS** is an open-source autonomous career operating system developed by [developerOS](https://github.com/developerOSindia). It uses authentic Google Chrome remote debugging (CDP port 9222) and rotational Gemini AI models to search, solve questionnaire screenings, and auto-apply for engineering roles across LinkedIn and Naukri with 100% local data privacy.
+> **CareerEngine** is an open-source autonomous career operating system developed by [developerOS](https://github.com/developerOSindia). It uses authentic Google Chrome remote debugging (CDP port 9222) and rotational Gemini AI models to search, solve questionnaire screenings, and auto-apply for engineering roles across LinkedIn and Naukri with 100% local data privacy.
 
 ### ⚡ Key Metrics & Architecture
 | Metric | Performance Benchmark | Description |
@@ -47,8 +47,8 @@
 ## 📁 Modular Directory Structure
 
 ```
-careeros/
-├── docs/                             # GitHub Pages Documentation Website (developerosindia.github.io/careeros)
+career-engine/
+├── docs/                             # GitHub Pages Documentation Website (developerosindia.github.io/career-engine)
 │   ├── index.html                    # Responsive documentation & interactive playground
 │   ├── styles.css                    # Glassmorphism dark mode aesthetic
 │   ├── script.js                     # Tab switching, copy code, config generator
@@ -110,15 +110,15 @@ careeros/
 
 ### 1. Clone & Install Dependencies
 ```bash
-git clone https://github.com/developerOSindia/careeros.git
-cd careeros
+git clone https://github.com/developerOSindia/career-engine.git
+cd career-engine
 
 # Install required Python packages
 pip install -r requirements.txt
 ```
 
 ### 2. Interactive Profile & Secrets Setup Agent
-Run the interactive CareerOS Setup Agent to automatically configure your profile, resume, search keywords, and API keys:
+Run the interactive CareerEngine Setup Agent to automatically configure your profile, resume, search keywords, and API keys:
 ```bash
 python3 main.py setup
 # Or directly:
@@ -226,7 +226,7 @@ python3 main.py status
 Example Output:
 ```
 ============================================================
-📊 CareerOS - Application Status Dashboard
+📊 CareerEngine - Application Status Dashboard
 📁 Database: ./jobs.db
 ============================================================
 
@@ -255,7 +255,7 @@ Example Output:
 
 ## 📄 Multi-Role Intelligent Resume Selector
 
-CareerOS can automatically choose between multiple tailored resumes depending on the job you are applying to. Simply place your resume PDFs into the [`resumes/`](resumes/) folder using role tags:
+CareerEngine can automatically choose between multiple tailored resumes depending on the job you are applying to. Simply place your resume PDFs into the [`resumes/`](resumes/) folder using role tags:
 
 | Target Role | Filename Pattern | Examples |
 |---|---|---|
@@ -265,7 +265,7 @@ CareerOS can automatically choose between multiple tailored resumes depending on
 | **Software Engineering** | `*_SWE*.pdf`, `*_software*.pdf`, `*_backend*.pdf` | `resumes/Alex_SWE_resume.pdf` |
 | **MLOps / Cloud** | `*_MLOps*.pdf`, `*_devops*.pdf` | `resumes/Alex_MLOps_resume.pdf` |
 
-*CareerOS analyzes the job title and description in real-time and attaches the best matching resume automatically.*
+*CareerEngine analyzes the job title and description in real-time and attaches the best matching resume automatically.*
 
 ---
 
@@ -312,9 +312,9 @@ To implement a new job board (e.g. `naukri`, `wellfound`, `indeed`):
 
 ---
 
-## ⚖️ CareerOS vs Legacy Bots vs Chrome Extensions
+## ⚖️ CareerEngine vs Legacy Bots vs Chrome Extensions
 
-| Feature / Architecture | CareerOS (Open Source) | Legacy Python Bots (Selenium) | Browser Extensions |
+| Feature / Architecture | CareerEngine (Open Source) | Legacy Python Bots (Selenium) | Browser Extensions |
 |---|---|---|---|
 | **Execution Architecture** | **Authentic Chrome CDP (9222)** | Headless / Selenium | In-page DOM Injection |
 | **Detection Evasion** | **Genuine Session & 2FA Cookies** | Flagged / Triggers CAPTCHA | Detected by security scripts |
@@ -328,24 +328,24 @@ To implement a new job board (e.g. `naukri`, `wellfound`, `indeed`):
 
 ## ❓ Frequently Asked Questions (FAQ)
 
-### What is CareerOS?
-CareerOS is an open-source autonomous career operating system developed by developerOS. It connects to your existing Google Chrome browser via Chrome DevTools Protocol (CDP port 9222) to autonomously search, solve screening questionnaires, and apply for engineering roles across LinkedIn and Naukri while keeping all personal data strictly local.
+### What is CareerEngine?
+CareerEngine is an open-source autonomous career operating system developed by developerOS. It connects to your existing Google Chrome browser via Chrome DevTools Protocol (CDP port 9222) to autonomously search, solve screening questionnaires, and apply for engineering roles across LinkedIn and Naukri while keeping all personal data strictly local.
 
-### How does CareerOS avoid bot detection on LinkedIn?
-Unlike traditional Selenium scripts that launch detectable automated instances, CareerOS attaches directly to your already opened, authentic Google Chrome browser profile. It leverages your existing session cookies, genuine 2FA logins, realistic human dwell times (2.5s), and natural typing jitter (30ms–90ms).
+### How does CareerEngine avoid bot detection on LinkedIn?
+Unlike traditional Selenium scripts that launch detectable automated instances, CareerEngine attaches directly to your already opened, authentic Google Chrome browser profile. It leverages your existing session cookies, genuine 2FA logins, realistic human dwell times (2.5s), and natural typing jitter (30ms–90ms).
 
 ### Which AI models are supported for form filling?
-CareerOS rotates between Google Gemini 3.5 Flash-lite and Gemini 3.1 Flash-lite across multiple free API keys to prevent rate limits, with automatic fallback to NVIDIA DeepSeek V4. It caches learned answers locally in `profile_config.json`.
+CareerEngine rotates between Google Gemini 3.5 Flash-lite and Gemini 3.1 Flash-lite across multiple free API keys to prevent rate limits, with automatic fallback to NVIDIA DeepSeek V4. It caches learned answers locally in `profile_config.json`.
 
 ### How does the Multi-Role Resume Selector choose a resume?
-CareerOS inspects the job title and requirements, matching them against tagged PDFs in `resumes/` (e.g. `_DE` for Data Engineering, `_DS` for Data Science, `_AI` for GenAI Platforms, `_SWE` for Backend, and `_MLOps` for DevOps).
+CareerEngine inspects the job title and requirements, matching them against tagged PDFs in `resumes/` (e.g. `_DE` for Data Engineering, `_DS` for Data Science, `_AI` for GenAI Platforms, `_SWE` for Backend, and `_MLOps` for DevOps).
 
 ### Is my personal resume or profile information shared with the cloud?
-No. CareerOS operates on a zero-telemetry architecture. Your API keys, candidate facts, database records (`jobs.db`), and resume PDFs never leave your local machine, and are protected by automated pre-push security git hooks.
+No. CareerEngine operates on a zero-telemetry architecture. Your API keys, candidate facts, database records (`jobs.db`), and resume PDFs never leave your local machine, and are protected by automated pre-push security git hooks.
 
 ---
 
 ## 📄 License
 
-CareerOS is open-sourced under the [MIT License](LICENSE).
+CareerEngine is open-sourced under the [MIT License](LICENSE).
 © 2026 [developerOS](https://github.com/developerOSindia). All rights reserved.

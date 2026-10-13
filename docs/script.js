@@ -1,4 +1,4 @@
-// CareerOS Documentation Interactive Scripts
+// CareerEngine Documentation Interactive Scripts
 
 document.addEventListener('DOMContentLoaded', () => {
   // Tab Switching

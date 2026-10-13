@@ -1,12 +1,12 @@
-# 📄 CareerOS - Multi-Role Resume Repository
+# 📄 CareerEngine - Multi-Role Resume Repository
 
-Drop your specialized resume PDFs here! CareerOS features an **Intelligent Resume Selector** that automatically analyzes the job title and description of each position and uploads the most relevant, tailored resume version.
+Drop your specialized resume PDFs here! CareerEngine features an **Intelligent Resume Selector** that automatically analyzes the job title and description of each position and uploads the most relevant, tailored resume version.
 
 ---
 
 ## 🏷️ Recommended Naming Conventions
 
-CareerOS automatically categorizes and matches files based on the keywords in their filename:
+CareerEngine automatically categorizes and matches files based on the keywords in their filename:
 
 | Target Role | Recommended Filename Tags | Examples |
 | :--- | :--- | :--- |

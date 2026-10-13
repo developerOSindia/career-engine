@@ -1,5 +1,5 @@
 """
-CareerOS Intelligent Resume Selector.
+CareerEngine Intelligent Resume Selector.
 Dynamically selects the most relevant resume PDF based on the target job title,
 role keywords, and domain.
 

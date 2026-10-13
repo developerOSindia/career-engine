@@ -1,5 +1,5 @@
 ================================================================================
-📄 CAREEROS - PLACE YOUR RESUME PDF HERE
+📄 CAREERENGINE - PLACE YOUR RESUME PDF HERE
 ================================================================================
 
 Drop your tailored resume PDFs into this folder (`resumes/`).

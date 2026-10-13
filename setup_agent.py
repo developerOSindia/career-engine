@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CareerOS - Setup & Onboarding CLI Entrypoint.
+CareerEngine - Setup & Onboarding CLI Entrypoint.
 Usage:
     python3 setup_agent.py              # Interactive wizard
     python3 setup_agent.py --defaults   # Quick template generation

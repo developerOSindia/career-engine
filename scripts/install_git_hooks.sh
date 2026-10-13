@@ -8,7 +8,7 @@ PRE_PUSH_HOOK="$HOOK_DIR/pre-push"
 cat << 'EOF' > "$PRE_PUSH_HOOK"
 #!/usr/bin/env bash
 # ==============================================================================
-# CareerOS Pre-Push Security Guard
+# CareerEngine Pre-Push Security Guard
 # Strictly prevents pushing private / personal branches to any remote repository
 # ==============================================================================
 
@@ -38,4 +38,4 @@ exit 0
 EOF
 
 chmod +x "$PRE_PUSH_HOOK"
-echo "✅ CareerOS pre-push security hook successfully installed at: $PRE_PUSH_HOOK"
+echo "✅ CareerEngine pre-push security hook successfully installed at: $PRE_PUSH_HOOK"
