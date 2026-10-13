@@ -203,15 +203,47 @@ python3 main.py apply --platform naukri --url "https://www.naukri.com/aurus/earl
 python3 main.py apply --platform naukri --url "https://www.naukri.com/aurus/early-jobs?jobId=290626926058..." --live
 ```
 
-#### Backward Compatibility:
-The legacy command continues to work seamlessly:
+#### Autonomous Applications on Wellfound & Instahyre:
 ```bash
-python3 agent.py --live --limit 10
+# Preview Wellfound startup applications with dynamic pitch notes:
+python3 main.py apply --platform wellfound --dry-run --limit 5
+
+# Live auto-submit applications on Wellfound:
+python3 main.py apply --platform wellfound --live --limit 5
+
+# Preview curated applications on Instahyre with automated screening Q&A:
+python3 main.py apply --platform instahyre --dry-run --limit 5
+```
+
+#### Apply to All Configured Platforms in Batch:
+```bash
+python3 main.py apply --platform all --dry-run --limit 10
 ```
 
 ---
 
-### 2. Recruiter InMail & Message Auto-Reply (`inmail`)
+### 2. Local Web Studio Dashboard GUI (`studio`)
+
+Launch the zero-dependency developerOS Web Studio dashboard in your browser to inspect database metrics, preview form screenshots, manage candidate profile memory, and trigger CLI runs:
+
+```bash
+# Launch Studio on default port 8501:
+python3 main.py studio
+
+# Specify custom port or bind address:
+python3 main.py studio --port 8599 --host 127.0.0.1
+```
+
+- **Dashboard**: Real-time KPI counters (`Applied`, `Dry Run Completed`, `Failed`), status breakdown, and recent applications.
+- **Applications Explorer**: Searchable, filterable table of every job record with direct URLs, salary notes, and timestamps.
+- **Run Orchestrator**: Select platform, mode (`Live` or `Dry Run`), and application limit with real-time terminal output streaming.
+- **Screenshot Lightbox**: Visual gallery of review screenshots captured during `--preview` and live runs.
+- **Profile JSON Editor**: Live viewer and editor for `profile_config.json` candidate facts and learned screening memory.
+- **100% On-Device**: Built natively on Python's standard library `ThreadingHTTPServer` with zero cloud telemetry or data leaks.
+
+---
+
+### 3. Recruiter InMail & Message Auto-Reply (`inmail`)
 
 #### Preview InMail Drafts (Dry-Run):
 Scans your unread LinkedIn messages, analyzes recruiter inquiries, and displays proposed replies in the terminal without sending:
@@ -232,7 +264,7 @@ python3 main.py inmail --preview --all
 
 ---
 
-### 3. Application Status Dashboard (`status`)
+### 4. Application Status Dashboard (`status`)
 
 Inspect your complete application pipeline, status breakdown, and recent recruiter contacts:
 ```bash
@@ -266,6 +298,15 @@ Example Output:
   • Fabric Azure Data Engineer @ Fabric Azure Data Engi [Remote] | Hirer: Rashi Shukla
 ============================================================
 ```
+
+---
+
+## 🧠 Semantic AI Matcher & Dynamic Pitch Generator
+
+CareerEngine pairs candidate profiles with deep job description evaluation:
+- **Semantic Scoring (0–100%)**: Uses Google Gemini to score role alignment against candidate experience before applying.
+- **Resume Tag Alignment**: Recommends the optimal resume tag (`_DE`, `_DS`, `_AI`, `_SWE`, `_MLOps`) and pairs it with matching resume PDFs.
+- **Dynamic Startup Pitch Generator**: Automatically synthesizes high-converting, personalized 2–3 sentence notes to founders and recruiters on platforms like Wellfound and LinkedIn InMail, emphasizing verified achievements and notice period without fluff.
 
 ---
 

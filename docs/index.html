@@ -174,7 +174,7 @@
         <div class="fact-strip">
           <div class="fact-item"><strong>MIT License</strong> (Free & Open Source)</div>
           <span class="fact-dot"></span>
-          <div class="fact-item"><strong>LinkedIn & Naukri</strong> Scaffolds</div>
+          <div class="fact-item"><strong>LinkedIn, Naukri, Wellfound & Instahyre</strong> Connectors</div>
           <span class="fact-dot"></span>
           <div class="fact-item"><strong>Python 3.10+</strong> CLI</div>
           <span class="fact-dot"></span>
@@ -627,10 +627,13 @@
 <span class="cmd-prompt">$</span> python setup_agent.py
 
 <span class="cmd-comment"># 4. Start Google Chrome with remote debugging on port 9222</span>
-<span class="cmd-prompt">$</span> google-chrome --remote-debugging-port=9222 --user-data-dir="~/.chrome-debug"
+<span class="cmd-prompt">$</span> ./scripts/launch_chrome.sh
 
-<span class="cmd-comment"># 5. Run in zero-risk preview mode first!</span>
-<span class="cmd-prompt">$</span> python main.py --mode=preview --target=linkedin --role=_DE</pre>
+<span class="cmd-comment"># 5. Launch local Web Studio GUI dashboard</span>
+<span class="cmd-prompt">$</span> python main.py studio --port 8501
+
+<span class="cmd-comment"># 6. Or run CLI in zero-risk preview / dry-run mode</span>
+<span class="cmd-prompt">$</span> python main.py apply --platform linkedin --dry-run --limit 5</pre>
           </div>
         </div>
 

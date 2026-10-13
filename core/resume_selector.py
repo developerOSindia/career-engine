@@ -95,9 +95,9 @@ class ResumeSelector:
             return "software_engineering"
         return None
 
-    def select_resume_for_job(self, job_title: str = "", default_path: str = "") -> str:
+    def select_resume_for_job(self, job_title: str = "", job_description: str = "", default_path: str = "") -> str:
         """
-        Selects the best matching resume file for the given job title.
+        Selects the best matching resume file for the given job title and optional description.
         Returns the absolute filepath to the chosen resume PDF.
         """
         available = self.list_available_resumes()
@@ -125,6 +125,19 @@ class ResumeSelector:
                     if re.search(pat, fname_lower):
                         print(f"  🎯 [Resume Selector] Matched '{category}' resume for '{job_title}': {resume.name}")
                         return str(resume)
+
+        # If not matched by title or job_description is provided, try semantic AI matcher
+        if job_description or not category:
+            try:
+                from core.semantic_matcher import semantic_matcher
+                result = semantic_matcher.evaluate_job_fit(job_title=job_title, job_description=job_description)
+                target_tag = result.recommended_role_tag.lower()
+                for resume in available:
+                    if target_tag in resume.name.lower():
+                        print(f"  🧠 [Resume Selector] Semantic AI fit ({result.match_score}%) recommended {result.recommended_role_tag}: {resume.name}")
+                        return str(resume)
+            except Exception:
+                pass
 
         # If default_path is specified and exists in available, use it
         if default_path:

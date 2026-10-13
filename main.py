@@ -43,6 +43,8 @@ def handle_apply(args):
             platform = "hirist"
         elif "instahyre" in u:
             platform = "instahyre"
+        elif "wellfound" in u or "angel.co" in u:
+            platform = "wellfound"
         elif "indeed" in u:
             platform = "indeed"
         elif "glassdoor" in u:
@@ -79,6 +81,12 @@ def handle_apply(args):
             dummy_job = JobPosting(job_id=str(abs(hash(args.url)))[:10], title="Target Role", company="Target Company", location="India", url=args.url)
             asyncio.run(agent.apply_to_job(dummy_job))
             return
+        elif platform == "wellfound":
+            from core.models import JobPosting
+            agent = WellfoundPlatform(dry_run=dry_run, limit=limit, interactive=interactive)
+            dummy_job = JobPosting(job_id=str(abs(hash(args.url)))[:10], title="Target Role", company="Target Company", location="India", url=args.url)
+            asyncio.run(agent.apply_to_job(dummy_job))
+            return
 
     def get_agent(p_name):
         if p_name == "naukri":
@@ -100,7 +108,7 @@ def handle_apply(args):
     kw = [args.keyword] if args.keyword else None
 
     if platform == "all":
-        platforms_to_run = ["naukri", "linkedin", "hirist", "instahyre", "indeed", "glassdoor"]
+        platforms_to_run = ["naukri", "linkedin", "hirist", "instahyre", "wellfound", "indeed", "glassdoor"]
         for p in platforms_to_run:
             print(f"\n🚀 Starting Platform Batch: {p.upper()}")
             agent = get_agent(p)
@@ -114,7 +122,7 @@ def handle_apply(args):
         if agent:
             asyncio.run(agent.run(keywords=kw, location=args.location))
         else:
-            print(f"❌ Unknown platform '{platform}'. Choose from: linkedin, naukri, hirist, instahyre, indeed, glassdoor, all")
+            print(f"❌ Unknown platform '{platform}'. Choose from: linkedin, naukri, hirist, instahyre, wellfound, indeed, glassdoor, all")
 
 def handle_inmail(args):
     """Executes the Recruiter InMail Auto-Reply workflow."""
@@ -167,6 +175,11 @@ def handle_status(args):
 
     print("\n" + "="*60 + "\n")
 
+def handle_studio(args):
+    """Launches the CareerEngine Local Web Studio GUI server."""
+    from core.studio import start_studio_server
+    start_studio_server(host=args.host, port=args.port)
+
 def main():
     parser = argparse.ArgumentParser(
         description="Career Automator - Autonomous Job Application & Recruiter Outreach CLI",
@@ -179,8 +192,8 @@ Examples:
   # Preview application answers in Dry-Run mode:
   python3 main.py apply --platform linkedin --dry-run --limit 5
 
-  # Search a specific keyword in Bengaluru:
-  python3 main.py apply --keyword "Databricks Engineer" --location "Bengaluru" --live
+  # Launch the local Web Studio GUI:
+  python3 main.py studio --port 8501
 
   # Preview AI-generated replies to unread recruiter InMails:
   python3 main.py inmail --preview
@@ -216,6 +229,11 @@ Examples:
     # Command: status
     subparsers.add_parser("status", help="View current application metrics and history")
 
+    # Command: studio
+    parser_studio = subparsers.add_parser("studio", help="Launch the local Web Studio dashboard GUI")
+    parser_studio.add_argument("--host", type=str, default="127.0.0.1", help="Host interface to bind to (default: 127.0.0.1)")
+    parser_studio.add_argument("--port", type=int, default=8501, help="Port to listen on (default: 8501)")
+
     # Command: setup
     parser_setup = subparsers.add_parser("setup", help="Interactive onboarding agent to configure personal profile and API keys")
     parser_setup.add_argument("--defaults", action="store_true", help="Quick setup with default configuration placeholders")
@@ -232,6 +250,8 @@ Examples:
         handle_inmail(args)
     elif args.command == "status":
         handle_status(args)
+    elif args.command == "studio":
+        handle_studio(args)
     else:
         parser.print_help()
 
