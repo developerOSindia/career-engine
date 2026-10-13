@@ -1,8 +1,15 @@
-# 🎯 Career Automator: Autonomous Multi-Platform Job Application & Recruiter Agent
+# 🎯 CareerOS: Autonomous Multi-Platform Career Operating System & Recruiter Agent
 
-An intelligent, human-stealth career automation agent designed to autonomously search and apply for target engineering positions on LinkedIn (and expand to Naukri, Wellfound, and Indeed), solve screening questionnaires via rotational Gemini 3.x Flash-lite and DeepSeek AI models, and automatically scan and draft personalized, high-converting replies to recruiter InMails.
+[![Documentation](https://img.shields.io/badge/Docs-GitHub%20Pages-6366F1?style=for-the-badge&logo=github)](https://developerosindia.github.io/careeros/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-38BDF8?style=for-the-badge)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-10B981?style=for-the-badge&logo=python)](https://python.org)
+[![Privacy: 100% Local](https://img.shields.io/badge/Privacy-100%25%20Local-purple?style=for-the-badge)](https://developerosindia.github.io/careeros/#privacy)
 
-Built specifically for high-impact Data Engineering, Distributed Systems, MLOps, and AI platform roles.
+> 📖 **Interactive Documentation & Setup Guide**: [https://developerosindia.github.io/careeros/](https://developerosindia.github.io/careeros/)
+
+An intelligent, human-stealth career automation agent designed to autonomously search and apply for target engineering positions on LinkedIn and Naukri, solve screening questionnaires via rotational Gemini 3.x Flash-lite and DeepSeek AI models, intelligently route role-tailored resumes, and automatically scan and draft personalized, high-converting replies to recruiter InMails.
+
+Built for high-impact Data Engineering, Distributed Systems, Software Engineering, MLOps, and AI platform roles.
 
 ---
 
@@ -33,13 +40,23 @@ Built specifically for high-impact Data Engineering, Distributed Systems, MLOps,
 ## 📁 Modular Directory Structure
 
 ```
-resume/
+careeros/
+├── docs/                             # GitHub Pages Documentation Website (developerosindia.github.io/careeros)
+│   ├── index.html                    # Responsive documentation & interactive playground
+│   ├── styles.css                    # Glassmorphism dark mode aesthetic
+│   ├── script.js                     # Tab switching, copy code, config generator
+│   └── .nojekyll                     # Direct GitHub Pages asset serving
+├── resumes/                          # Multi-Role Resumes Folder
+│   ├── copy_your_resume_here.txt     # Placeholder & role tagging instructions
+│   └── README.md                     # Documentation for _DE, _DS, _AI, _SWE tags
 ├── .env                              # Private API keys and local configuration (GITIGNORED)
 ├── .env.example                      # Public template for environment variables
 ├── .gitignore                        # Git exclusion rules (protects credentials and databases)
+├── LICENSE                           # Open-source MIT License
 ├── config.yaml                       # Application settings, keywords, and search preferences
 ├── profile_config.json               # Candidate master profile facts & learned memory
-├── main.py                           # Unified CLI entrypoint (apply, inmail, status)
+├── main.py                           # Unified CLI entrypoint (apply, inmail, status, setup)
+├── setup_agent.py                    # Interactive profile & secrets configuration wizard
 ├── agent.py                          # Backward-compatible wrapper for LinkedIn agent
 ├── requirements.txt                  # Python dependencies
 │
@@ -63,9 +80,9 @@ resume/
 │   │   ├── scanner.py                # Job search, card parsing, and URL generator
 │   │   ├── form_filler.py            # Questionnaire solver, dropdowns, and radio handler
 │   │   └── agent.py                  # LinkedIn job application coordinator
-│   ├── naukri/                       # Scaffolded connector for Naukri.com
-│   ├── wellfound/                    # Scaffolded connector for Wellfound / AngelList
-│   └── indeed/                       # Scaffolded connector for Indeed Apply
+│   ├── naukri/                       # Naukri.com automated batch applicant & chatbot solver
+│   ├── wellfound/                    # Connector for Wellfound / AngelList
+│   └── indeed/                       # Connector for Indeed Apply
 │
 ├── messaging/                        # Recruiter InMail auto-reply engine
 │   ├── __init__.py
@@ -86,8 +103,8 @@ resume/
 
 ### 1. Clone & Install Dependencies
 ```bash
-git clone <your-repo-url>
-cd resume
+git clone https://github.com/developerOSindia/careeros.git
+cd careeros
 
 # Install required Python packages
 pip install -r requirements.txt
@@ -289,4 +306,6 @@ To implement a new job board (e.g. `naukri`, `wellfound`, `indeed`):
 ---
 
 ## 📄 License
-Private & Confidential. Created for personal career management.
+
+CareerOS is open-sourced under the [MIT License](LICENSE).
+© 2026 [developerOS](https://github.com/developerOSindia). All rights reserved.

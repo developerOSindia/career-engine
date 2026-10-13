@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerOS | Autonomous Multi-Platform Career Operating System</title>
+  <meta name="description" content="Official documentation for CareerOS: The intelligent, human-stealth career automation agent for LinkedIn & Naukri with rotational Gemini AI models.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="#" class="brand-logo" id="nav-brand">
+        <div class="brand-icon">🎯</div>
+        <span class="brand-text">CareerOS</span>
+        <span class="brand-badge">v1.0 Open Source</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#quickstart" class="nav-link">Quickstart</a></li>
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#resumes" class="nav-link">Resumes</a></li>
+        <li><a href="#commands" class="nav-link">CLI Commands</a></li>
+        <li><a href="#privacy" class="nav-link">Privacy & Security</a></li>
+      </ul>
+
+      <div class="nav-cta-group">
+        <a href="https://github.com/developerOSindia/careeros" target="_blank" rel="noopener" class="btn-github" id="github-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          GitHub
+        </a>
+        <a href="#quickstart" class="btn-primary" id="btn-get-started">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section container">
+      <div class="hero-pill">
+        <span class="hero-pill-indicator"></span>
+        Zero Cloud Telemetry • 100% Local Execution
+      </div>
+
+      <h1 class="hero-title">
+        The Autonomous, Human-Stealth <span class="text-gradient">Career Operating System</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Autonomously apply for targeted engineering jobs across LinkedIn & Naukri, solve complex screening questionnaires using rotational Gemini 3.x Flash-lite AI, and auto-reply to recruiter InMails directly through your authentic Google Chrome browser.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#quickstart" class="btn-primary" id="hero-cta-setup">
+          <span>⚡ Quickstart Guide (2 Mins)</span>
+        </a>
+        <a href="#commands" class="btn-github" id="hero-cta-cli">
+          <span>💻 Explore CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Feature Highlight Grid -->
+      <div class="features-grid" id="features">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">🛡️</div>
+          <h3 class="feature-title">Chrome CDP Stealth</h3>
+          <p class="feature-desc">Connects directly to your real Google Chrome profile over port 9222. Keeps your active cookies, 2FA credentials, and avoids anti-bot captchas completely.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">🧠</div>
+          <h3 class="feature-title">Rotational Gemini AI</h3>
+          <p class="feature-desc">Uses round-robin rotation across multiple Gemini 3.5 & 3.1 Flash-lite API keys with DeepSeek fallback to answer custom company questionnaires instantly.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">📄</div>
+          <h3 class="feature-title">Multi-Role Resumes</h3>
+          <p class="feature-desc">Automatically selects and attaches the best matching resume PDF from <code>resumes/</code> based on job keywords (e.g. Data Engineer, ML, SWE, AI).</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">🔒</div>
+          <h3 class="feature-title">Private & Git-Safe</h3>
+          <p class="feature-desc">Interactive Setup Agent stores everything in gitignored local files. Pre-push hooks guarantee personal branches and PDFs can never be pushed to GitHub.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step by Step Setup Section -->
+    <section class="container" id="quickstart">
+      <div class="section-header">
+        <span class="section-tag">Getting Started</span>
+        <h2 class="section-title">Setup CareerOS in 4 Simple Steps</h2>
+        <p class="section-desc">Follow this quick installation workflow to set up your environment, configure your profile, and launch your first batch.</p>
+      </div>
+
+      <div class="steps-container">
+        <!-- Step 1 -->
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <div class="step-body">
+            <h3>Clone Repository & Install Dependencies</h3>
+            <p>Clone the open-source repository and install Python requirements (compatible with Python 3.10+):</p>
+            <div class="code-box">
+              <div class="code-header">
+                <span class="code-lang">Bash</span>
+                <button class="copy-btn" id="copy-step-1">Copy</button>
+              </div>
+              <pre><code>git clone https://github.com/developerOSindia/careeros.git
+cd careeros
+pip install -r requirements.txt</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <div class="step-body">
+            <h3>Run the Interactive Setup Agent</h3>
+            <p>CareerOS includes an intelligent CLI agent that asks for your contact details, target titles, compensation, notice period, and Gemini API keys, writing local gitignored configuration safely:</p>
+            <div class="code-box">
+              <div class="code-header">
+                <span class="code-lang">Bash</span>
+                <button class="copy-btn" id="copy-step-2">Copy</button>
+              </div>
+              <pre><code>python3 main.py setup
+# Or execute directly:
+python3 setup_agent.py</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <div class="step-body">
+            <h3>Drop Resume PDFs into <code>resumes/</code></h3>
+            <p>Place your resume PDFs in the <code>resumes/</code> directory. Tag them by role so CareerOS automatically attaches the most relevant version:</p>
+            <div class="code-box">
+              <div class="code-header">
+                <span class="code-lang">Bash</span>
+                <button class="copy-btn" id="copy-step-3">Copy</button>
+              </div>
+              <pre><code># Examples:
+resumes/Alex_DE_resume.pdf       # Matched for Data Engineering roles
+resumes/Alex_DS_resume.pdf       # Matched for Data Science & ML roles
+resumes/Alex_AI_resume.pdf       # Matched for GenAI & LLM Platform roles
+resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step-card">
+          <div class="step-number">04</div>
+          <div class="step-body">
+            <h3>Launch Google Chrome in Remote Debugging Mode</h3>
+            <p>Start Chrome with port 9222 enabled. Log into LinkedIn or Naukri once; your session cookies stay saved in your local directory across runs:</p>
+            <div class="code-box">
+              <div class="code-header">
+                <span class="code-lang">Bash</span>
+                <button class="copy-btn" id="copy-step-4">Copy</button>
+              </div>
+              <pre><code>./scripts/launch_chrome.sh</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Multi-Role Resume Selector Table -->
+    <section class="container" id="resumes">
+      <div class="section-header">
+        <span class="section-tag">Intelligent Routing</span>
+        <h2 class="section-title">Multi-Role Resume Selector</h2>
+        <p class="section-desc">CareerOS scans job descriptions and matches the best targeted PDF version before filling out Easy Apply modals.</p>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header-box">
+          <h3 style="font-family: var(--font-display); font-size: 18px;">Supported Role Tags & File Patterns</h3>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Target Engineering Domain</th>
+                <th>File Pattern Keywords</th>
+                <th>Example Filename</th>
+                <th>Auto-Match Keywords</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Data Engineering</strong></td>
+                <td><span class="tag-badge">_DE</span> <span class="tag-badge">_data_engineer</span></td>
+                <td><code>resumes/John_DE_resume.pdf</code></td>
+                <td>Spark, Databricks, Snowflake, ETL, Pipelines</td>
+              </tr>
+              <tr>
+                <td><strong>Data Science / ML</strong></td>
+                <td><span class="tag-badge">_DS</span> <span class="tag-badge">_data_science</span></td>
+                <td><code>resumes/John_DS_resume.pdf</code></td>
+                <td>Scikit-learn, PyTorch, Predictive Modeling, NLP</td>
+              </tr>
+              <tr>
+                <td><strong>AI / GenAI Platforms</strong></td>
+                <td><span class="tag-badge">_AI</span> <span class="tag-badge">_genai</span> <span class="tag-badge">_llm</span></td>
+                <td><code>resumes/John_AI_resume.pdf</code></td>
+                <td>LLMs, RAG, Fine-Tuning, Agents, Transformers</td>
+              </tr>
+              <tr>
+                <td><strong>Software / Backend</strong></td>
+                <td><span class="tag-badge">_SWE</span> <span class="tag-badge">_software</span> <span class="tag-badge">_backend</span></td>
+                <td><code>resumes/John_SWE_resume.pdf</code></td>
+                <td>Python, Go, Microservices, Distributed Systems</td>
+              </tr>
+              <tr>
+                <td><strong>MLOps / DevOps</strong></td>
+                <td><span class="tag-badge">_MLOps</span> <span class="tag-badge">_devops</span></td>
+                <td><code>resumes/John_MLOps_resume.pdf</code></td>
+                <td>Kubernetes, Docker, CI/CD, Model Monitoring</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive CLI Command Explorer -->
+    <section class="container" id="commands">
+      <div class="section-header">
+        <span class="section-tag">CLI Reference</span>
+        <h2 class="section-title">CareerOS Command Center</h2>
+        <p class="section-desc">Test and execute actions using the unified CLI interface.</p>
+      </div>
+
+      <!-- Tab Buttons -->
+      <div class="tabs-nav">
+        <button class="tab-btn active" data-tab="tab-linkedin" id="tab-btn-linkedin">LinkedIn Apply</button>
+        <button class="tab-btn" data-tab="tab-naukri" id="tab-btn-naukri">Naukri Apply</button>
+        <button class="tab-btn" data-tab="tab-inmail" id="tab-btn-inmail">InMail Auto-Reply</button>
+        <button class="tab-btn" data-tab="tab-status" id="tab-btn-status">Status Dashboard</button>
+      </div>
+
+      <!-- Tab Content: LinkedIn -->
+      <div class="tab-pane active" id="tab-linkedin">
+        <div class="arch-item">
+          <div class="arch-item-header">
+            <h3>LinkedIn Easy Apply Commands</h3>
+            <span class="arch-badge">Live & Dry-Run</span>
+          </div>
+          <p style="color: var(--text-secondary); margin-bottom: 14px; font-size: 14px;">
+            Autonomously scan Easy Apply jobs, handle multi-page modals, answer questions via Gemini, and attach role-specific resumes.
+          </p>
+
+          <div class="code-box">
+            <div class="code-header">
+              <span>Dry-Run Preview (Safe Mode - Never Submits)</span>
+              <button class="copy-btn">Copy</button>
+            </div>
+            <pre><code>python3 main.py apply --platform linkedin --dry-run --limit 5</code></pre>
+          </div>
+
+          <div class="code-box">
+            <div class="code-header">
+              <span>Live Auto-Apply with Keyword & Location Filter</span>
+              <button class="copy-btn">Copy</button>
+            </div>
+            <pre><code>python3 main.py apply --platform linkedin --keyword "Databricks Engineer" --location "Bengaluru" --live --limit 10</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content: Naukri -->
+      <div class="tab-pane" id="tab-naukri">
+        <div class="arch-item">
+          <div class="arch-item-header">
+            <h3>Naukri Batch & Quick Apply Commands</h3>
+            <span class="arch-badge">Batch Auto-Apply</span>
+          </div>
+          <p style="color: var(--text-secondary); margin-bottom: 14px; font-size: 14px;">
+            Query Naukri job listings, bypass already applied jobs, solve chatbot screening questions, and submit applications.
+          </p>
+
+          <div class="code-box">
+            <div class="code-header">
+              <span>Naukri Batch Apply (20 Jobs Preview)</span>
+              <button class="copy-btn">Copy</button>
+            </div>
+            <pre><code>python3 main.py apply --platform naukri --dry-run --limit 20</code></pre>
+          </div>
+
+          <div class="code-box">
+            <div class="code-header">
+              <span>Live Apply to Specific Job Link (Aurus Early-Jobs)</span>
+              <button class="copy-btn">Copy</button>
+            </div>
+            <pre><code>python3 main.py apply --platform naukri --url "https://www.naukri.com/job-listings-..." --live</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content: InMail -->
+      <div class="tab-pane" id="tab-inmail">
+        <div class="arch-item">
+          <div class="arch-item-header">
+            <h3>Recruiter InMail Auto-Reply Engine</h3>
+            <span class="arch-badge">AI Synthesis</span>
+          </div>
+          <p style="color: var(--text-secondary); margin-bottom: 14px; font-size: 14px;">
+            Inspects incoming recruiter messages, drafts personalized responses highlighting candidate strengths, compensation, and notice period.
+          </p>
+
+          <div class="code-box">
+            <div class="code-header">
+              <span>Preview AI Responses in Terminal</span>
+              <button class="copy-btn">Copy</button>
+            </div>
+            <pre><code>python3 main.py inmail --preview --limit 5</code></pre>
+          </div>
+
+          <div class="code-box">
+            <div class="code-header">
+              <span>Live Auto-Send Replies</span>
+              <button class="copy-btn">Copy</button>
+            </div>
+            <pre><code>python3 main.py inmail --send --limit 5</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content: Status -->
+      <div class="tab-pane" id="tab-status">
+        <div class="arch-item">
+          <div class="arch-item-header">
+            <h3>Local Relational Tracking Dashboard</h3>
+            <span class="arch-badge">SQLite & CSV</span>
+          </div>
+          <p style="color: var(--text-secondary); margin-bottom: 14px; font-size: 14px;">
+            Inspect your complete application pipeline stored locally in <code>jobs.db</code> and exported to <code>applied_jobs.csv</code>.
+          </p>
+
+          <div class="code-box">
+            <div class="code-header">
+              <span>View Terminal Pipeline Status</span>
+              <button class="copy-btn">Copy</button>
+            </div>
+            <pre><code>python3 main.py status</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacy & Security Architecture -->
+    <section class="container" id="privacy" style="margin-top: 60px;">
+      <div class="section-header">
+        <span class="section-tag">Security Guarantee</span>
+        <h2 class="section-title">Built for Open-Source Safety</h2>
+        <p class="section-desc">Designed from day one to ensure you never accidentally expose your personal resumes, cookies, or API keys.</p>
+      </div>
+
+      <div class="arch-grid">
+        <div class="arch-item">
+          <h3>🔐 Git-Ignored Secret Isolation</h3>
+          <p style="font-size: 14px; color: var(--text-secondary); margin-top: 8px;">
+            Your API keys in <code>.env</code>, candidate details in <code>profile_config.json</code>, local database in <code>jobs.db</code>, and resume PDFs are strictly ignored by git.
+          </p>
+        </div>
+
+        <div class="arch-item">
+          <h3>🛡️ Pre-Push Security Guard</h3>
+          <p style="font-size: 14px; color: var(--text-secondary); margin-top: 8px;">
+            CareerOS includes a pre-push git hook (<code>.git/hooks/pre-push</code>) that blocks pushes on designated personal branches, guaranteeing your private experiments stay local.
+          </p>
+        </div>
+
+        <div class="arch-item">
+          <h3>⚡ Rotational API Quota Protection</h3>
+          <p style="font-size: 14px; color: var(--text-secondary); margin-top: 8px;">
+            Smart round-robin rotation across free Google AI Studio keys prevents rate limiting (HTTP 429) while keeping zero runtime cost for users.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="brand-icon" style="width: 30px; height: 30px; font-size: 16px;">🎯</div>
+        <span style="font-family: var(--font-display); font-weight: 700;">CareerOS</span>
+      </div>
+      <div>
+        <a href="https://github.com/developerOSindia/careeros" style="color: var(--text-secondary); text-decoration: none; margin-left: 20px; font-size: 14px;">GitHub Repository</a>
+        <a href="https://github.com/developerOSindia/careeros/blob/main/LICENSE" style="color: var(--text-secondary); text-decoration: none; margin-left: 20px; font-size: 14px;">MIT License</a>
+      </div>
+    </div>
+    <div class="footer-copy">
+      © 2026 developerOS. Released under the open-source MIT License.
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">Copied to clipboard! 📋</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
