@@ -20,9 +20,8 @@ learned_answers.json
 *.doc
 *.rtf
 resumes/*.pdf
-resume/*.pdf
-/resume
 !resumes/README.md
+!resumes/copy_your_resume_here.txt
 
 # Application State & Databases
 jobs.db

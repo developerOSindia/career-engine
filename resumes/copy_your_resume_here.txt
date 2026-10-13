@@ -1,0 +1,33 @@
+================================================================================
+📄 CAREEROS - PLACE YOUR RESUME PDF HERE
+================================================================================
+
+Drop your tailored resume PDFs into this folder (`resumes/`).
+
+Naming Guidelines for Intelligent Role-Based Resume Selection:
+--------------------------------------------------------------------------------
+1. Data Engineering Roles:
+   Filename containing '_DE' or '_data_engineer'
+   Example: Alex_DE_resume.pdf or Alex_data_engineer.pdf
+
+2. Data Science / Machine Learning Roles:
+   Filename containing '_DS' or '_data_science' or '_ml'
+   Example: Alex_DS_resume.pdf or Alex_data_science.pdf
+
+3. AI / GenAI / LLM Platforms:
+   Filename containing '_AI' or '_genai' or '_llm'
+   Example: Alex_AI_resume.pdf or Alex_genai_resume.pdf
+
+4. Software Engineering / Backend Roles:
+   Filename containing '_SWE' or '_software' or '_backend'
+   Example: Alex_SWE_resume.pdf or Alex_backend.pdf
+
+5. MLOps / DevOps / Infrastructure Roles:
+   Filename containing '_MLOps' or '_devops' or '_cloud'
+   Example: Alex_MLOps_resume.pdf or Alex_devops.pdf
+
+--------------------------------------------------------------------------------
+🔒 PRIVACY ASSURANCE:
+All *.pdf files in this directory are strictly ignored by .gitignore and
+will never be committed or pushed to your Git repository.
+================================================================================

@@ -64,13 +64,7 @@ class ResumeSelector:
     """Intelligently matches candidate resumes from the resumes/ folder to job postings."""
     
     def __init__(self, resumes_dir: Optional[str] = None):
-        if resumes_dir:
-            self.resumes_dir = Path(resumes_dir)
-        else:
-            # Check 'resumes/' first, then 'resume/'
-            p1 = ROOT_DIR / "resumes"
-            p2 = ROOT_DIR / "resume"
-            self.resumes_dir = p1 if p1.exists() else (p2 if p2.exists() else p1)
+        self.resumes_dir = Path(resumes_dir) if resumes_dir else ROOT_DIR / "resumes"
             
         self.resumes_dir.mkdir(parents=True, exist_ok=True)
 

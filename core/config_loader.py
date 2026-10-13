@@ -113,7 +113,7 @@ class Config:
         resume_personal = self.profile.get("personal_info", {}).get("resume_path", "")
         if resume_personal and os.path.exists(resume_personal):
             return resume_personal
-        yaml_resume = self.yaml_config.get("paths", {}).get("resume_pdf", "resume.pdf")
+        yaml_resume = self.yaml_config.get("paths", {}).get("resume_pdf", "resumes/resume.pdf")
         return str(self.root_dir / yaml_resume)
 
     def get_resume_for_job(self, job_title: str = "") -> str:
