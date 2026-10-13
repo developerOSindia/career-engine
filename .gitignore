@@ -1,0 +1,56 @@
+# ==============================================================================
+# CareerOS - Git Ignore Rules
+# Strictly prevents leaking credentials, personal profiles, resumes, and state
+# ==============================================================================
+
+# Credentials & API Keys
+.env
+*.env
+*.pem
+*.key
+
+# Personal Profile & Local Config
+profile_config.json
+config.yaml
+learned_answers.json
+
+# Resumes and Personal Documents
+*.pdf
+*.docx
+*.doc
+*.rtf
+
+# Application State & Databases
+jobs.db
+jobs.db-journal
+applied_jobs.csv
+applied_jobs.json
+
+# Screenshots & Verification Media
+screenshots/
+*.png
+*.jpg
+*.jpeg
+
+# Chrome User Profiles & Sessions
+.chrome-job-agent/
+chrome-profile/
+
+# Python Cache & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+venv/
+.venv/
+env/
+.env/
+
+# OS & Editor Specific Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo

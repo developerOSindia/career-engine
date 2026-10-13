@@ -1,0 +1,38 @@
+# CareerOS - Configuration Template
+
+settings:
+  # Dry-run mode: True opens and fills applications without submitting. False submits live!
+  dry_run: true
+
+  # Maximum applications to process per run
+  max_applications: 10
+
+  # Human-paced delays (seconds) between actions
+  min_delay: 1.5
+  max_delay: 2.8
+
+  # Browser connection method
+  connection_mode: "cdp"
+  cdp_url: "http://localhost:9222"
+
+  # Ask user in terminal for unknown questions and memorize answers
+  interactive_unknowns: true
+
+job_search:
+  preference: "remote_first"  # Options: remote_first, hybrid, onsite
+  keywords:
+    - "Senior Software Engineer"
+    - "Software Engineer"
+    - "Full Stack Engineer"
+    - "Backend Engineer"
+  location: "United States"
+  date_posted: "past-week"
+  easy_apply_only: true
+  database_file: "jobs.db"
+  csv_file: "applied_jobs.csv"
+
+paths:
+  profile_config: "profile_config.json"
+  resume_pdf: "resume.pdf"
+  history_file: "applied_jobs.json"
+  screenshots_dir: "screenshots"

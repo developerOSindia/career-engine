@@ -1,0 +1,65 @@
+{
+  "personal_info": {
+    "first_name": "Alex",
+    "last_name": "Mercer",
+    "full_name": "Alex Mercer",
+    "email": "alex.mercer@example.com",
+    "phone_country_code": "+1",
+    "phone_number": "5550199283",
+    "full_phone": "+15550199283",
+    "location": "San Francisco, CA, USA",
+    "linkedin_url": "https://www.linkedin.com/in/alex-mercer/",
+    "github_url": "https://github.com/alex-mercer",
+    "portfolio_url": "https://alexmercer.dev",
+    "resume_path": "resume.pdf"
+  },
+  "work_summary": {
+    "current_title": "Senior Software Engineer",
+    "current_company": "Acme Cloud Corp",
+    "total_years_experience": 5,
+    "notice_period_days": 30,
+    "notice_period_text": "30 days",
+    "current_salary_inr_lpa": "30",
+    "expected_salary_inr_lpa": "40"
+  },
+  "education": {
+    "degree": "Bachelor of Science",
+    "field_of_study": "Computer Science",
+    "institution": "State University",
+    "graduation_year": "2021"
+  },
+  "skills_years_experience": {
+    "python": 5,
+    "sql": 5,
+    "aws": 4,
+    "docker": 4,
+    "kubernetes": 3,
+    "ci/cd": 4,
+    "git": 5
+  },
+  "screening_defaults": {
+    "legally_authorized": true,
+    "require_sponsorship": false,
+    "willing_to_relocate": true,
+    "remote_friendly": true,
+    "preferred_work_model": "remote_first",
+    "open_to_remote": true,
+    "open_to_contract": true,
+    "notice_period_days": "30",
+    "gender": "Decline to specify",
+    "veteran_status": "No",
+    "disability_status": "No",
+    "english_proficiency": "Professional"
+  },
+  "custom_answers": {
+    "how did you hear about": "LinkedIn",
+    "notice period": "30",
+    "notice period in days": "30",
+    "current ctc": "30",
+    "expected ctc": "40",
+    "authorized to work": "Yes",
+    "require sponsorship": "No",
+    "willing to relocate": "Yes",
+    "comfortable working remotely": "Yes"
+  }
+}
