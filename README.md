@@ -1,46 +1,60 @@
-# 🎯 CareerEngine: Autonomous Multi-Platform Career Operating System & Recruiter Agent
+# 🎯 CareerEngine: Open Source Autonomous Career Engine
 
-[![Documentation](https://img.shields.io/badge/Docs-GitHub%20Pages-6366F1?style=for-the-badge&logo=github)](https://developerosindia.github.io/career-engine/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-38BDF8?style=for-the-badge)](LICENSE)
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-10B981?style=for-the-badge&logo=python)](https://python.org)
-[![Privacy: 100% Local](https://img.shields.io/badge/Privacy-100%25%20Local-purple?style=for-the-badge)](https://developerosindia.github.io/career-engine/#privacy)
+[![Docs: GitHub Pages](https://img.shields.io/badge/Docs-GitHub%20Pages-06b6d4?style=for-the-badge&logo=github)](https://developerosindia.github.io/career-engine/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-f97316?style=for-the-badge)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-22c55e?style=for-the-badge&logo=python)](https://python.org)
+[![Part of developerOS](https://img.shields.io/badge/Part%20of-developerOS-f97316?style=for-the-badge)](https://developeros.in/)
 
-> 📖 **Interactive Documentation & Setup Guide**: [https://developerosindia.github.io/career-engine/](https://developerosindia.github.io/career-engine/)
+> 📖 **Setup & User Documentation**: [https://developerosindia.github.io/career-engine/](https://developerosindia.github.io/career-engine/)  
+> 🌐 **CareerOS Web App (Application Tracker)**: [https://careeros.developeros.in/](https://careeros.developeros.in/)
 
-> **CareerEngine** is an open-source autonomous career operating system developed by [developerOS](https://github.com/developerOSindia). It uses authentic Google Chrome remote debugging (CDP port 9222) and rotational Gemini AI models to search, solve questionnaire screenings, and auto-apply for engineering roles across LinkedIn and Naukri with 100% local data privacy.
+---
 
-### ⚡ Key Metrics & Architecture
-| Metric | Performance Benchmark | Description |
-|---|---|---|
-| **Data Privacy** | `100% Local` | All secrets, databases, and resumes stay strictly on your local machine |
-| **Telemetry Egress** | `0 MB` | No tracking, analytics, or external telemetry of any kind |
-| **Form Solution Latency** | `< 1.5s` | Round-robin Gemini 3.x Flash-lite rotation with local cache memory |
-| **Resume Matching** | `5+ Role Presets` | Automatic contextual PDF selection (`_DE`, `_DS`, `_AI`, `_SWE`, `_MLOps`) |
-| **Stealth Protocol** | `Chrome CDP 9222` | Genuine user profile session, avoiding bot detection and CAPTCHAs |
+### 🌐 Part of the developerOS Career Suite
+
+**developerOS** is a suite of free tools for engineers' careers, covering learning, tracking, and applying:
+- **[CareerOS](https://careeros.developeros.in/)**: Web platform to track applications, interviews, and offers in ₹ lakhs.
+- **[ResumeOS](https://developeros.in/)**: AI-tailored resumes matched to engineering job descriptions.
+- **[CloudPrep](https://developeros.in/)**: Hands-on learning for cloud certifications.
+- **[DevTrack](https://developeros.in/)**: Analytics for developer GitHub activity.
+- **CareerEngine (This Repo)**: The open-source automation layer that runs on your local machine, connecting to your authentic Google Chrome browser over port 9222 to search and apply for jobs across LinkedIn and Naukri.
+
+> ℹ️ *Note: CareerEngine is a standalone open-source companion and does not sync automatically with CareerOS web yet.*
+
+---
+
+### ⚠️ Important Notice on Platform Terms & Account Risk
+
+Automating job applications can breach the terms of service of platforms like LinkedIn and Naukri, and risks account restriction. CareerEngine uses authentic Google Chrome CDP remote debugging with human-like delays to minimize detection, but we strongly advise:
+1. Always run with `--preview` or `--dry-run` first to inspect forms before submitting.
+2. Keep application volume conservative (5–15 jobs per session).
+3. Do not run continuous unattended high-frequency loops.
+
+---
+
+### 🔒 Local Privacy Architecture & Gemini API
+
+- **What stays strictly local**: Your candidate master profile (`profile_config.json`), resume PDFs, API keys (`.env`), and SQLite database (`jobs.db`) remain entirely on your local machine and are protected by git pre-push security hooks.
+- **What uses the cloud**: Only the raw text prompts of individual job screening questionnaires are evaluated via the Google Gemini API keys that you provide in `.env`.
 
 ---
 
 ## 🚀 Key Features
 
-- **CDP Remote Debugging Integration**: Controls your authentic Google Chrome browser over port `9222`, inheriting your active LinkedIn cookies, 2FA credentials, and session state without triggering bot detection or CAPTCHAs.
+- **CDP Remote Debugging Integration**: Controls your authentic Google Chrome browser over port `9222`, inheriting your active LinkedIn and Naukri sessions, cookies, and 2FA credentials.
 - **Dynamic Form Intelligence**:
-  - Automatically parses LinkedIn Easy Apply dialogs across dropdowns (`<select>`), radio fieldsets, numeric inputs, text fields, and file upload triggers.
-  - Multi-line question label extraction solves LinkedIn's nested DOM layouts without truncating questions.
-  - **Rotational Multi-LLM Engine**: High-speed Google Gemini 3.x (`gemini-3.5-flash-lite`, `gemini-3.1-flash-lite`) round-robin rotation across multiple API keys with NVIDIA / DeepSeek V4 fallback and automatic cooldowns.
-  - **Permanent QA Memory**: Remembers answered questions in `profile_config.json` so recurring prompts are resolved instantly without API latency.
-  - **Form Length Guardrails**: Prevents LinkedIn validation errors (`maxlength=20`) by strictly restricting years-of-experience questions to numeric integers.
+  - Automatically parses screening questionnaires across dropdowns (`<select>`), radio buttons, text fields, and file upload modals.
+  - **Rotational Multi-LLM Engine**: Round-robin rotation across multiple Google Gemini 3.x Flash-lite API keys (`gemini-3.5-flash-lite`, `gemini-3.1-flash-lite`) with DeepSeek fallback to prevent rate limits.
+  - **Permanent QA Memory**: Caches answered questions locally in `profile_config.json` to resolve recurring prompts instantly without redundant API calls.
+  - **Form Validation Guardrails**: Restricts numeric experience inputs to prevent form validation length errors (`maxlength=20`).
+- **Contextual Multi-Role Resume Selector**:
+  - Analyzes the job title and description in real-time and attaches the best matching resume PDF from `resumes/` (`_DE`, `_DS`, `_AI`, `_SWE`, `_MLOps`).
 - **Recruiter InMail Auto-Reply Engine**:
-  - Navigates to `https://www.linkedin.com/messaging/` and inspects incoming recruiter reach-outs and InMails.
-  - Understands the recruiter's pitch and drafts concise, polished responses highlighting candidate strengths, confirming notice period (30 days), and aligning compensation expectations (40 LPA expected, 30 LPA current).
-  - Includes `--preview` (draft review) and `--send` (live automated reply) modes.
-- **Multi-Job-Board Architecture**:
-  - Standardized `BasePlatform` interface with pre-built connectors for **LinkedIn**, and scaffolds ready for **Naukri**, **Wellfound** (AngelList), and **Indeed**.
-- **Transparent Dual Tracking**:
-  - Full relational record stored in SQLite database (`jobs.db`).
-  - Spreadsheet export in CSV (`applied_jobs.csv`) with 13 audit fields including hiring manager profile link, workplace type (Remote/Hybrid/Onsite), key skills, questions answered, and review screenshots.
-- **Git-Safe Secrets Management**:
-  - All API keys and environment configurations are strictly isolated in `.env` (gitignored).
-  - Includes `.env.example` and `.gitignore` to guarantee credentials and personal application histories are never pushed to public repositories.
+  - Inspects incoming LinkedIn messaging threads and drafts personalized responses highlighting candidate strengths, confirmed notice period (e.g. 30 days), and expected compensation.
+- **Supported Platforms**:
+  - Pre-built connectors for **LinkedIn** (Easy Apply & InMail) and **Naukri** (Batch Quick Apply & Chatbot questions).
+- **Relational Local History**:
+  - Stored in SQLite database (`jobs.db`) and exported to spreadsheet format (`applied_jobs.csv`).
 
 ---
 
@@ -328,11 +342,11 @@ To implement a new job board (e.g. `naukri`, `wellfound`, `indeed`):
 
 ## ❓ Frequently Asked Questions (FAQ)
 
-### What is CareerEngine?
-CareerEngine is an open-source autonomous career operating system developed by developerOS. It connects to your existing Google Chrome browser via Chrome DevTools Protocol (CDP port 9222) to autonomously search, solve screening questionnaires, and apply for engineering roles across LinkedIn and Naukri while keeping all personal data strictly local.
+### What is CareerEngine and how does it relate to CareerOS?
+**CareerOS** ([careeros.developeros.in](https://careeros.developeros.in/)) is the web platform where engineers track and compare job applications, interviews, and offers in ₹ lakhs. **CareerEngine** is the open-source automation companion: it runs locally on your machine, attaches to your Google Chrome browser via CDP port 9222, and assists with filling job applications across LinkedIn and Naukri. *Note: CareerEngine is an independent open-source tool and does not sync automatically with CareerOS web yet.*
 
-### How does CareerEngine avoid bot detection on LinkedIn?
-Unlike traditional Selenium scripts that launch detectable automated instances, CareerEngine attaches directly to your already opened, authentic Google Chrome browser profile. It leverages your existing session cookies, genuine 2FA logins, realistic human dwell times (2.5s), and natural typing jitter (30ms–90ms).
+### Is there account risk when using automated tools?
+Yes. Automated job applications can breach platform terms of service on LinkedIn and Naukri, and risk account restriction. CareerEngine controls your genuine Chrome browser with organic dwell times and typing jitter to minimize detection, but we strongly advise testing with `--dry-run` / `--preview` first, inspecting applications, and keeping application limits conservative (5–15 jobs per session).
 
 ### Which AI models are supported for form filling?
 CareerEngine rotates between Google Gemini 3.5 Flash-lite and Gemini 3.1 Flash-lite across multiple free API keys to prevent rate limits, with automatic fallback to NVIDIA DeepSeek V4. It caches learned answers locally in `profile_config.json`.
@@ -340,8 +354,8 @@ CareerEngine rotates between Google Gemini 3.5 Flash-lite and Gemini 3.1 Flash-l
 ### How does the Multi-Role Resume Selector choose a resume?
 CareerEngine inspects the job title and requirements, matching them against tagged PDFs in `resumes/` (e.g. `_DE` for Data Engineering, `_DS` for Data Science, `_AI` for GenAI Platforms, `_SWE` for Backend, and `_MLOps` for DevOps).
 
-### Is my personal resume or profile information shared with the cloud?
-No. CareerEngine operates on a zero-telemetry architecture. Your API keys, candidate facts, database records (`jobs.db`), and resume PDFs never leave your local machine, and are protected by automated pre-push security git hooks.
+### Is candidate data sent to the cloud?
+Your candidate profile, resumes, API keys, and local SQLite database (`jobs.db`) stay strictly on your local machine. Only the raw questionnaire text prompts are sent to the Google Gemini API keys that you supply in `.env` to evaluate answers.
 
 ---
 

@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CareerEngine | Autonomous Multi-Platform Career Operating System</title>
-  <meta name="description" content="CareerEngine is an open-source, autonomous career operating system. Automate job applications across LinkedIn & Naukri using Chrome CDP remote debugging and rotational Gemini AI.">
-  <meta name="keywords" content="CareerEngine, job application automation, LinkedIn easy apply bot, Naukri auto apply, AI job search agent, Chrome CDP remote debugging, rotational Gemini Flash-lite, open source career automation, developerOS">
+  <title>CareerEngine | Open Source Automation Companion by developerOS</title>
+  <meta name="description" content="CareerEngine is an open-source, local automation companion for engineering job applications across LinkedIn and Naukri using Chrome CDP and rotational Gemini AI.">
+  <meta name="keywords" content="CareerEngine, CareerOS, developerOS, job automation, LinkedIn Easy Apply, Naukri quick apply, Gemini AI form filler, Chrome CDP, local career automation">
   <meta name="author" content="developerOS">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href="https://developerosindia.github.io/career-engine/">
@@ -13,31 +13,31 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://developerosindia.github.io/career-engine/">
-  <meta property="og:title" content="CareerEngine | Autonomous Multi-Platform Career Operating System">
-  <meta property="og:description" content="Autonomously apply for targeted engineering jobs across LinkedIn & Naukri, solve screening forms with rotational Gemini AI, and auto-reply to recruiter InMails.">
-  <meta property="og:site_name" content="CareerEngine">
+  <meta property="og:title" content="CareerEngine | Open Source Career Automation Engine">
+  <meta property="og:description" content="The open-source automation layer by developerOS. Applies to jobs through your authentic Google Chrome profile with rotational Gemini AI.">
+  <meta property="og:site_name" content="developerOS">
   <meta property="og:locale" content="en_US">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://developerosindia.github.io/career-engine/">
-  <meta name="twitter:title" content="CareerEngine | Autonomous Multi-Platform Career Operating System">
-  <meta name="twitter:description" content="Open-source career operating system for LinkedIn & Naukri. Zero cloud telemetry, 100% local execution via Chrome CDP.">
+  <meta name="twitter:title" content="CareerEngine | Open Source Career Automation Engine">
+  <meta name="twitter:description" content="Open-source career automation for LinkedIn and Naukri. Runs locally on your machine via Chrome CDP.">
 
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
   <link rel="stylesheet" href="styles.css">
 
-  <!-- JSON-LD Structured Data Schema (SoftwareApplication, HowTo, FAQPage, Organization) -->
+  <!-- JSON-LD Structured Data Schema -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://developerosindia.github.io/career-engine/#organization",
+        "@id": "https://developeros.in/#organization",
         "name": "developerOS",
-        "url": "https://github.com/developerOSindia"
+        "url": "https://developeros.in"
       },
       {
         "@type": "SoftwareApplication",
@@ -45,49 +45,17 @@
         "name": "CareerEngine",
         "applicationCategory": "DeveloperApplication, Productivity",
         "operatingSystem": "macOS, Linux, Windows",
-        "description": "An intelligent, human-stealth career automation agent designed to autonomously search and apply for target engineering positions on LinkedIn and Naukri, solve screening questionnaires via rotational Gemini 3.x Flash-lite AI, and draft personalized InMail replies.",
+        "description": "An open-source job application automation tool designed to search and apply for target engineering positions on LinkedIn and Naukri via Chrome CDP and rotational Gemini AI models.",
         "softwareVersion": "1.0.0",
         "license": "https://opensource.org/licenses/MIT",
         "author": {
-          "@id": "https://developerosindia.github.io/career-engine/#organization"
+          "@id": "https://developeros.in/#organization"
         },
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD"
         }
-      },
-      {
-        "@type": "HowTo",
-        "@id": "https://developerosindia.github.io/career-engine/#howto",
-        "name": "How to Setup and Run CareerEngine for Job Application Automation",
-        "description": "Step-by-step setup guide for CareerEngine: configuring profile facts, multi-role resumes, Google Chrome remote debugging, and running live batches.",
-        "step": [
-          {
-            "@type": "HowToStep",
-            "position": 1,
-            "name": "Clone the Repository",
-            "text": "Clone the open-source repository from GitHub and install required dependencies with pip install -r requirements.txt."
-          },
-          {
-            "@type": "HowToStep",
-            "position": 2,
-            "name": "Run the Interactive Setup Agent",
-            "text": "Execute python3 main.py setup to configure personal contact details, compensation expectations, notice period, and Gemini API keys in gitignored local files."
-          },
-          {
-            "@type": "HowToStep",
-            "position": 3,
-            "name": "Place Role-Tagged Resumes",
-            "text": "Add resume PDFs into the resumes/ directory with role tags such as _DE, _DS, _AI, or _SWE for automatic contextual matching."
-          },
-          {
-            "@type": "HowToStep",
-            "position": 4,
-            "name": "Launch Chrome in Remote Debugging Mode",
-            "text": "Run ./scripts/launch_chrome.sh to start Chrome on port 9222, keeping your active login cookies and 2FA sessions safe."
-          }
-        ]
       },
       {
         "@type": "FAQPage",
@@ -98,39 +66,31 @@
             "name": "What is CareerEngine?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "CareerEngine is an autonomous, open-source multi-platform career operating system. It connects to your existing Google Chrome browser via Chrome DevTools Protocol (CDP) to autonomously search, solve screening forms, and apply for targeted engineering jobs across LinkedIn and Naukri while keeping all personal data strictly local."
+              "text": "CareerEngine is an open-source, local automation tool that connects to your existing Google Chrome browser via Chrome DevTools Protocol (CDP port 9222) to apply for engineering jobs across LinkedIn and Naukri, using Gemini AI to answer screening questions."
             }
           },
           {
             "@type": "Question",
-            "name": "How does CareerEngine bypass LinkedIn and Naukri bot detection?",
+            "name": "Does CareerEngine sync with CareerOS?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Unlike traditional Selenium or headless web scrapers, CareerEngine connects to your authentic, locally installed Google Chrome browser via CDP port 9222. It uses your existing session cookies, authentic browser fingerprint, human-like typing jitter (30ms-90ms), realistic dwell times (2.5s), and natural scroll physics without triggering CAPTCHAs or account checkpoints."
+              "text": "No. CareerEngine is a standalone, open-source tool that runs locally on your machine and does not sync automatically with the CareerOS web platform yet."
             }
           },
           {
             "@type": "Question",
-            "name": "How does the Multi-Role Resume Selector work?",
+            "name": "Is there account risk when using automated tools?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "CareerEngine inspects the job title, domain keywords, and job description before applying. It routes and attaches the most relevant resume PDF from the resumes/ folder based on file tags (_DE for Data Engineering, _DS for Data Science, _AI for GenAI platforms, _SWE for Backend, _MLOps for DevOps)."
+              "text": "Yes. Automated job applications can breach platform terms of service on LinkedIn and Naukri, which may lead to account restrictions. Always run with --preview or --dry-run first, keep application limits conservative (5-15 jobs per session), and inspect applications before submitting."
             }
           },
           {
             "@type": "Question",
-            "name": "Which AI models does CareerEngine use for solving screening forms?",
+            "name": "Is candidate data sent to the cloud?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "CareerEngine utilizes high-speed Google Gemini 3.x Flash-lite models (gemini-3.5-flash-lite and gemini-3.1-flash-lite) in a round-robin rotation across multiple API keys, with NVIDIA DeepSeek V4 fallback and permanent local QA memory caching."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is my resume or personal information sent to the cloud?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No. CareerEngine is built on a 100% local privacy architecture with zero telemetry. Candidate profiles, resume PDFs, SQLite application databases (jobs.db), and API keys are stored solely on your machine and are strictly excluded from git via .gitignore and pre-push security hooks."
+              "text": "Your candidate profile, resume PDFs, API keys, and local SQLite database stay on your machine. Only the raw questionnaire text prompts are sent to Google Gemini via the API key you provide to evaluate answers."
             }
           }
         ]
@@ -148,27 +108,27 @@
       <a href="#" class="brand-logo" id="nav-brand">
         <div class="brand-icon">🎯</div>
         <span class="brand-text">CareerEngine</span>
-        <span class="brand-badge">v1.0 Open Source</span>
+        <span class="brand-badge">OPEN SOURCE</span>
       </a>
 
       <ul class="nav-links">
+        <li><a href="#ecosystem" class="nav-link">developerOS</a></li>
         <li><a href="#quickstart" class="nav-link">Quickstart</a></li>
-        <li><a href="#features" class="nav-link">Features</a></li>
         <li><a href="#resumes" class="nav-link">Resumes</a></li>
-        <li><a href="#comparison" class="nav-link">Comparison</a></li>
-        <li><a href="#commands" class="nav-link">CLI Commands</a></li>
-        <li><a href="#faq" class="nav-link">FAQ</a></li>
-        <li><a href="#privacy" class="nav-link">Privacy</a></li>
+        <li><a href="#commands" class="nav-link">CLI</a></li>
+        <li><a href="#faq" class="nav-link">FAQ & Risk</a></li>
       </ul>
 
       <div class="nav-cta-group">
-        <a href="https://github.com/developerOSindia/career-engine" target="_blank" rel="noopener" class="btn-github" id="github-link">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <a href="https://github.com/developerOSindia/career-engine" target="_blank" rel="noopener" class="btn-ghost" id="github-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
           </svg>
           GitHub
         </a>
-        <a href="#quickstart" class="btn-primary" id="btn-get-started">Get Started</a>
+        <a href="https://careeros.developeros.in/" target="_blank" rel="noopener" class="btn-ghost">
+          CareerOS Web ↗
+        </a>
       </div>
     </div>
   </header>
@@ -176,87 +136,113 @@
   <main>
     <!-- Hero Section -->
     <section class="hero-section container">
-      <div class="hero-pill">
-        <span class="hero-pill-indicator"></span>
-        Zero Cloud Telemetry • 100% Local Execution • Updated October 2026
+      <div class="system-label">
+        <span class="system-indicator"></span>
+        OPEN SOURCE COMPANION TO CAREEROS
       </div>
 
       <h1 class="hero-title">
-        The Autonomous, Human-Stealth <span class="text-gradient">Career Operating System</span>
+        The Autonomous, Human-Stealth <span class="text-gradient">Career Operating Engine</span>
       </h1>
 
       <p class="hero-subtitle">
-        Autonomously apply for targeted engineering jobs across LinkedIn & Naukri, solve complex screening questionnaires using rotational Gemini 3.x Flash-lite AI, and auto-reply to recruiter InMails directly through your authentic Google Chrome browser.
+        An open-source automation layer for engineers that connects to your authentic Google Chrome browser over port 9222 to search and apply for roles across LinkedIn and Naukri, solve screening forms with rotational Gemini AI, and draft replies to recruiter InMails.
       </p>
 
-      <!-- AEO Definition Block (40-60 words optimized for AI Snippet Extraction) -->
-      <div class="definition-block">
-        <strong>What is CareerEngine?</strong> CareerEngine is an open-source autonomous career operating system developed by developerOS. It leverages Google Chrome CDP remote debugging and rotational Gemini AI models to search, solve questionnaire screenings, and apply for engineering roles across LinkedIn and Naukri while keeping all personal data on your local machine.
+      <!-- Fact Strip matching CareerOS landing page specs -->
+      <div class="fact-strip">
+        <div class="fact-item"><strong>MIT License</strong> (Free & Open Source)</div>
+        <div class="fact-divider"></div>
+        <div class="fact-item"><strong>LinkedIn & Naukri</strong> Connectors</div>
+        <div class="fact-divider"></div>
+        <div class="fact-item"><strong>Python 3.10+</strong> CLI</div>
+        <div class="fact-divider"></div>
+        <div class="fact-item"><strong>5 Resume Tags</strong> (_DE, _DS, _AI, _SWE, _MLOps)</div>
       </div>
 
-      <!-- GEO Research-backed Metrics Grid -->
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-value">100%</div>
-          <div class="metric-label">Local Data Privacy</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">0 MB</div>
-          <div class="metric-label">Cloud Egress Telemetry</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">&lt; 1.5s</div>
-          <div class="metric-label">Screening Solution Speed</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">5 Roles</div>
-          <div class="metric-label">Contextual Resume Presets</div>
+      <!-- Account Risk & Terms of Service Warning -->
+      <div class="risk-card">
+        <div class="risk-icon">⚠️</div>
+        <div class="risk-text">
+          <strong>Important Note on Account Risk:</strong> Automating job applications can breach platform terms of service on LinkedIn and Naukri, and risks account restriction. CareerEngine uses authentic Chrome CDP remote debugging and human delays to minimize flags, but we strongly recommend always testing with <code>--dry-run</code> / <code>--preview</code> first and keeping batch sizes conservative (5–15 jobs).
         </div>
       </div>
 
       <div class="hero-actions">
+        <!-- The ONE primary orange CTA button on this screen -->
         <a href="#quickstart" class="btn-primary" id="hero-cta-setup">
-          <span>⚡ Quickstart Guide (2 Mins)</span>
+          Read Setup Guide →
         </a>
-        <a href="#commands" class="btn-github" id="hero-cta-cli">
-          <span>💻 Explore CLI Commands</span>
+        <a href="https://github.com/developerOSindia/career-engine" target="_blank" rel="noopener" class="btn-ghost">
+          View on GitHub
         </a>
       </div>
 
-      <!-- Feature Highlight Grid -->
+      <!-- developerOS Ecosystem Callout -->
+      <div class="ecosystem-card" id="ecosystem">
+        <div class="ecosystem-header">
+          <div>
+            <span class="section-tag">developerOS Ecosystem</span>
+            <h2 class="ecosystem-title">Part of the developerOS Career Suite</h2>
+          </div>
+          <span class="tag-badge">STANDALONE COMPANION</span>
+        </div>
+        <p class="ecosystem-desc">
+          <strong>developerOS</strong> is a suite of free tools for engineers' careers, covering learning, tracking, and applying. <strong>CloudPrep</strong> teaches cloud certifications hands-on, <strong>ResumeOS</strong> tailors your resume, <strong>CareerOS</strong> tracks applications, interviews, and offers in ₹ lakhs, <strong>DevTrack</strong> analyses developer activity, <strong>Insights</strong> is the engineering blog, and <strong>Toolkit</strong> offers browser-native utilities.
+        </p>
+        <p class="ecosystem-desc" style="color: var(--fg-muted); margin-bottom: 0;">
+          <strong>CareerEngine</strong> is the open-source automation layer: it applies to jobs through your own Chrome and runs on your machine. <strong>CareerOS</strong> is where you then track and compare what comes back. <em>Note: CareerEngine is an independent local tool and does not sync with CareerOS web yet.</em>
+        </p>
+        <div class="ecosystem-pills">
+          <a href="https://developeros.in/" target="_blank" rel="noopener" class="ecosystem-pill">developerOS Hub</a>
+          <a href="https://careeros.developeros.in/" target="_blank" rel="noopener" class="ecosystem-pill active">CareerOS (Track Applications)</a>
+          <a href="https://developeros.in/" target="_blank" rel="noopener" class="ecosystem-pill">ResumeOS</a>
+          <a href="https://developeros.in/" target="_blank" rel="noopener" class="ecosystem-pill">CloudPrep</a>
+          <a href="https://developeros.in/" target="_blank" rel="noopener" class="ecosystem-pill">DevTrack</a>
+          <a href="https://developeros.in/" target="_blank" rel="noopener" class="ecosystem-pill">Toolkit</a>
+        </div>
+      </div>
+
+      <!-- Feature Highlight Grid (5 cards) -->
       <div class="features-grid" id="features">
         <div class="feature-card">
           <div class="feature-icon-wrapper">🛡️</div>
-          <h3 class="feature-title">Chrome CDP Stealth</h3>
-          <p class="feature-desc">Connects directly to your real Google Chrome profile over port 9222. Keeps your active cookies, 2FA credentials, and avoids anti-bot captchas completely.</p>
+          <h3 class="feature-title">Chrome CDP Integration</h3>
+          <p class="feature-desc">Controls your real Google Chrome profile over remote port 9222. Inherits your active cookies and 2FA credentials without launching detectable headless browsers.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon-wrapper">🧠</div>
           <h3 class="feature-title">Rotational Gemini AI</h3>
-          <p class="feature-desc">Uses round-robin rotation across multiple Gemini 3.5 & 3.1 Flash-lite API keys with DeepSeek fallback to answer custom company questionnaires instantly.</p>
+          <p class="feature-desc">Cycles between Google Gemini 3.5 Flash-lite and 3.1 Flash-lite keys with DeepSeek fallback to evaluate complex questionnaire forms accurately.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon-wrapper">📄</div>
-          <h3 class="feature-title">Multi-Role Resumes</h3>
-          <p class="feature-desc">Automatically selects and attaches the best matching resume PDF from <code>resumes/</code> based on job keywords (e.g. Data Engineer, ML, SWE, AI).</p>
+          <h3 class="feature-title">Multi-Role Resume Selector</h3>
+          <p class="feature-desc">Matches and uploads the most relevant resume PDF from <code>resumes/</code> based on job requirements (_DE, _DS, _AI, _SWE, _MLOps).</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">💬</div>
+          <h3 class="feature-title">Recruiter InMail Auto-Reply</h3>
+          <p class="feature-desc">Inspects unread LinkedIn messages, analyzes recruiter pitches, and drafts concise replies with your notice period and salary expectations.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon-wrapper">🔒</div>
-          <h3 class="feature-title">Private & Git-Safe</h3>
-          <p class="feature-desc">Interactive Setup Agent stores everything in gitignored local files. Pre-push hooks guarantee personal branches and PDFs can never be pushed to GitHub.</p>
+          <h3 class="feature-title">Local-First Storage</h3>
+          <p class="feature-desc">Your profile facts, resumes, API keys, and SQLite database stay on your machine. Only the raw questionnaire prompts are sent to Gemini.</p>
         </div>
       </div>
     </section>
 
-    <!-- Step by Step Setup Section -->
+    <!-- Quickstart Guide -->
     <section class="container" id="quickstart">
       <div class="section-header">
         <span class="section-tag">Getting Started</span>
-        <h2 class="section-title">Setup CareerEngine in 4 Simple Steps</h2>
-        <p class="section-desc">Follow this quick installation workflow to set up your environment, configure your profile, and launch your first batch.</p>
+        <h2 class="section-title">Setup CareerEngine in 4 Steps</h2>
+        <p class="section-desc">Install dependencies, configure your local candidate profile, and launch Chrome.</p>
       </div>
 
       <div class="steps-container">
@@ -268,8 +254,8 @@
             <p>Clone the open-source repository and install Python requirements (compatible with Python 3.10+):</p>
             <div class="code-box">
               <div class="code-header">
-                <span class="code-lang">Bash</span>
-                <button class="copy-btn" id="copy-step-1">Copy</button>
+                <span>BASH</span>
+                <button class="copy-btn">Copy</button>
               </div>
               <pre><code>git clone https://github.com/developerOSindia/career-engine.git
 cd career-engine
@@ -283,11 +269,11 @@ pip install -r requirements.txt</code></pre>
           <div class="step-number">02</div>
           <div class="step-body">
             <h3>Run the Interactive Setup Agent</h3>
-            <p>CareerEngine includes an intelligent CLI agent that asks for your contact details, target titles, compensation, notice period, and Gemini API keys, writing local gitignored configuration safely:</p>
+            <p>CareerEngine includes an onboarding wizard that asks for your contact details, compensation expectations, notice period, and Gemini API keys:</p>
             <div class="code-box">
               <div class="code-header">
-                <span class="code-lang">Bash</span>
-                <button class="copy-btn" id="copy-step-2">Copy</button>
+                <span>BASH</span>
+                <button class="copy-btn">Copy</button>
               </div>
               <pre><code>python3 main.py setup
 # Or execute directly:
@@ -301,17 +287,18 @@ python3 setup_agent.py</code></pre>
           <div class="step-number">03</div>
           <div class="step-body">
             <h3>Drop Resume PDFs into <code>resumes/</code></h3>
-            <p>Place your resume PDFs in the <code>resumes/</code> directory. Tag them by role so CareerEngine automatically attaches the most relevant version:</p>
+            <p>Place your resume PDFs in the <code>resumes/</code> folder with role tags so CareerEngine attaches the most relevant version:</p>
             <div class="code-box">
               <div class="code-header">
-                <span class="code-lang">Bash</span>
-                <button class="copy-btn" id="copy-step-3">Copy</button>
+                <span>BASH</span>
+                <button class="copy-btn">Copy</button>
               </div>
               <pre><code># Examples:
 resumes/Alex_DE_resume.pdf       # Matched for Data Engineering roles
 resumes/Alex_DS_resume.pdf       # Matched for Data Science & ML roles
 resumes/Alex_AI_resume.pdf       # Matched for GenAI & LLM Platform roles
-resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></pre>
+resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles
+resumes/Alex_MLOps_resume.pdf    # Matched for DevOps & Cloud roles</code></pre>
             </div>
           </div>
         </div>
@@ -320,12 +307,12 @@ resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></
         <div class="step-card">
           <div class="step-number">04</div>
           <div class="step-body">
-            <h3>Launch Google Chrome in Remote Debugging Mode</h3>
-            <p>Start Chrome with port 9222 enabled. Log into LinkedIn or Naukri once; your session cookies stay saved in your local directory across runs:</p>
+            <h3>Launch Chrome in Remote Debugging Mode</h3>
+            <p>Start your Google Chrome browser with port 9222 enabled. Log into LinkedIn and Naukri once; your sessions remain stored in your local directory:</p>
             <div class="code-box">
               <div class="code-header">
-                <span class="code-lang">Bash</span>
-                <button class="copy-btn" id="copy-step-4">Copy</button>
+                <span>BASH</span>
+                <button class="copy-btn">Copy</button>
               </div>
               <pre><code>./scripts/launch_chrome.sh</code></pre>
             </div>
@@ -339,7 +326,7 @@ resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></
       <div class="section-header">
         <span class="section-tag">Intelligent Routing</span>
         <h2 class="section-title">Multi-Role Resume Selector</h2>
-        <p class="section-desc">CareerEngine scans job descriptions and matches the best targeted PDF version before filling out Easy Apply modals.</p>
+        <p class="section-desc">CareerEngine evaluates job postings and selects the best matching resume PDF before completing applications.</p>
       </div>
 
       <div class="table-card">
@@ -350,112 +337,113 @@ resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></
           <table>
             <thead>
               <tr>
-                <th>Target Engineering Domain</th>
-                <th>File Pattern Keywords</th>
+                <th>Target Domain</th>
+                <th>File Tag Keywords</th>
                 <th>Example Filename</th>
-                <th>Auto-Match Keywords</th>
+                <th>Matched Keywords</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td><strong>Data Engineering</strong></td>
                 <td><span class="tag-badge">_DE</span> <span class="tag-badge">_data_engineer</span></td>
-                <td><code>resumes/John_DE_resume.pdf</code></td>
+                <td><code>resumes/Alex_DE_resume.pdf</code></td>
                 <td>Spark, Databricks, Snowflake, ETL, Pipelines</td>
               </tr>
               <tr>
                 <td><strong>Data Science / ML</strong></td>
                 <td><span class="tag-badge">_DS</span> <span class="tag-badge">_data_science</span></td>
-                <td><code>resumes/John_DS_resume.pdf</code></td>
+                <td><code>resumes/Alex_DS_resume.pdf</code></td>
                 <td>Scikit-learn, PyTorch, Predictive Modeling, NLP</td>
               </tr>
               <tr>
                 <td><strong>AI / GenAI Platforms</strong></td>
                 <td><span class="tag-badge">_AI</span> <span class="tag-badge">_genai</span> <span class="tag-badge">_llm</span></td>
-                <td><code>resumes/John_AI_resume.pdf</code></td>
+                <td><code>resumes/Alex_AI_resume.pdf</code></td>
                 <td>LLMs, RAG, Fine-Tuning, Agents, Transformers</td>
               </tr>
               <tr>
                 <td><strong>Software / Backend</strong></td>
                 <td><span class="tag-badge">_SWE</span> <span class="tag-badge">_software</span> <span class="tag-badge">_backend</span></td>
-                <td><code>resumes/John_SWE_resume.pdf</code></td>
+                <td><code>resumes/Alex_SWE_resume.pdf</code></td>
                 <td>Python, Go, Microservices, Distributed Systems</td>
               </tr>
               <tr>
                 <td><strong>MLOps / DevOps</strong></td>
                 <td><span class="tag-badge">_MLOps</span> <span class="tag-badge">_devops</span></td>
-                <td><code>resumes/John_MLOps_resume.pdf</code></td>
+                <td><code>resumes/Alex_MLOps_resume.pdf</code></td>
                 <td>Kubernetes, Docker, CI/CD, Model Monitoring</td>
               </tr>
             </tbody>
           </table>
+        </div>
       </div>
     </section>
 
-    <!-- Comparison Matrix Section (Drives ~33% AI Citation Share) -->
+    <!-- Market Comparison Matrix -->
     <section class="container" id="comparison">
       <div class="section-header">
         <span class="section-tag">Market Comparison</span>
-        <h2 class="section-title">CareerEngine vs Legacy Job Bots vs Extensions</h2>
-        <p class="section-desc">Why modern engineering job search requires authentic browser CDP control and contextual AI routing.</p>
+        <h2 class="section-title">CareerEngine vs Legacy Bots vs Extensions</h2>
+        <p class="section-desc">Architectural differences between genuine Chrome CDP control and traditional scrapers.</p>
       </div>
 
       <div class="table-card">
         <div class="table-header-box">
-          <h3 style="font-family: var(--font-display); font-size: 18px;">Feature & Architecture Breakdown</h3>
+          <h3 style="font-family: var(--font-display); font-size: 18px;">Architecture Comparison</h3>
         </div>
         <div class="table-wrapper">
           <table>
             <thead>
               <tr>
-                <th>Capability / Feature</th>
+                <th>Capability</th>
                 <th>CareerEngine (Open Source)</th>
                 <th>Legacy Python Bots (Selenium)</th>
-                <th>Chrome Web Extensions</th>
+                <th>Browser Extensions</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>Browser Integration</strong></td>
-                <td><span class="badge-check">✓ Chrome CDP (Port 9222)</span></td>
-                <td><span class="badge-cross">✗ Headless / Selenium (Flagged)</span></td>
-                <td><span class="badge-warn">⚠ In-page DOM Injection (Detected)</span></td>
+                <td><strong>Browser Execution</strong></td>
+                <td><span class="badge-check">✓ Real Chrome CDP (Port 9222)</span></td>
+                <td><span class="badge-cross">✗ Headless / Selenium</span></td>
+                <td><span class="badge-warn">⚠ In-page DOM Injection</span></td>
               </tr>
               <tr>
                 <td><strong>Anti-Bot Evasion</strong></td>
-                <td><span class="badge-check">✓ 100% Real Session & 2FA Cookies</span></td>
-                <td><span class="badge-cross">✗ Triggers CAPTCHA / IP Bans</span></td>
-                <td><span class="badge-warn">⚠ Limited Session Control</span></td>
+                <td><span class="badge-check">✓ Genuine Profile & 2FA Session</span></td>
+                <td><span class="badge-cross">✗ Easily Flagged / Triggers CAPTCHA</span></td>
+                <td><span class="badge-warn">⚠ Script-level Detection</span></td>
               </tr>
               <tr>
-                <td><strong>Form Solving Intelligence</strong></td>
+                <td><strong>Form Question Reasoning</strong></td>
                 <td><span class="badge-check">✓ Rotational Gemini 3.x Flash-lite</span></td>
-                <td><span class="badge-cross">✗ Hardcoded regex strings</span></td>
-                <td><span class="badge-warn">⚠ Single API key or Paid Cloud</span></td>
+                <td><span class="badge-cross">✗ Hardcoded regex lists</span></td>
+                <td><span class="badge-warn">⚠ Single API key or Cloud Backend</span></td>
               </tr>
               <tr>
-                <td><strong>Multi-Role Resume Selector</strong></td>
-                <td><span class="badge-check">✓ Automatic Contextual Routing (_DE, _DS, _AI)</span></td>
+                <td><strong>Resume Auto-Routing</strong></td>
+                <td><span class="badge-check">✓ Multi-Role Tags (_DE, _DS, _AI)</span></td>
                 <td><span class="badge-cross">✗ Single static resume PDF</span></td>
                 <td><span class="badge-cross">✗ Static upload only</span></td>
               </tr>
               <tr>
-                <td><strong>Recruiter InMail Auto-Reply</strong></td>
-                <td><span class="badge-check">✓ Autonomous Pitch Analysis & Drafting</span></td>
+                <td><strong>Recruiter InMail Drafter</strong></td>
+                <td><span class="badge-check">✓ Autonomous Pitch Analysis</span></td>
                 <td><span class="badge-cross">✗ Not Supported</span></td>
                 <td><span class="badge-cross">✗ Not Supported</span></td>
               </tr>
               <tr>
-                <td><strong>Privacy & Secrets Storage</strong></td>
-                <td><span class="badge-check">✓ 100% Local (Git-safe, zero egress)</span></td>
+                <td><strong>Data Storage</strong></td>
+                <td><span class="badge-check">✓ Local SQLite & Configs</span></td>
                 <td><span class="badge-warn">⚠ Plaintext credentials</span></td>
-                <td><span class="badge-cross">✗ Data sent to external cloud</span></td>
+                <td><span class="badge-cross">✗ Sent to third-party cloud</span></td>
               </tr>
               <tr>
-                <td><strong>Cost & Licensing</strong></td>
+                <td><strong>Licensing & Price</strong></td>
                 <td><span class="badge-check">✓ Free & MIT Open-Source</span></td>
-                <td><span class="badge-warn">⚠ Abandoned / Broken</span></td>
-                <td><span class="badge-cross">✗ $30–$80/month SaaS subscription</span></td>
+                <td><span class="badge-warn">⚠ Abandoned / Unmaintained</span></td>
+                <td><span class="badge-cross">✗ $30–$80 / month</span></td>
               </tr>
             </tbody>
           </table>
@@ -463,12 +451,12 @@ resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></
       </div>
     </section>
 
-    <!-- Interactive CLI Command Explorer -->
+    <!-- CLI Command Explorer -->
     <section class="container" id="commands">
       <div class="section-header">
         <span class="section-tag">CLI Reference</span>
         <h2 class="section-title">CareerEngine Command Center</h2>
-        <p class="section-desc">Test and execute actions using the unified CLI interface.</p>
+        <p class="section-desc">Commands for applying, drafting replies, and checking application status.</p>
       </div>
 
       <!-- Tab Buttons -->
@@ -482,17 +470,16 @@ resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></
       <!-- Tab Content: LinkedIn -->
       <div class="tab-pane active" id="tab-linkedin">
         <div class="arch-item">
-          <div class="arch-item-header">
-            <h3>LinkedIn Easy Apply Commands</h3>
-            <span class="arch-badge">Live & Dry-Run</span>
+          <div class="table-header-box" style="padding: 0 0 12px 0; border: none; background: transparent;">
+            <h3 style="font-family: var(--font-display); font-size: 18px;">LinkedIn Easy Apply</h3>
           </div>
-          <p style="color: var(--text-secondary); margin-bottom: 14px; font-size: 14px;">
-            Autonomously scan Easy Apply jobs, handle multi-page modals, answer questions via Gemini, and attach role-specific resumes.
+          <p style="color: var(--fg-subtle); margin-bottom: 14px; font-size: 13.5px;">
+            Always test with <code>--dry-run</code> first to review form-filling before live submission.
           </p>
 
           <div class="code-box">
             <div class="code-header">
-              <span>Dry-Run Preview (Safe Mode - Never Submits)</span>
+              <span>DRY-RUN PREVIEW (SAFE TEST - DOES NOT SUBMIT)</span>
               <button class="copy-btn">Copy</button>
             </div>
             <pre><code>python3 main.py apply --platform linkedin --dry-run --limit 5</code></pre>
@@ -500,10 +487,10 @@ resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></
 
           <div class="code-box">
             <div class="code-header">
-              <span>Live Auto-Apply with Keyword & Location Filter</span>
+              <span>LIVE APPLICATION WITH KEYWORD FILTER</span>
               <button class="copy-btn">Copy</button>
             </div>
-            <pre><code>python3 main.py apply --platform linkedin --keyword "Databricks Engineer" --location "Bengaluru" --live --limit 10</code></pre>
+            <pre><code>python3 main.py apply --platform linkedin --keyword "Databricks Engineer" --location "Bengaluru" --live --limit 5</code></pre>
           </div>
         </div>
       </div>
@@ -511,28 +498,27 @@ resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></
       <!-- Tab Content: Naukri -->
       <div class="tab-pane" id="tab-naukri">
         <div class="arch-item">
-          <div class="arch-item-header">
-            <h3>Naukri Batch & Quick Apply Commands</h3>
-            <span class="arch-badge">Batch Auto-Apply</span>
+          <div class="table-header-box" style="padding: 0 0 12px 0; border: none; background: transparent;">
+            <h3 style="font-family: var(--font-display); font-size: 18px;">Naukri Quick Apply</h3>
           </div>
-          <p style="color: var(--text-secondary); margin-bottom: 14px; font-size: 14px;">
-            Query Naukri job listings, bypass already applied jobs, solve chatbot screening questions, and submit applications.
+          <p style="color: var(--fg-subtle); margin-bottom: 14px; font-size: 13.5px;">
+            Supports batch scanning across keywords as well as applying to direct job listing URLs.
           </p>
 
           <div class="code-box">
             <div class="code-header">
-              <span>Naukri Batch Apply (20 Jobs Preview)</span>
+              <span>NAUKRI BATCH PREVIEW</span>
               <button class="copy-btn">Copy</button>
             </div>
-            <pre><code>python3 main.py apply --platform naukri --dry-run --limit 20</code></pre>
+            <pre><code>python3 main.py apply --platform naukri --dry-run --limit 10</code></pre>
           </div>
 
           <div class="code-box">
             <div class="code-header">
-              <span>Live Apply to Specific Job Link (Aurus Early-Jobs)</span>
+              <span>DIRECT JOB URL APPLY</span>
               <button class="copy-btn">Copy</button>
             </div>
-            <pre><code>python3 main.py apply --platform naukri --url "https://www.naukri.com/job-listings-..." --live</code></pre>
+            <pre><code>python3 main.py apply --platform naukri --url "https://www.naukri.com/job-listings-..." --dry-run</code></pre>
           </div>
         </div>
       </div>
@@ -540,17 +526,16 @@ resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></
       <!-- Tab Content: InMail -->
       <div class="tab-pane" id="tab-inmail">
         <div class="arch-item">
-          <div class="arch-item-header">
-            <h3>Recruiter InMail Auto-Reply Engine</h3>
-            <span class="arch-badge">AI Synthesis</span>
+          <div class="table-header-box" style="padding: 0 0 12px 0; border: none; background: transparent;">
+            <h3 style="font-family: var(--font-display); font-size: 18px;">Recruiter InMail Auto-Reply</h3>
           </div>
-          <p style="color: var(--text-secondary); margin-bottom: 14px; font-size: 14px;">
-            Inspects incoming recruiter messages, drafts personalized responses highlighting candidate strengths, compensation, and notice period.
+          <p style="color: var(--fg-subtle); margin-bottom: 14px; font-size: 13.5px;">
+            Inspects incoming messages, evaluates recruiter propositions, and drafts responses.
           </p>
 
           <div class="code-box">
             <div class="code-header">
-              <span>Preview AI Responses in Terminal</span>
+              <span>PREVIEW DRAFTS IN TERMINAL</span>
               <button class="copy-btn">Copy</button>
             </div>
             <pre><code>python3 main.py inmail --preview --limit 5</code></pre>
@@ -558,7 +543,7 @@ resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></
 
           <div class="code-box">
             <div class="code-header">
-              <span>Live Auto-Send Replies</span>
+              <span>LIVE SEND REPLIES</span>
               <button class="copy-btn">Copy</button>
             </div>
             <pre><code>python3 main.py inmail --send --limit 5</code></pre>
@@ -569,17 +554,16 @@ resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></
       <!-- Tab Content: Status -->
       <div class="tab-pane" id="tab-status">
         <div class="arch-item">
-          <div class="arch-item-header">
-            <h3>Local Relational Tracking Dashboard</h3>
-            <span class="arch-badge">SQLite & CSV</span>
+          <div class="table-header-box" style="padding: 0 0 12px 0; border: none; background: transparent;">
+            <h3 style="font-family: var(--font-display); font-size: 18px;">Application Status Dashboard</h3>
           </div>
-          <p style="color: var(--text-secondary); margin-bottom: 14px; font-size: 14px;">
-            Inspect your complete application pipeline stored locally in <code>jobs.db</code> and exported to <code>applied_jobs.csv</code>.
+          <p style="color: var(--fg-subtle); margin-bottom: 14px; font-size: 13.5px;">
+            Inspect your local relational history stored in <code>jobs.db</code> and exported to <code>applied_jobs.csv</code>.
           </p>
 
           <div class="code-box">
             <div class="code-header">
-              <span>View Terminal Pipeline Status</span>
+              <span>VIEW PIPELINE STATUS</span>
               <button class="copy-btn">Copy</button>
             </div>
             <pre><code>python3 main.py status</code></pre>
@@ -588,79 +572,47 @@ resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></
       </div>
     </section>
 
-    <!-- Frequently Asked Questions (GEO / AI Overviews & User Queries) -->
+    <!-- Frequently Asked Questions -->
     <section class="container" id="faq" style="margin-top: 60px;">
       <div class="section-header">
         <span class="section-tag">Common Inquiries</span>
         <h2 class="section-title">Frequently Asked Questions</h2>
-        <p class="section-desc">Key architectural facts, safety considerations, and usage guidelines.</p>
+        <p class="section-desc">Key architectural facts, account safety, and developerOS integration.</p>
       </div>
 
       <div class="faq-grid">
         <div class="faq-card">
-          <h3 class="faq-question">What is CareerEngine and how is it different from traditional job bots?</h3>
+          <h3 class="faq-question">What is CareerEngine and how does it relate to CareerOS?</h3>
           <p class="faq-answer">
-            CareerEngine is an autonomous career operating system designed by developerOS. Traditional job bots rely on headless browsers like Selenium or Puppeteer that are instantly flagged by Cloudflare, Kasada, or LinkedIn anti-bot systems. CareerEngine controls your authentic local Google Chrome browser via Chrome DevTools Protocol (CDP port 9222), inheriting your genuine 2FA session, active cookies, and human typing cadence without triggering CAPTCHAs.
+            <strong>CareerOS</strong> is the web platform where engineers track and compare applications, interviews, and offers in ₹ lakhs. <strong>CareerEngine</strong> is the open-source automation companion: it runs locally on your machine, attaches to your Google Chrome browser via CDP, and assists with filling job applications. CareerEngine does not automatically sync with CareerOS yet.
           </p>
         </div>
 
         <div class="faq-card">
-          <h3 class="faq-question">How does CareerEngine solve complex job screening questionnaires?</h3>
+          <h3 class="faq-question">Is there account risk when using CareerEngine?</h3>
           <p class="faq-answer">
-            CareerEngine uses a multi-LLM rotational architecture. It cycles between Google Gemini 3.5 Flash-lite and Gemini 3.1 Flash-lite across multiple free API keys, with automatic DeepSeek V4 fallback. Every question answered is cached in a local permanent QA memory (<code>profile_config.json</code>), ensuring repeating questions are resolved in under 100ms with zero extra API consumption.
+            Yes. Automating applications can breach the terms of service on platforms like LinkedIn and Naukri, and carries the risk of account restriction. CareerEngine controls your genuine Chrome browser with organic dwell times and typing jitter to minimize detection, but you should always run with <code>--preview</code> / <code>--dry-run</code> first, inspect applications, and avoid applying in aggressive volumes.
           </p>
         </div>
 
         <div class="faq-card">
-          <h3 class="faq-question">How does the Multi-Role Resume Selector determine which PDF to attach?</h3>
+          <h3 class="faq-question">Is candidate data sent to the cloud?</h3>
           <p class="faq-answer">
-            When parsing a job posting, CareerEngine evaluates the position title and description against target keyword clusters. It selects matching PDFs from your local <code>resumes/</code> folder using semantic role tags: <code>_DE</code> for Data Engineering, <code>_DS</code> for Data Science/Machine Learning, <code>_AI</code> for LLM/GenAI platforms, <code>_SWE</code> for Backend Software Engineering, and <code>_MLOps</code> for Cloud DevOps roles.
+            Your candidate profile, resumes, API keys, and local SQLite database (<code>jobs.db</code>) remain stored solely on your machine. When completing applications, only the specific screening questionnaire prompts are sent to the Google Gemini API keys that you provide.
           </p>
         </div>
 
         <div class="faq-card">
-          <h3 class="faq-question">Is any candidate data, resume, or API key sent to third-party servers?</h3>
+          <h3 class="faq-question">How does the Multi-Role Resume Selector work?</h3>
           <p class="faq-answer">
-            No. CareerEngine adheres to a strict 100% local privacy architecture with zero telemetry. Candidate master profiles, contact credentials, SQLite database records (<code>jobs.db</code>), and resume PDFs never leave your machine. A pre-push git hook (<code>.git/hooks/pre-push</code>) actively blocks accidental pushes of personal branches or credentials to GitHub.
+            CareerEngine evaluates position titles and descriptions against predefined keyword clusters, matching files in your local <code>resumes/</code> folder with role tags (<code>_DE</code> for Data Engineering, <code>_DS</code> for Data Science, <code>_AI</code> for GenAI/LLM, <code>_SWE</code> for Backend, <code>_MLOps</code> for Cloud DevOps).
           </p>
         </div>
 
         <div class="faq-card">
-          <h3 class="faq-question">Can CareerEngine handle recruiter InMails and messaging?</h3>
+          <h3 class="faq-question">How do I prevent accidentally pushing my personal data to GitHub?</h3>
           <p class="faq-answer">
-            Yes. With <code>python3 main.py inmail --preview</code> or <code>--send</code>, CareerEngine scans unread LinkedIn messaging threads, reads recruiter inquiries, and drafts personalized, professional responses highlighting candidate strengths, confirmed notice period (e.g. 30 days), and aligned compensation expectations.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Privacy & Security Architecture -->
-    <section class="container" id="privacy" style="margin-top: 60px;">
-      <div class="section-header">
-        <span class="section-tag">Security Guarantee</span>
-        <h2 class="section-title">Built for Open-Source Safety</h2>
-        <p class="section-desc">Designed from day one to ensure you never accidentally expose your personal resumes, cookies, or API keys.</p>
-      </div>
-
-      <div class="arch-grid">
-        <div class="arch-item">
-          <h3>🔐 Git-Ignored Secret Isolation</h3>
-          <p style="font-size: 14px; color: var(--text-secondary); margin-top: 8px;">
-            Your API keys in <code>.env</code>, candidate details in <code>profile_config.json</code>, local database in <code>jobs.db</code>, and resume PDFs are strictly ignored by git.
-          </p>
-        </div>
-
-        <div class="arch-item">
-          <h3>🛡️ Pre-Push Security Guard</h3>
-          <p style="font-size: 14px; color: var(--text-secondary); margin-top: 8px;">
-            CareerEngine includes a pre-push git hook (<code>.git/hooks/pre-push</code>) that blocks pushes on designated personal branches, guaranteeing your private experiments stay local.
-          </p>
-        </div>
-
-        <div class="arch-item">
-          <h3>⚡ Rotational API Quota Protection</h3>
-          <p style="font-size: 14px; color: var(--text-secondary); margin-top: 8px;">
-            Smart round-robin rotation across free Google AI Studio keys prevents rate limiting (HTTP 429) while keeping zero runtime cost for users.
+            CareerEngine includes a git pre-push security guard (<code>.git/hooks/pre-push</code>) and comprehensive <code>.gitignore</code> rules. Private credentials (<code>.env</code>), custom facts (<code>profile_config.json</code>), resume PDFs, and databases (<code>jobs.db</code>) are strictly excluded from git tracking.
           </p>
         </div>
       </div>
@@ -671,12 +623,15 @@ resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></
   <footer>
     <div class="container footer-content">
       <div style="display: flex; align-items: center; gap: 10px;">
-        <div class="brand-icon" style="width: 30px; height: 30px; font-size: 16px;">🎯</div>
+        <div class="brand-icon" style="width: 28px; height: 28px; font-size: 14px;">🎯</div>
         <span style="font-family: var(--font-display); font-weight: 700;">CareerEngine</span>
+        <span class="brand-badge" style="margin-left: 4px;">developerOS</span>
       </div>
       <div>
-        <a href="https://github.com/developerOSindia/career-engine" style="color: var(--text-secondary); text-decoration: none; margin-left: 20px; font-size: 14px;">GitHub Repository</a>
-        <a href="https://github.com/developerOSindia/career-engine/blob/main/LICENSE" style="color: var(--text-secondary); text-decoration: none; margin-left: 20px; font-size: 14px;">MIT License</a>
+        <a href="https://careeros.developeros.in/" target="_blank" rel="noopener" style="color: var(--fg-subtle); text-decoration: none; margin-left: 20px; font-size: 13px;">CareerOS Web</a>
+        <a href="https://developeros.in/" target="_blank" rel="noopener" style="color: var(--fg-subtle); text-decoration: none; margin-left: 20px; font-size: 13px;">developerOS Hub</a>
+        <a href="https://github.com/developerOSindia/career-engine" target="_blank" rel="noopener" style="color: var(--fg-subtle); text-decoration: none; margin-left: 20px; font-size: 13px;">GitHub</a>
+        <a href="https://github.com/developerOSindia/career-engine/blob/main/LICENSE" target="_blank" rel="noopener" style="color: var(--fg-subtle); text-decoration: none; margin-left: 20px; font-size: 13px;">MIT License</a>
       </div>
     </div>
     <div class="footer-copy">
