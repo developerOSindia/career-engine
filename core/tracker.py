@@ -246,3 +246,45 @@ class ApplicationTracker:
             "failed": failed,
             "needs_review": needs_review
         }
+
+    def get_today_application_count(self) -> int:
+        """Returns the total number of applications processed today (applied or dry_run_completed)."""
+        today_str = datetime.now().strftime("%Y-%m-%d")
+        count = 0
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT count(*) FROM applications WHERE status IN ('applied', 'dry_run_completed') AND created_at LIKE ?",
+                (f"{today_str}%",)
+            )
+            row = cursor.fetchone()
+            if row:
+                count = row[0]
+            conn.close()
+        except Exception:
+            # Fallback to cache counting
+            count = sum(
+                1 for v in self.applied_cache.values()
+                if (v.get("timestamp", "").startswith(today_str) or v.get("created_at", "").startswith(today_str))
+                and v.get("status") in ("applied", "dry_run_completed")
+            )
+        return count
+
+    def get_today_by_platform(self) -> Dict[str, int]:
+        """Returns breakdown of today's applications by platform."""
+        today_str = datetime.now().strftime("%Y-%m-%d")
+        breakdown: Dict[str, int] = {}
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT platform, count(*) FROM applications WHERE status IN ('applied', 'dry_run_completed') AND created_at LIKE ? GROUP BY platform",
+                (f"{today_str}%",)
+            )
+            for plat, cnt in cursor.fetchall():
+                breakdown[plat or "unknown"] = cnt
+            conn.close()
+        except Exception:
+            pass
+        return breakdown

@@ -243,7 +243,31 @@ python3 main.py studio --port 8599 --host 127.0.0.1
 
 ---
 
-### 3. Recruiter InMail & Message Auto-Reply (`inmail`)
+### 3. Autonomous Auto-Pilot Mode (`auto`)
+
+Run CareerEngine on autonomous background auto-pilot with human circadian pacing, daily safety quota limits, multi-platform round-robin cycling, and automatic recruiter InMail answering:
+
+```bash
+# Launch Auto-Pilot in preview mode with safe defaults (180 min interval, 20 daily apps cap):
+python3 main.py auto --interval 180 --daily-limit 20 --dry-run
+
+# Launch Auto-Pilot in live auto-submit mode:
+python3 main.py auto --interval 120 --daily-limit 15 --live
+
+# Custom cycle interval and 24/7 unrestricted hours:
+python3 main.py auto --interval 60 --session-limit 3 --all-hours --dry-run
+```
+
+- **Circadian Pacing**: Only operates during business hours (09:00 - 19:00 local time) by default to avoid unnatural overnight bot activity.
+- **Daily Safety Quotas**: Enforces hard caps (e.g. 20 applications/day total) in SQLite `jobs.db`. Once reached, rests until the next day.
+- **Round-Robin Multi-Platform**: Cycles evenly across LinkedIn, Naukri, Wellfound, and Instahyre.
+- **InMail Monitoring Loop**: Automatically inspects and answers unread recruiter inquiries after each batch.
+- **Randomized Jitter**: Varies sleep intervals by ±10% to eliminate static cron fingerprints.
+- **GUI Controls**: Can also be started, paused, and monitored visually from the Web Studio dashboard (`http://localhost:8501`).
+
+---
+
+### 4. Recruiter InMail & Message Auto-Reply (`inmail`)
 
 #### Preview InMail Drafts (Dry-Run):
 Scans your unread LinkedIn messages, analyzes recruiter inquiries, and displays proposed replies in the terminal without sending:
@@ -264,7 +288,7 @@ python3 main.py inmail --preview --all
 
 ---
 
-### 4. Application Status Dashboard (`status`)
+### 5. Application Status Dashboard (`status`)
 
 Inspect your complete application pipeline, status breakdown, and recent recruiter contacts:
 ```bash

@@ -162,6 +162,12 @@ class StudioRequestHandler(BaseHTTPRequestHandler):
             self.send_json(runner_manager.get_status())
             return
 
+        # API: Auto-Pilot Status
+        if path == "/api/autopilot/status":
+            from core.autopilot import autopilot
+            self.send_json(autopilot.get_status())
+            return
+
         self.send_json({"error": "Not Found", "path": path}, 404)
 
     def do_POST(self):
@@ -177,6 +183,29 @@ class StudioRequestHandler(BaseHTTPRequestHandler):
             except Exception as e:
                 self.send_json({"error": f"Invalid JSON payload: {e}"}, 400)
                 return
+
+        # API: Auto-Pilot Start
+        if path == "/api/autopilot/start":
+            from core.autopilot import autopilot
+            daily_limit = int(body_data.get("daily_limit", autopilot.daily_limit))
+            interval_minutes = int(body_data.get("interval_minutes", autopilot.interval_minutes))
+            dry_run = bool(body_data.get("dry_run", True))
+            platforms = body_data.get("platforms", autopilot.platforms)
+
+            autopilot.daily_limit = daily_limit
+            autopilot.interval_minutes = interval_minutes
+            autopilot.dry_run = dry_run
+            autopilot.platforms = platforms
+            started = autopilot.start(in_background=True)
+            self.send_json({"success": started, "status": autopilot.get_status()})
+            return
+
+        # API: Auto-Pilot Stop
+        if path == "/api/autopilot/stop":
+            from core.autopilot import autopilot
+            stopped = autopilot.stop()
+            self.send_json({"success": stopped, "status": autopilot.get_status()})
+            return
 
         # API: Trigger CLI Run
         if path == "/api/run":

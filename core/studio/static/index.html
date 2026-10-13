@@ -329,6 +329,7 @@
 
     <nav class="nav-tabs">
       <button class="tab-btn active" data-tab="tab-dashboard">Dashboard</button>
+      <button class="tab-btn" data-tab="tab-autopilot">Auto-Pilot</button>
       <button class="tab-btn" data-tab="tab-jobs">Applications</button>
       <button class="tab-btn" data-tab="tab-runner">Run Engine</button>
       <button class="tab-btn" data-tab="tab-screenshots">Screenshots</button>
@@ -378,6 +379,125 @@
             </thead>
             <tbody id="recent-jobs-tbody">
               <tr><td colspan="6" style="text-align: center; color: var(--fg-subtle);">Loading applications...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: AUTOPILOT -->
+    <section id="tab-autopilot" class="view-section">
+      <!-- Status Card -->
+      <div class="card" style="border-left: 4px solid var(--brand-orange);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
+              <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 800; margin: 0;">Autonomous Auto-Pilot</h3>
+              <span id="autopilot-state-pill" class="pill-status pill-preview">● IDLE</span>
+              <span id="autopilot-mode-pill" class="badge-cyan">DRY-RUN MODE</span>
+            </div>
+            <p style="font-size: 13px; color: var(--fg-muted); margin: 0;">
+              Cycles through LinkedIn, Naukri, Wellfound, and Instahyre with circadian pacing, daily quotas, and InMail monitoring.
+            </p>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button id="btn-start-autopilot" class="btn-orange">🚀 Start Auto-Pilot</button>
+            <button id="btn-stop-autopilot" class="btn-ghost" style="border-color: rgba(244, 63, 94, 0.4); color: var(--brand-rose); display: none;">🛑 Stop Auto-Pilot</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metrics Grid -->
+      <div class="stats-grid">
+        <div class="stat-box">
+          <span class="stat-label">Today's Applications</span>
+          <div style="display: flex; align-items: baseline; gap: 6px;">
+            <span class="stat-val" id="ap-stat-today">0</span>
+            <span style="font-size: 14px; color: var(--fg-subtle);">/ <span id="ap-stat-limit">20</span> max</span>
+          </div>
+          <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; margin-top: 8px; overflow: hidden;">
+            <div id="ap-quota-bar" style="height: 100%; width: 0%; background: var(--brand-orange); transition: width 0.3s ease;"></div>
+          </div>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Next Scheduled Run</span>
+          <span class="stat-val" id="ap-stat-next" style="font-size: 18px; line-height: 32px;">-</span>
+          <span style="font-size: 11px; color: var(--fg-subtle); font-family: var(--font-mono);" id="ap-stat-countdown">Paused</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Cycle Interval</span>
+          <span class="stat-val" id="ap-stat-interval" style="font-size: 22px;">180<span style="font-size: 13px; font-weight: normal; color: var(--fg-subtle);"> min</span></span>
+          <span style="font-size: 11px; color: var(--fg-subtle);">±10% randomized human jitter</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Active Window</span>
+          <span class="stat-val" style="font-size: 18px; line-height: 32px; color: #4ade80;">09:00 - 19:00</span>
+          <span style="font-size: 11px; color: var(--fg-subtle);">Local Business Hours</span>
+        </div>
+      </div>
+
+      <!-- Controls & Config Card -->
+      <div class="card">
+        <h4 style="font-family: var(--font-display); font-size: 16px; margin-bottom: 16px;">Auto-Pilot Parameters</h4>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px;">
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">DAILY QUOTA LIMIT</label>
+            <input type="number" id="ap-input-limit" class="input-field" value="20" min="1" max="50" style="width: 100%;">
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">CYCLE INTERVAL (MINUTES)</label>
+            <input type="number" id="ap-input-interval" class="input-field" value="180" min="30" max="720" style="width: 100%;">
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">EXECUTION MODE</label>
+            <select id="ap-input-mode" class="select-field" style="width: 100%;">
+              <option value="dry_run">Dry-Run (Safe Preview Screenshots)</option>
+              <option value="live">Live (Auto-Submit Applications)</option>
+            </select>
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">RECRUITER INMAIL CHECK</label>
+            <select id="ap-input-inmail" class="select-field" style="width: 100%;">
+              <option value="true">Enabled (Auto-respond to InMails)</option>
+              <option value="false">Disabled</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">TARGET PLATFORMS (ROUND-ROBIN)</label>
+          <div style="display: flex; gap: 20px; align-items: center; font-size: 13px;">
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" id="ap-plat-linkedin" checked> LinkedIn
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" id="ap-plat-naukri" checked> Naukri
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" id="ap-plat-wellfound" checked> Wellfound
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" id="ap-plat-instahyre" checked> Instahyre
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Auto-Pilot Cycles -->
+      <div class="card">
+        <h4 style="font-family: var(--font-display); font-size: 16px; margin-bottom: 16px;">Recent Auto-Pilot Cycles</h4>
+        <div class="data-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Target Platform</th>
+                <th>Applications Processed</th>
+                <th>Cycle Status</th>
+                <th>Message / Summary</th>
+              </tr>
+            </thead>
+            <tbody id="ap-cycles-tbody">
+              <tr><td colspan="5" style="text-align: center; color: var(--fg-subtle);">No cycles recorded yet. Start Auto-Pilot to begin.</td></tr>
             </tbody>
           </table>
         </div>
@@ -546,6 +666,7 @@
         if (target) target.classList.add('active');
 
         if (btn.getAttribute('data-tab') === 'tab-jobs') loadJobs(1);
+        if (btn.getAttribute('data-tab') === 'tab-autopilot') loadAutopilotStatus();
         if (btn.getAttribute('data-tab') === 'tab-screenshots') loadScreenshots();
         if (btn.getAttribute('data-tab') === 'tab-profile') loadProfile();
       });
@@ -765,12 +886,98 @@
       } catch (e) {}
     }, 1500);
 
-    function escapeHtml(str) {
-      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    // Auto-Pilot Controls & Polling
+    async function loadAutopilotStatus() {
+      try {
+        const res = await fetch('/api/autopilot/status');
+        const data = await res.json();
+
+        // Update indicators
+        const statePill = document.getElementById('autopilot-state-pill');
+        const modePill = document.getElementById('autopilot-mode-pill');
+        const startBtn = document.getElementById('btn-start-autopilot');
+        const stopBtn = document.getElementById('btn-stop-autopilot');
+
+        statePill.textContent = '● ' + (data.state || 'IDLE').replace('_', ' ');
+        if (data.is_running) {
+          statePill.className = 'pill-status pill-applied';
+          startBtn.style.display = 'none';
+          stopBtn.style.display = 'inline-block';
+        } else {
+          statePill.className = 'pill-status pill-preview';
+          startBtn.style.display = 'inline-block';
+          stopBtn.style.display = 'none';
+        }
+
+        modePill.textContent = data.dry_run ? 'DRY-RUN MODE' : 'LIVE MODE';
+        modePill.style.color = data.dry_run ? 'var(--brand-orange)' : '#4ade80';
+
+        // Update stats
+        document.getElementById('ap-stat-today').textContent = data.today_count || 0;
+        document.getElementById('ap-stat-limit').textContent = data.daily_limit || 20;
+        const pct = Math.min(100, Math.round(((data.today_count || 0) / (data.daily_limit || 20)) * 100));
+        document.getElementById('ap-quota-bar').style.width = pct + '%';
+
+        document.getElementById('ap-stat-next').textContent = data.next_run_time ? data.next_run_time.substring(11, 19) : (data.is_running ? 'Calculating...' : 'Paused');
+        document.getElementById('ap-stat-countdown').textContent = data.is_running ? 'Next cycle scheduled' : 'Auto-Pilot inactive';
+        document.getElementById('ap-stat-interval').textContent = (data.interval_minutes || 180) + ' min';
+
+        // Update cycle history table
+        const tbody = document.getElementById('ap-cycles-tbody');
+        if (data.recent_cycles && data.recent_cycles.length > 0) {
+          tbody.innerHTML = '';
+          data.recent_cycles.slice().reverse().forEach(c => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td style="font-family: var(--font-mono); font-size: 11px;">${escapeHtml(c.timestamp || '')}</td>
+              <td><span class="badge-cyan">${escapeHtml(c.platform ? c.platform.toUpperCase() : 'MULTI')}</span></td>
+              <td><strong>${c.applied || 0}</strong> apps</td>
+              <td><span class="pill-status ${c.status === 'completed' ? 'pill-applied' : 'pill-preview'}">${escapeHtml(c.status || '')}</span></td>
+              <td style="font-size: 12px; color: var(--fg-muted);">${escapeHtml(c.message || '')}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      } catch (e) {
+        console.error('Failed to load autopilot status:', e);
+      }
     }
+
+    document.getElementById('btn-start-autopilot')?.addEventListener('click', async () => {
+      const daily_limit = parseInt(document.getElementById('ap-input-limit').value, 10);
+      const interval_minutes = parseInt(document.getElementById('ap-input-interval').value, 10);
+      const mode = document.getElementById('ap-input-mode').value;
+      const platforms = [];
+      if (document.getElementById('ap-plat-linkedin').checked) platforms.push('linkedin');
+      if (document.getElementById('ap-plat-naukri').checked) platforms.push('naukri');
+      if (document.getElementById('ap-plat-wellfound').checked) platforms.push('wellfound');
+      if (document.getElementById('ap-plat-instahyre').checked) platforms.push('instahyre');
+
+      try {
+        const res = await fetch('/api/autopilot/start', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ daily_limit, interval_minutes, dry_run: mode === 'dry_run', platforms })
+        });
+        const data = await res.json();
+        await loadAutopilotStatus();
+      } catch (e) {
+        alert('Failed to start Auto-Pilot: ' + e);
+      }
+    });
+
+    document.getElementById('btn-stop-autopilot')?.addEventListener('click', async () => {
+      try {
+        await fetch('/api/autopilot/stop', { method: 'POST' });
+        await loadAutopilotStatus();
+      } catch (e) {
+        alert('Failed to stop Auto-Pilot: ' + e);
+      }
+    });
 
     // Initial Load
     loadStats();
+    loadAutopilotStatus();
   </script>
 </body>
 </html>

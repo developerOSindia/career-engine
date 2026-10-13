@@ -180,12 +180,49 @@ def handle_studio(args):
     from core.studio import start_studio_server
     start_studio_server(host=args.host, port=args.port)
 
+def handle_auto(args):
+    """Launches the CareerEngine Autonomous Auto-Pilot runner."""
+    from core.autopilot import AutoPilotEngine
+    is_live = getattr(args, "live", False)
+    dry_run = not is_live
+
+    engine = AutoPilotEngine(
+        interval_minutes=args.interval,
+        daily_limit=args.daily_limit,
+        session_limit=args.session_limit,
+        business_hours_only=not args.all_hours,
+        inmail_check=not args.no_inmail,
+        dry_run=dry_run
+    )
+
+    print("\n" + "="*60)
+    print("🤖 CareerEngine Autonomous Auto-Pilot")
+    print(f"🎯 Execution Mode: {'LIVE AUTO-SUBMIT' if not dry_run else 'DRY RUN (Preview)'}")
+    print(f"📊 Daily Safety Limit: {args.daily_limit} applications / day")
+    print(f"⏱️ Cycle Interval: Every {args.interval} minutes")
+    print(f"🕒 Schedule: {'24/7 Unrestricted' if args.all_hours else '09:00 - 19:00 Business Hours Only'}")
+    print(f"📬 Recruiter InMail Check: {'ON' if not args.no_inmail else 'OFF'}")
+    print("⚡ Press Ctrl+C in terminal to stop Auto-Pilot.")
+    print("="*60 + "\n")
+
+    try:
+        engine.start(in_background=False)
+    except KeyboardInterrupt:
+        engine.stop()
+        print("\n✓ Auto-Pilot stopped cleanly by user.")
+
 def main():
     parser = argparse.ArgumentParser(
         description="Career Automator - Autonomous Job Application & Recruiter Outreach CLI",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
+  # Launch Autonomous Auto-Pilot in preview mode:
+  python3 main.py auto --interval 180 --daily-limit 20 --dry-run
+
+  # Launch Auto-Pilot in live auto-submit mode:
+  python3 main.py auto --interval 120 --daily-limit 15 --live
+
   # Apply to 10 LinkedIn jobs in Live mode:
   python3 main.py apply --platform linkedin --live --limit 10
 
@@ -218,6 +255,16 @@ Examples:
     parser_apply.add_argument("--location", type=str, default=None, help="Filter by specific location")
     parser_apply.add_argument("--url", type=str, default=None, help="Direct job posting URL to apply to immediately")
 
+    # Command: auto (Autonomous Auto-Pilot)
+    parser_auto = subparsers.add_parser("auto", help="Launch autonomous background auto-pilot mode with circadian pacing")
+    parser_auto.add_argument("--interval", type=int, default=180, help="Interval between cycles in minutes (default: 180)")
+    parser_auto.add_argument("--daily-limit", type=int, default=20, help="Maximum applications per calendar day (default: 20)")
+    parser_auto.add_argument("--session-limit", type=int, default=5, help="Maximum applications per batch cycle (default: 5)")
+    parser_auto.add_argument("--live", action="store_true", help="Run in live auto-submit mode")
+    parser_auto.add_argument("--dry-run", action="store_true", help="Run in preview mode (default)")
+    parser_auto.add_argument("--all-hours", action="store_true", help="Disable business hours restriction (run 24/7)")
+    parser_auto.add_argument("--no-inmail", action="store_true", help="Skip recruiter InMail auto-scanning")
+
     # Command: inmail
     parser_inmail = subparsers.add_parser("inmail", help="Scan and auto-reply to LinkedIn InMails / recruiter inquiries")
     parser_inmail.add_argument("--preview", action="store_true", default=True, help="Generate and preview draft replies without sending (default)")
@@ -246,6 +293,8 @@ Examples:
         agent.run(defaults_only=args.defaults)
     elif args.command == "apply":
         handle_apply(args)
+    elif args.command == "auto":
+        handle_auto(args)
     elif args.command == "inmail":
         handle_inmail(args)
     elif args.command == "status":
