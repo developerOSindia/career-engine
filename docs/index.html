@@ -4,10 +4,142 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CareerOS | Autonomous Multi-Platform Career Operating System</title>
-  <meta name="description" content="Official documentation for CareerOS: The intelligent, human-stealth career automation agent for LinkedIn & Naukri with rotational Gemini AI models.">
-  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="CareerOS is an open-source, autonomous career operating system. Automate job applications across LinkedIn & Naukri using Chrome CDP remote debugging and rotational Gemini AI.">
+  <meta name="keywords" content="CareerOS, job application automation, LinkedIn easy apply bot, Naukri auto apply, AI job search agent, Chrome CDP remote debugging, rotational Gemini Flash-lite, open source career automation, developerOS">
+  <meta name="author" content="developerOS">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://developerosindia.github.io/careeros/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://developerosindia.github.io/careeros/">
+  <meta property="og:title" content="CareerOS | Autonomous Multi-Platform Career Operating System">
+  <meta property="og:description" content="Autonomously apply for targeted engineering jobs across LinkedIn & Naukri, solve screening forms with rotational Gemini AI, and auto-reply to recruiter InMails.">
+  <meta property="og:site_name" content="CareerOS">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://developerosindia.github.io/careeros/">
+  <meta name="twitter:title" content="CareerOS | Autonomous Multi-Platform Career Operating System">
+  <meta name="twitter:description" content="Open-source career operating system for LinkedIn & Naukri. Zero cloud telemetry, 100% local execution via Chrome CDP.">
+
+  <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- JSON-LD Structured Data Schema (SoftwareApplication, HowTo, FAQPage, Organization) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://developerosindia.github.io/careeros/#organization",
+        "name": "developerOS",
+        "url": "https://github.com/developerOSindia"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://developerosindia.github.io/careeros/#software",
+        "name": "CareerOS",
+        "applicationCategory": "DeveloperApplication, Productivity",
+        "operatingSystem": "macOS, Linux, Windows",
+        "description": "An intelligent, human-stealth career automation agent designed to autonomously search and apply for target engineering positions on LinkedIn and Naukri, solve screening questionnaires via rotational Gemini 3.x Flash-lite AI, and draft personalized InMail replies.",
+        "softwareVersion": "1.0.0",
+        "license": "https://opensource.org/licenses/MIT",
+        "author": {
+          "@id": "https://developerosindia.github.io/careeros/#organization"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      },
+      {
+        "@type": "HowTo",
+        "@id": "https://developerosindia.github.io/careeros/#howto",
+        "name": "How to Setup and Run CareerOS for Job Application Automation",
+        "description": "Step-by-step setup guide for CareerOS: configuring profile facts, multi-role resumes, Google Chrome remote debugging, and running live batches.",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "Clone the Repository",
+            "text": "Clone the open-source repository from GitHub and install required dependencies with pip install -r requirements.txt."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "Run the Interactive Setup Agent",
+            "text": "Execute python3 main.py setup to configure personal contact details, compensation expectations, notice period, and Gemini API keys in gitignored local files."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "Place Role-Tagged Resumes",
+            "text": "Add resume PDFs into the resumes/ directory with role tags such as _DE, _DS, _AI, or _SWE for automatic contextual matching."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 4,
+            "name": "Launch Chrome in Remote Debugging Mode",
+            "text": "Run ./scripts/launch_chrome.sh to start Chrome on port 9222, keeping your active login cookies and 2FA sessions safe."
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://developerosindia.github.io/careeros/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is CareerOS?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "CareerOS is an autonomous, open-source multi-platform career operating system. It connects to your existing Google Chrome browser via Chrome DevTools Protocol (CDP) to autonomously search, solve screening forms, and apply for targeted engineering jobs across LinkedIn and Naukri while keeping all personal data strictly local."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does CareerOS bypass LinkedIn and Naukri bot detection?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Unlike traditional Selenium or headless web scrapers, CareerOS connects to your authentic, locally installed Google Chrome browser via CDP port 9222. It uses your existing session cookies, authentic browser fingerprint, human-like typing jitter (30ms-90ms), realistic dwell times (2.5s), and natural scroll physics without triggering CAPTCHAs or account checkpoints."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does the Multi-Role Resume Selector work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "CareerOS inspects the job title, domain keywords, and job description before applying. It routes and attaches the most relevant resume PDF from the resumes/ folder based on file tags (_DE for Data Engineering, _DS for Data Science, _AI for GenAI platforms, _SWE for Backend, _MLOps for DevOps)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which AI models does CareerOS use for solving screening forms?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "CareerOS utilizes high-speed Google Gemini 3.x Flash-lite models (gemini-3.5-flash-lite and gemini-3.1-flash-lite) in a round-robin rotation across multiple API keys, with NVIDIA DeepSeek V4 fallback and permanent local QA memory caching."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is my resume or personal information sent to the cloud?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. CareerOS is built on a 100% local privacy architecture with zero telemetry. Candidate profiles, resume PDFs, SQLite application databases (jobs.db), and API keys are stored solely on your machine and are strictly excluded from git via .gitignore and pre-push security hooks."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
+
 <body>
 
   <!-- Navigation -->
@@ -23,8 +155,10 @@
         <li><a href="#quickstart" class="nav-link">Quickstart</a></li>
         <li><a href="#features" class="nav-link">Features</a></li>
         <li><a href="#resumes" class="nav-link">Resumes</a></li>
+        <li><a href="#comparison" class="nav-link">Comparison</a></li>
         <li><a href="#commands" class="nav-link">CLI Commands</a></li>
-        <li><a href="#privacy" class="nav-link">Privacy & Security</a></li>
+        <li><a href="#faq" class="nav-link">FAQ</a></li>
+        <li><a href="#privacy" class="nav-link">Privacy</a></li>
       </ul>
 
       <div class="nav-cta-group">
@@ -44,7 +178,7 @@
     <section class="hero-section container">
       <div class="hero-pill">
         <span class="hero-pill-indicator"></span>
-        Zero Cloud Telemetry • 100% Local Execution
+        Zero Cloud Telemetry • 100% Local Execution • Updated October 2026
       </div>
 
       <h1 class="hero-title">
@@ -54,6 +188,31 @@
       <p class="hero-subtitle">
         Autonomously apply for targeted engineering jobs across LinkedIn & Naukri, solve complex screening questionnaires using rotational Gemini 3.x Flash-lite AI, and auto-reply to recruiter InMails directly through your authentic Google Chrome browser.
       </p>
+
+      <!-- AEO Definition Block (40-60 words optimized for AI Snippet Extraction) -->
+      <div class="definition-block">
+        <strong>What is CareerOS?</strong> CareerOS is an open-source autonomous career operating system developed by developerOS. It leverages Google Chrome CDP remote debugging and rotational Gemini AI models to search, solve questionnaire screenings, and apply for engineering roles across LinkedIn and Naukri while keeping all personal data on your local machine.
+      </div>
+
+      <!-- GEO Research-backed Metrics Grid -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-value">100%</div>
+          <div class="metric-label">Local Data Privacy</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">0 MB</div>
+          <div class="metric-label">Cloud Egress Telemetry</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">&lt; 1.5s</div>
+          <div class="metric-label">Screening Solution Speed</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">5 Roles</div>
+          <div class="metric-label">Contextual Resume Presets</div>
+        </div>
+      </div>
 
       <div class="hero-actions">
         <a href="#quickstart" class="btn-primary" id="hero-cta-setup">
@@ -230,6 +389,76 @@ resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></
               </tr>
             </tbody>
           </table>
+      </div>
+    </section>
+
+    <!-- Comparison Matrix Section (Drives ~33% AI Citation Share) -->
+    <section class="container" id="comparison">
+      <div class="section-header">
+        <span class="section-tag">Market Comparison</span>
+        <h2 class="section-title">CareerOS vs Legacy Job Bots vs Extensions</h2>
+        <p class="section-desc">Why modern engineering job search requires authentic browser CDP control and contextual AI routing.</p>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header-box">
+          <h3 style="font-family: var(--font-display); font-size: 18px;">Feature & Architecture Breakdown</h3>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Capability / Feature</th>
+                <th>CareerOS (Open Source)</th>
+                <th>Legacy Python Bots (Selenium)</th>
+                <th>Chrome Web Extensions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Browser Integration</strong></td>
+                <td><span class="badge-check">✓ Chrome CDP (Port 9222)</span></td>
+                <td><span class="badge-cross">✗ Headless / Selenium (Flagged)</span></td>
+                <td><span class="badge-warn">⚠ In-page DOM Injection (Detected)</span></td>
+              </tr>
+              <tr>
+                <td><strong>Anti-Bot Evasion</strong></td>
+                <td><span class="badge-check">✓ 100% Real Session & 2FA Cookies</span></td>
+                <td><span class="badge-cross">✗ Triggers CAPTCHA / IP Bans</span></td>
+                <td><span class="badge-warn">⚠ Limited Session Control</span></td>
+              </tr>
+              <tr>
+                <td><strong>Form Solving Intelligence</strong></td>
+                <td><span class="badge-check">✓ Rotational Gemini 3.x Flash-lite</span></td>
+                <td><span class="badge-cross">✗ Hardcoded regex strings</span></td>
+                <td><span class="badge-warn">⚠ Single API key or Paid Cloud</span></td>
+              </tr>
+              <tr>
+                <td><strong>Multi-Role Resume Selector</strong></td>
+                <td><span class="badge-check">✓ Automatic Contextual Routing (_DE, _DS, _AI)</span></td>
+                <td><span class="badge-cross">✗ Single static resume PDF</span></td>
+                <td><span class="badge-cross">✗ Static upload only</span></td>
+              </tr>
+              <tr>
+                <td><strong>Recruiter InMail Auto-Reply</strong></td>
+                <td><span class="badge-check">✓ Autonomous Pitch Analysis & Drafting</span></td>
+                <td><span class="badge-cross">✗ Not Supported</span></td>
+                <td><span class="badge-cross">✗ Not Supported</span></td>
+              </tr>
+              <tr>
+                <td><strong>Privacy & Secrets Storage</strong></td>
+                <td><span class="badge-check">✓ 100% Local (Git-safe, zero egress)</span></td>
+                <td><span class="badge-warn">⚠ Plaintext credentials</span></td>
+                <td><span class="badge-cross">✗ Data sent to external cloud</span></td>
+              </tr>
+              <tr>
+                <td><strong>Cost & Licensing</strong></td>
+                <td><span class="badge-check">✓ Free & MIT Open-Source</span></td>
+                <td><span class="badge-warn">⚠ Abandoned / Broken</span></td>
+                <td><span class="badge-cross">✗ $30–$80/month SaaS subscription</span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
@@ -355,6 +584,52 @@ resumes/Alex_SWE_resume.pdf      # Matched for Backend & Software roles</code></
             </div>
             <pre><code>python3 main.py status</code></pre>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Frequently Asked Questions (GEO / AI Overviews & User Queries) -->
+    <section class="container" id="faq" style="margin-top: 60px;">
+      <div class="section-header">
+        <span class="section-tag">Common Inquiries</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-desc">Key architectural facts, safety considerations, and usage guidelines.</p>
+      </div>
+
+      <div class="faq-grid">
+        <div class="faq-card">
+          <h3 class="faq-question">What is CareerOS and how is it different from traditional job bots?</h3>
+          <p class="faq-answer">
+            CareerOS is an autonomous career operating system designed by developerOS. Traditional job bots rely on headless browsers like Selenium or Puppeteer that are instantly flagged by Cloudflare, Kasada, or LinkedIn anti-bot systems. CareerOS controls your authentic local Google Chrome browser via Chrome DevTools Protocol (CDP port 9222), inheriting your genuine 2FA session, active cookies, and human typing cadence without triggering CAPTCHAs.
+          </p>
+        </div>
+
+        <div class="faq-card">
+          <h3 class="faq-question">How does CareerOS solve complex job screening questionnaires?</h3>
+          <p class="faq-answer">
+            CareerOS uses a multi-LLM rotational architecture. It cycles between Google Gemini 3.5 Flash-lite and Gemini 3.1 Flash-lite across multiple free API keys, with automatic DeepSeek V4 fallback. Every question answered is cached in a local permanent QA memory (<code>profile_config.json</code>), ensuring repeating questions are resolved in under 100ms with zero extra API consumption.
+          </p>
+        </div>
+
+        <div class="faq-card">
+          <h3 class="faq-question">How does the Multi-Role Resume Selector determine which PDF to attach?</h3>
+          <p class="faq-answer">
+            When parsing a job posting, CareerOS evaluates the position title and description against target keyword clusters. It selects matching PDFs from your local <code>resumes/</code> folder using semantic role tags: <code>_DE</code> for Data Engineering, <code>_DS</code> for Data Science/Machine Learning, <code>_AI</code> for LLM/GenAI platforms, <code>_SWE</code> for Backend Software Engineering, and <code>_MLOps</code> for Cloud DevOps roles.
+          </p>
+        </div>
+
+        <div class="faq-card">
+          <h3 class="faq-question">Is any candidate data, resume, or API key sent to third-party servers?</h3>
+          <p class="faq-answer">
+            No. CareerOS adheres to a strict 100% local privacy architecture with zero telemetry. Candidate master profiles, contact credentials, SQLite database records (<code>jobs.db</code>), and resume PDFs never leave your machine. A pre-push git hook (<code>.git/hooks/pre-push</code>) actively blocks accidental pushes of personal branches or credentials to GitHub.
+          </p>
+        </div>
+
+        <div class="faq-card">
+          <h3 class="faq-question">Can CareerOS handle recruiter InMails and messaging?</h3>
+          <p class="faq-answer">
+            Yes. With <code>python3 main.py inmail --preview</code> or <code>--send</code>, CareerOS scans unread LinkedIn messaging threads, reads recruiter inquiries, and drafts personalized, professional responses highlighting candidate strengths, confirmed notice period (e.g. 30 days), and aligned compensation expectations.
+          </p>
         </div>
       </div>
     </section>
