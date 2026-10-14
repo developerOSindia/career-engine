@@ -223,7 +223,7 @@ def handle_tailor(args):
 
     if getattr(args, "job_id", None):
         import sqlite3
-        from core.config import get_config
+        from core.config_loader import get_config
         conn = sqlite3.connect(get_config().database_path)
         c = conn.cursor()
         c.execute("SELECT title, company, job_description FROM applications WHERE job_id = ? LIMIT 1", (args.job_id,))
@@ -274,6 +274,104 @@ def handle_analytics(args):
     """Displays comprehensive pipeline analytics, velocity, and conversion metrics."""
     from core.analytics_exporter import analytics_exporter
     print(analytics_exporter.format_cli_summary())
+
+def handle_outreach(args):
+    """Synthesizes cold email frameworks, recruiter discovery queries, and mailto links."""
+    from core.cold_outreach import cold_outreach_synthesizer
+    company = getattr(args, "company", None)
+    title = getattr(args, "title", None) or "Senior Software Engineer"
+    target_name = getattr(args, "name", None)
+
+    if getattr(args, "job_id", None):
+        import sqlite3
+        from core.config_loader import get_config
+        conn = sqlite3.connect(get_config().database_path)
+        c = conn.cursor()
+        c.execute("SELECT title, company, hiring_manager_name FROM applications WHERE job_id = ? LIMIT 1", (args.job_id,))
+        row = c.fetchone()
+        conn.close()
+        if row:
+            title = title or row[0]
+            company = company or row[1]
+            target_name = target_name or row[2]
+
+    if not company:
+        print("❌ Please specify a company name with --company 'CompanyName' or provide a --job-id.")
+        return
+
+    kit = cold_outreach_synthesizer.generate_outreach_kit(
+        company=company,
+        job_title=title,
+        target_name=target_name
+    )
+    print(cold_outreach_synthesizer.format_cli_outreach(kit))
+
+def handle_prep(args):
+    """Generates tailored System Design challenges, technical drills, and STAR stories for interview prep."""
+    from core.interview_prep import interview_prep_simulator
+    company = getattr(args, "company", None)
+    title = getattr(args, "title", None) or "Senior Software Engineer"
+    jd_text = ""
+
+    if getattr(args, "file", None):
+        try:
+            with open(args.file, "r", encoding="utf-8") as f:
+                jd_text = f.read()
+        except Exception as e:
+            print(f"❌ Error reading JD file {args.file}: {e}")
+            return
+    elif getattr(args, "jd", None):
+        jd_text = args.jd
+
+    if getattr(args, "job_id", None):
+        import sqlite3
+        from core.config_loader import get_config
+        conn = sqlite3.connect(get_config().database_path)
+        c = conn.cursor()
+        c.execute("SELECT title, company, job_description FROM applications WHERE job_id = ? LIMIT 1", (args.job_id,))
+        row = c.fetchone()
+        conn.close()
+        if row:
+            title = title or row[0]
+            company = company or row[1]
+            if not jd_text and row[2]:
+                jd_text = row[2]
+
+    if not company:
+        print("❌ Please specify a company name with --company 'CompanyName' or provide a --job-id.")
+        return
+
+    print(f"\n⏳ Synthesizing Interview Preparation Kit for {title} @ {company}...")
+    kit = interview_prep_simulator.generate_prep_kit(
+        job_title=title,
+        company=company,
+        job_description=jd_text
+    )
+    print(interview_prep_simulator.format_cli_prep(kit))
+
+def handle_dedup_audit(args):
+    """Audits local jobs.db database for potential cross-platform duplicate applications."""
+    from core.smart_dedup import smart_deduplicator
+    from core.config_loader import get_config
+    db_path = get_config().database_path
+
+    print(f"\n{'='*68}")
+    print("  🔍 CAREERENGINE CROSS-PLATFORM DUPLICATE AUDIT")
+    print(f"  Database: {db_path}")
+    print(f"{'='*68}\n")
+
+    dups = smart_deduplicator.audit_database_duplicates(db_path)
+    if not dups:
+        print("  ✅ Zero duplicate job postings detected! Database is clean.")
+    else:
+        print(f"  ⚠️ Detected {len(dups)} potential cross-platform duplicate groups:\n")
+        for idx, d in enumerate(dups, 1):
+            p = d["primary"]
+            print(f"  {idx}. Primary: '{p['title']}' @ {p['company']} [{p.get('platform', '').upper()}] ({p['status']})")
+            for m in d["matches"]:
+                print(f"     ↳ Duplicate: '{m['title']}' @ {m['company']} [{m.get('platform', '').upper()}] ({m['status']})")
+            print()
+    print(f"{'='*68}\n")
 
 def handle_studio(args):
     """Launches the CareerEngine Local Web Studio GUI server."""
@@ -395,6 +493,24 @@ Examples:
     parser_studio.add_argument("--host", type=str, default="127.0.0.1", help="Host interface to bind to (default: 127.0.0.1)")
     parser_studio.add_argument("--port", type=int, default=8501, help="Port to listen on (default: 8501)")
 
+    # Command: outreach (Recruiter Cold Outreach & Discovery)
+    parser_outreach = subparsers.add_parser("outreach", help="Synthesize personalized cold outreach emails, Boolean search links, and mailto client launch")
+    parser_outreach.add_argument("--company", type=str, default=None, help="Target company name (e.g. Stripe, Databricks)")
+    parser_outreach.add_argument("--title", type=str, default=None, help="Job title / target role")
+    parser_outreach.add_argument("--name", type=str, default=None, help="Recruiter or hiring manager name (optional)")
+    parser_outreach.add_argument("--job-id", type=str, default=None, help="Target application job ID from jobs.db")
+
+    # Command: prep (Technical Interview Prep & STAR Simulator)
+    parser_prep = subparsers.add_parser("prep", help="Simulate domain-specific system design challenges, technical questions, and STAR stories")
+    parser_prep.add_argument("--company", type=str, default=None, help="Target company name (e.g. Stripe, Databricks)")
+    parser_prep.add_argument("--title", type=str, default=None, help="Target role title")
+    parser_prep.add_argument("--jd", type=str, default=None, help="Pasted job description text")
+    parser_prep.add_argument("--file", type=str, default=None, help="Path to job description text file")
+    parser_prep.add_argument("--job-id", type=str, default=None, help="Target application job ID from jobs.db")
+
+    # Command: dedup-audit (Cross-Platform Duplicate Detection)
+    subparsers.add_parser("dedup-audit", help="Audit jobs.db for potential cross-platform duplicate applications across platforms")
+
     # Command: score (or audit)
     parser_score = subparsers.add_parser("score", help="Audit and score candidate profile completeness and ATS readiness")
     parser_score.add_argument("--llm", action="store_true", help="Include AI executive critique from connected LLM")
@@ -420,6 +536,12 @@ Examples:
         handle_export(args)
     elif args.command == "analytics":
         handle_analytics(args)
+    elif args.command == "outreach":
+        handle_outreach(args)
+    elif args.command == "prep":
+        handle_prep(args)
+    elif args.command == "dedup-audit":
+        handle_dedup_audit(args)
     elif args.command == "auto":
         handle_auto(args)
     elif args.command == "inmail":

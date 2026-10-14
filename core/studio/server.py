@@ -214,6 +214,16 @@ class StudioRequestHandler(BaseHTTPRequestHandler):
                 self.wfile.write(content)
                 return
 
+        # API: Cross-Platform Duplicate Audit
+        if path == "/api/dedup/audit":
+            from core.smart_dedup import smart_deduplicator
+            dups = smart_deduplicator.audit_database_duplicates(str(DB_PATH))
+            self.send_json({
+                "total_duplicate_groups": len(dups),
+                "groups": dups
+            })
+            return
+
         self.send_json({"error": "Not Found", "path": path}, 404)
 
     def do_POST(self):
@@ -310,6 +320,88 @@ class StudioRequestHandler(BaseHTTPRequestHandler):
         if path == "/api/run/stop":
             stopped = runner_manager.stop_run()
             self.send_json({"stopped": stopped})
+            return
+
+        # API: Recruiter Outreach Synthesis
+        if path == "/api/outreach/generate":
+            from core.cold_outreach import cold_outreach_synthesizer
+            company = body_data.get("company", "")
+            job_title = body_data.get("job_title", "Senior Software Engineer")
+            target_name = body_data.get("target_name")
+            job_id = body_data.get("job_id")
+            if job_id and (not company or not target_name):
+                try:
+                    conn = sqlite3.connect(DB_PATH)
+                    c = conn.cursor()
+                    c.execute("SELECT title, company, hiring_manager_name FROM applications WHERE job_id = ? LIMIT 1", (job_id,))
+                    row = c.fetchone()
+                    conn.close()
+                    if row:
+                        job_title = job_title or row[0]
+                        company = company or row[1]
+                        target_name = target_name or row[2]
+                except Exception:
+                    pass
+            if not company:
+                self.send_json({"error": "Company name is required"}, 400)
+                return
+            kit = cold_outreach_synthesizer.generate_outreach_kit(
+                company=company,
+                job_title=job_title,
+                target_name=target_name
+            )
+            self.send_json(kit.to_dict())
+            return
+
+        # API: Interview Preparation & STAR Simulator
+        if path == "/api/interview/prep":
+            from core.interview_prep import interview_prep_simulator
+            job_title = body_data.get("job_title", "Senior Software Engineer")
+            company = body_data.get("company", "Tech Company")
+            job_description = body_data.get("job_description", "")
+            job_id = body_data.get("job_id")
+            if job_id and not job_description:
+                try:
+                    conn = sqlite3.connect(DB_PATH)
+                    c = conn.cursor()
+                    c.execute("SELECT title, company, job_description FROM applications WHERE job_id = ? LIMIT 1", (job_id,))
+                    row = c.fetchone()
+                    conn.close()
+                    if row:
+                        job_title = job_title or row[0]
+                        company = company or row[1]
+                        job_description = row[2] or ""
+                except Exception:
+                    pass
+            kit = interview_prep_simulator.generate_prep_kit(
+                job_title=job_title,
+                company=company,
+                job_description=job_description
+            )
+            self.send_json(kit.to_dict())
+            return
+
+        # API: Update Job Status (Kanban pipeline stage change)
+        if path == "/api/jobs/update-status":
+            job_id = body_data.get("job_id")
+            new_status = body_data.get("status")
+            if not job_id or not new_status:
+                self.send_json({"error": "job_id and status are required"}, 400)
+                return
+            valid_statuses = {"applied", "reviewing", "interview_scheduled", "offer", "archived", "rejected", "dry_run_completed", "failed", "skipped"}
+            if new_status not in valid_statuses:
+                self.send_json({"error": f"Invalid status: {new_status}"}, 400)
+                return
+            try:
+                conn = sqlite3.connect(DB_PATH)
+                c = conn.cursor()
+                c.execute("UPDATE applications SET status = ? WHERE job_id = ?", (new_status, job_id))
+                rows_updated = c.rowcount
+                conn.commit()
+                conn.close()
+                self.send_json({"success": True, "job_id": job_id, "status": new_status, "rows_updated": rows_updated})
+            except Exception as e:
+                self.send_json({"error": f"Failed to update status: {e}"}, 500)
             return
 
         # API: Update Profile Config

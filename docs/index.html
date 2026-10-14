@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CareerEngine | Autonomous Open-Source Career Engine by developerOS</title>
-  <meta name="description" content="CareerEngine is the open-source, local automation companion for engineers' job searches across LinkedIn and Naukri. Runs on your machine via Chrome CDP with Gemini AI screening.">
-  <meta name="keywords" content="CareerEngine, CareerOS, developerOS, job automation, LinkedIn Easy Apply, Naukri quick apply, Gemini AI form solver, Chrome CDP, local career automation">
+  <meta name="description" content="CareerEngine is the open-source, local automation companion for engineers across LinkedIn, Naukri, Wellfound, Instahyre, Indeed, Glassdoor, and Foundit. Features Auto-Pilot, ATS resume tailor, recruiter outreach, interview prep, and local Kanban studio.">
+  <meta name="keywords" content="CareerEngine, CareerOS, developerOS, job automation, LinkedIn Easy Apply, Naukri quick apply, Wellfound, Instahyre, Indeed, Glassdoor, Foundit, Gemini AI form solver, Chrome CDP, local career automation, ATS resume tailor, recruiter cold outreach, interview prep">
   <meta name="author" content="developerOS">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href="https://developerosindia.github.io/career-engine/">
@@ -14,7 +14,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://developerosindia.github.io/career-engine/">
   <meta property="og:title" content="CareerEngine | Open Source Career Engine by developerOS">
-  <meta property="og:description" content="The autonomous open-source companion to CareerOS. Applies to jobs through your authentic Google Chrome browser with rotational Gemini AI.">
+  <meta property="og:description" content="Autonomous open-source career engine supporting 7 job platforms, smart cross-platform deduplication, cold recruiter outreach, interview prep, and local Kanban studio.">
   <meta property="og:site_name" content="developerOS">
   <meta property="og:locale" content="en_US">
 
@@ -22,7 +22,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://developerosindia.github.io/career-engine/">
   <meta name="twitter:title" content="CareerEngine | Autonomous Open-Source Career Engine">
-  <meta name="twitter:description" content="Open-source career automation for LinkedIn and Naukri. Runs locally on your machine via Chrome CDP.">
+  <meta name="twitter:description" content="Open-source career automation across 7 platforms with smart deduplication, cold outreach, and interview prep. Runs locally via Chrome CDP.">
 
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
@@ -48,8 +48,8 @@
         "name": "CareerEngine",
         "applicationCategory": "DeveloperApplication, Productivity",
         "operatingSystem": "macOS, Linux, Windows",
-        "description": "An open-source job application automation tool designed to search and apply for target engineering positions on LinkedIn and Naukri via Chrome CDP and rotational Gemini AI models.",
-        "softwareVersion": "2.4.0",
+        "description": "An open-source career engine designed to automate applications across 7 platforms (LinkedIn, Naukri, Wellfound, Instahyre, Indeed, Glassdoor, Foundit) via Chrome CDP, rotational Gemini AI models, smart deduplication, recruiter outreach, and interview prep.",
+        "softwareVersion": "2.5.0",
         "license": "https://opensource.org/licenses/MIT",
         "author": {
           "@id": "https://developeros.in/#organization"
@@ -174,7 +174,7 @@
         <div class="fact-strip">
           <div class="fact-item"><strong>MIT License</strong> (Free & Open Source)</div>
           <span class="fact-dot"></span>
-          <div class="fact-item"><strong>LinkedIn, Naukri, Wellfound & Instahyre</strong> Connectors</div>
+          <div class="fact-item"><strong>7 Platform Connectors</strong> (LinkedIn, Naukri, Wellfound, Instahyre, Indeed, Glassdoor, Foundit)</div>
           <span class="fact-dot"></span>
           <div class="fact-item"><strong>Python 3.10+</strong> CLI</div>
           <span class="fact-dot"></span>
@@ -632,8 +632,17 @@
 <span class="cmd-comment"># 5. Launch local Web Studio GUI dashboard</span>
 <span class="cmd-prompt">$</span> python main.py studio --port 8501
 
-<span class="cmd-comment"># 6. Or run CLI in zero-risk preview / dry-run mode</span>
-<span class="cmd-prompt">$</span> python main.py apply --platform linkedin --dry-run --limit 5</pre>
+<span class="cmd-comment"># 6. Run CLI in zero-risk preview / dry-run mode</span>
+<span class="cmd-prompt">$</span> python main.py apply --platform linkedin --dry-run --limit 5
+
+<span class="cmd-comment"># 7. Synthesize Recruiter Outreach emails and search queries</span>
+<span class="cmd-prompt">$</span> python main.py outreach --company "Stripe" --title "Senior Backend Engineer"
+
+<span class="cmd-comment"># 8. Generate System Design & STAR interview prep drills</span>
+<span class="cmd-prompt">$</span> python main.py prep --company "Uber" --title "Staff Engineer"
+
+<span class="cmd-comment"># 9. Audit database for cross-platform duplicates</span>
+<span class="cmd-prompt">$</span> python main.py dedup-audit</pre>
           </div>
         </div>
 

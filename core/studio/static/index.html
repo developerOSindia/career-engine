@@ -315,6 +315,109 @@
     .input-field:focus, .select-field:focus {
       border-color: var(--brand-orange);
     }
+
+    /* Kanban Board */
+    .kanban-board {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(260px, 1fr));
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+      align-items: start;
+    }
+    .kanban-col {
+      background: var(--bg-elev-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      display: flex;
+      flex-direction: column;
+      max-height: calc(100vh - 200px);
+    }
+    .kanban-col-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: var(--bg-elev-1);
+      border-top-left-radius: var(--radius-card);
+      border-top-right-radius: var(--radius-card);
+      z-index: 2;
+    }
+    .kanban-col-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .kanban-col-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 7px;
+      border-radius: 9999px;
+      color: var(--fg-muted);
+    }
+    .kanban-cards {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .kanban-card {
+      background: var(--bg-elev-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-control);
+      padding: 12px;
+      cursor: grab;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .kanban-card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .kanban-card-title {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--fg);
+      line-height: 1.3;
+    }
+    .kanban-card-company {
+      font-size: 12px;
+      color: var(--fg-muted);
+    }
+    .kanban-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .kanban-stage-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--fg-subtle);
+      font-size: 10px;
+      padding: 2px 6px;
+      cursor: pointer;
+    }
+    .kanban-stage-btn:hover {
+      color: var(--fg);
+      border-color: var(--brand-orange);
+    }
   </style>
 </head>
 <body>
@@ -330,7 +433,10 @@
     <nav class="nav-tabs">
       <button class="tab-btn active" data-tab="tab-dashboard">Dashboard</button>
       <button class="tab-btn" data-tab="tab-autopilot">Auto-Pilot</button>
+      <button class="tab-btn" data-tab="tab-kanban">Pipeline Kanban</button>
       <button class="tab-btn" data-tab="tab-jobs">Applications</button>
+      <button class="tab-btn" data-tab="tab-outreach">Recruiter Outreach</button>
+      <button class="tab-btn" data-tab="tab-prep">Interview Prep</button>
       <button class="tab-btn" data-tab="tab-tailor">Resume Tailor</button>
       <button class="tab-btn" data-tab="tab-runner">Run Engine</button>
       <button class="tab-btn" data-tab="tab-screenshots">Screenshots</button>
@@ -510,6 +616,192 @@
               <tr><td colspan="5" style="text-align: center; color: var(--fg-subtle);">No cycles recorded yet. Start Auto-Pilot to begin.</td></tr>
             </tbody>
           </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: PIPELINE KANBAN BOARD -->
+    <section id="tab-kanban" class="view-section">
+      <div class="card" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+        <div>
+          <h3 style="font-family: var(--font-display); font-size: 18px; font-weight: 800; margin-bottom: 4px;">Application Pipeline Kanban</h3>
+          <p style="font-size: 13px; color: var(--fg-muted); margin: 0;">Track, transition, and manage jobs across application lifecycle stages.</p>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button id="btn-kanban-refresh" class="btn-ghost">🔄 Refresh Board</button>
+          <button id="btn-kanban-dedup" class="btn-ghost" style="border-color: rgba(6, 182, 212, 0.4); color: var(--brand-cyan);">🔍 Audit Duplicates</button>
+        </div>
+      </div>
+
+      <!-- Dedup Audit Alert banner -->
+      <div id="kanban-dedup-banner" class="card" style="display: none; background: rgba(6, 182, 212, 0.05); border: 1px solid rgba(6, 182, 212, 0.3); margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h4 style="font-family: var(--font-mono); font-size: 13px; color: var(--brand-cyan); text-transform: uppercase;">Cross-Platform Deduplication Audit</h4>
+          <button class="btn-ghost" style="font-size: 11px; padding: 2px 8px;" onclick="document.getElementById('kanban-dedup-banner').style.display='none'">✕ Close</button>
+        </div>
+        <div id="kanban-dedup-list" style="font-size: 13px; color: var(--fg-muted); max-height: 200px; overflow-y: auto;"></div>
+      </div>
+
+      <!-- 5-Stage Kanban Columns -->
+      <div class="kanban-board">
+        <!-- Stage 1: Applied -->
+        <div class="kanban-col" id="col-applied">
+          <div class="kanban-col-header">
+            <span class="kanban-col-title">📥 Applied</span>
+            <span class="kanban-col-count" id="count-applied">0</span>
+          </div>
+          <div class="kanban-cards" id="cards-applied"></div>
+        </div>
+
+        <!-- Stage 2: In Review -->
+        <div class="kanban-col" id="col-reviewing">
+          <div class="kanban-col-header">
+            <span class="kanban-col-title" style="color: #60a5fa;">🧐 In Review</span>
+            <span class="kanban-col-count" id="count-reviewing">0</span>
+          </div>
+          <div class="kanban-cards" id="cards-reviewing"></div>
+        </div>
+
+        <!-- Stage 3: Interview Scheduled -->
+        <div class="kanban-col" id="col-interview">
+          <div class="kanban-col-header">
+            <span class="kanban-col-title" style="color: #facc15;">📅 Interview</span>
+            <span class="kanban-col-count" id="count-interview">0</span>
+          </div>
+          <div class="kanban-cards" id="cards-interview"></div>
+        </div>
+
+        <!-- Stage 4: Offer Received -->
+        <div class="kanban-col" id="col-offer">
+          <div class="kanban-col-header">
+            <span class="kanban-col-title" style="color: #4ade80;">🏆 Offer</span>
+            <span class="kanban-col-count" id="count-offer">0</span>
+          </div>
+          <div class="kanban-cards" id="cards-offer"></div>
+        </div>
+
+        <!-- Stage 5: Archived / Other -->
+        <div class="kanban-col" id="col-archived">
+          <div class="kanban-col-header">
+            <span class="kanban-col-title" style="color: var(--fg-subtle);">📦 Archived / Preview</span>
+            <span class="kanban-col-count" id="count-archived">0</span>
+          </div>
+          <div class="kanban-cards" id="cards-archived"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: RECRUITER COLD OUTREACH -->
+    <section id="tab-outreach" class="view-section">
+      <div class="card" style="margin-bottom: 24px;">
+        <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 800; margin-bottom: 8px;">Recruiter Cold Outreach & Contact Discovery</h3>
+        <p style="font-size: 13px; color: var(--fg-muted); margin-bottom: 20px;">
+          Synthesizes verified corporate email permutations, Google X-Ray / LinkedIn talent search queries, and 3 proven cold outreach frameworks with 1-click mail client launch.
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">TARGET COMPANY *</label>
+            <input type="text" id="outreach-company" class="input-field" placeholder="e.g. Stripe, Razorpay, Zepto" style="width: 100%;">
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">ROLE / JOB TITLE</label>
+            <input type="text" id="outreach-title" class="input-field" placeholder="e.g. Senior Software Engineer" value="Senior Software Engineer" style="width: 100%;">
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">RECRUITER / HIRING MANAGER NAME</label>
+            <input type="text" id="outreach-name" class="input-field" placeholder="e.g. Sarah Jenkins (Optional)" style="width: 100%;">
+          </div>
+        </div>
+
+        <button id="btn-generate-outreach" class="btn-orange" style="font-size: 13px;">⚡ Synthesize Recruiter Outreach Kit</button>
+      </div>
+
+      <!-- Outreach Kit Results Container -->
+      <div id="outreach-results" style="display: none;">
+        <!-- Recruiter Discovery & Email Matrix -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+          <!-- Email Permutations -->
+          <div class="card">
+            <h4 style="font-family: var(--font-display); font-size: 16px; margin-bottom: 8px;">Corporate Email Permutations</h4>
+            <div style="font-size: 12px; color: var(--brand-cyan); font-family: var(--font-mono); margin-bottom: 12px;">Predicted Domain: <span id="outreach-domain-txt"></span></div>
+            <div id="outreach-emails-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+          </div>
+
+          <!-- Boolean X-Ray Search Queries -->
+          <div class="card">
+            <h4 style="font-family: var(--font-display); font-size: 16px; margin-bottom: 8px;">Google X-Ray & LinkedIn Discovery</h4>
+            <p style="font-size: 12px; color: var(--fg-subtle); margin-bottom: 12px;">1-click deep links to locate active recruiters and hiring managers:</p>
+            <div id="outreach-queries-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
+          </div>
+        </div>
+
+        <!-- 3 Email Frameworks -->
+        <h4 style="font-family: var(--font-display); font-size: 18px; margin-bottom: 16px;">Proven Cold Outreach Templates</h4>
+        <div id="outreach-templates-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px;"></div>
+      </div>
+    </section>
+
+    <!-- VIEW: INTERVIEW PREPARATION & STAR SIMULATOR -->
+    <section id="tab-prep" class="view-section">
+      <div class="card" style="margin-bottom: 24px;">
+        <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 800; margin-bottom: 8px;">Technical Interview Preparation & STAR Simulator</h3>
+        <p style="font-size: 13px; color: var(--fg-muted); margin-bottom: 20px;">
+          Generates company-targeted System Design blueprints, technical drills with solution rubrics, candidate-tailored STAR behavioral stories, and strategic reverse interview questions.
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">JOB TITLE *</label>
+            <input type="text" id="prep-title" class="input-field" placeholder="e.g. Staff Backend Engineer" value="Senior Software Engineer" style="width: 100%;">
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">COMPANY *</label>
+            <input type="text" id="prep-company" class="input-field" placeholder="e.g. Swiggy, Uber, Flipkart" style="width: 100%;">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">JOB DESCRIPTION (OPTIONAL FOR DEEP CUSTOMIZATION)</label>
+          <textarea id="prep-jd" class="input-field" rows="4" placeholder="Paste the job description or requirements here..." style="width: 100%; resize: vertical;"></textarea>
+        </div>
+
+        <button id="btn-generate-prep" class="btn-orange" style="font-size: 13px;">🧠 Synthesize Complete Interview Prep Kit</button>
+      </div>
+
+      <!-- Prep Kit Results Container -->
+      <div id="prep-results" style="display: none;">
+        <!-- Executive Focus -->
+        <div class="card" style="margin-bottom: 20px; border-left: 4px solid var(--brand-cyan);">
+          <h4 style="font-family: var(--font-display); font-size: 16px; margin-bottom: 6px;">Role Focus & Interview Architecture</h4>
+          <p id="prep-focus-summary" style="font-size: 13px; color: var(--fg-muted); line-height: 1.6; margin: 0;"></p>
+        </div>
+
+        <!-- System Design Challenge -->
+        <div class="card" style="margin-bottom: 20px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+            <h4 style="font-family: var(--font-display); font-size: 16px; margin: 0;">🏗️ System Design Challenge</h4>
+            <span class="badge-cyan">ARCHITECTURE</span>
+          </div>
+          <div id="prep-system-design" style="font-size: 13px; line-height: 1.6; color: var(--fg-muted);"></div>
+        </div>
+
+        <!-- Technical Drills -->
+        <div class="card" style="margin-bottom: 20px;">
+          <h4 style="font-family: var(--font-display); font-size: 16px; margin-bottom: 14px;">⚡ Technical Deep-Dive Drills & Answers</h4>
+          <div id="prep-drills-list" style="display: flex; flex-direction: column; gap: 14px;"></div>
+        </div>
+
+        <!-- Behavioral STAR Stories -->
+        <div class="card" style="margin-bottom: 20px;">
+          <h4 style="font-family: var(--font-display); font-size: 16px; margin-bottom: 14px;">🌟 Tailored Behavioral STAR Stories</h4>
+          <div id="prep-star-list" style="display: flex; flex-direction: column; gap: 14px;"></div>
+        </div>
+
+        <!-- Reverse Interview Questions -->
+        <div class="card" style="background: rgba(249, 115, 22, 0.05); border: 1px solid rgba(249, 115, 22, 0.2);">
+          <h4 style="font-family: var(--font-mono); font-size: 12px; color: var(--brand-orange); text-transform: uppercase; margin-bottom: 8px;">❓ Strategic Reverse Interview Questions</h4>
+          <ul id="prep-reverse-list" style="margin-left: 20px; font-size: 13px; color: var(--fg-muted); line-height: 1.6;"></ul>
         </div>
       </div>
     </section>
@@ -862,6 +1154,12 @@
         <strong style="display: block; font-size: 12px; font-family: var(--font-mono); color: var(--fg-subtle); margin-bottom: 8px;">VERIFICATION SCREENSHOT:</strong>
         <img id="modal-screenshot-img" src="" alt="Application Screenshot" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
       </div>
+
+      <div style="display: flex; gap: 8px; margin-top: 18px; border-top: 1px solid var(--border); padding-top: 16px;">
+        <button id="modal-btn-outreach" class="btn-ghost" style="flex: 1; font-size: 12px;">✉️ Outreach Kit</button>
+        <button id="modal-btn-prep" class="btn-ghost" style="flex: 1; font-size: 12px;">🎯 Interview Prep</button>
+        <button id="modal-btn-tailor" class="btn-ghost" style="flex: 1; font-size: 12px;">📄 Tailor Resume</button>
+      </div>
     </div>
   </div>
 
@@ -878,12 +1176,75 @@
         const target = document.getElementById(btn.getAttribute('data-tab'));
         if (target) target.classList.add('active');
 
+        if (btn.getAttribute('data-tab') === 'tab-kanban') loadKanban();
         if (btn.getAttribute('data-tab') === 'tab-jobs') loadJobs(1);
         if (btn.getAttribute('data-tab') === 'tab-autopilot') loadAutopilotStatus();
         if (btn.getAttribute('data-tab') === 'tab-tailor') loadTailorPresets();
         if (btn.getAttribute('data-tab') === 'tab-screenshots') loadScreenshots();
         if (btn.getAttribute('data-tab') === 'tab-profile') loadProfile();
       });
+    });
+
+    // Job Modal & Active State
+    let currentModalJob = null;
+    function showJobModal(job) {
+      currentModalJob = job;
+      document.getElementById('modal-job-title').textContent = job.title || 'Job Details';
+      document.getElementById('modal-job-comp').textContent = `${job.company || ''} • ${job.job_id || ''}`;
+      document.getElementById('modal-job-platform').textContent = job.platform || '-';
+      document.getElementById('modal-job-status').textContent = job.status || '-';
+      document.getElementById('modal-job-location').textContent = job.location || '-';
+      document.getElementById('modal-job-date').textContent = job.created_at || '-';
+      document.getElementById('modal-job-notes').textContent = job.salary_notes || job.notes || 'None recorded';
+
+      const shotWrap = document.getElementById('modal-screenshot-wrap');
+      const shotImg = document.getElementById('modal-screenshot-img');
+      if (job.screenshot) {
+        const fname = job.screenshot.split('/').pop().split('\\\\').pop();
+        shotImg.src = `/api/screenshot/${fname}`;
+        shotWrap.style.display = 'block';
+      } else {
+        shotWrap.style.display = 'none';
+      }
+
+      document.getElementById('job-modal').classList.add('show');
+    }
+
+    document.getElementById('modal-close-btn').addEventListener('click', () => {
+      document.getElementById('job-modal').classList.remove('show');
+    });
+
+    document.getElementById('modal-btn-outreach')?.addEventListener('click', () => {
+      if (!currentModalJob) return;
+      document.getElementById('job-modal').classList.remove('show');
+      const tabBtn = document.querySelector('[data-tab="tab-outreach"]');
+      if (tabBtn) tabBtn.click();
+      document.getElementById('outreach-company').value = currentModalJob.company || '';
+      document.getElementById('outreach-title').value = currentModalJob.title || 'Senior Software Engineer';
+      document.getElementById('outreach-name').value = currentModalJob.hiring_manager_name || '';
+      document.getElementById('btn-generate-outreach')?.click();
+    });
+
+    document.getElementById('modal-btn-prep')?.addEventListener('click', () => {
+      if (!currentModalJob) return;
+      document.getElementById('job-modal').classList.remove('show');
+      const tabBtn = document.querySelector('[data-tab="tab-prep"]');
+      if (tabBtn) tabBtn.click();
+      document.getElementById('prep-company').value = currentModalJob.company || '';
+      document.getElementById('prep-title').value = currentModalJob.title || 'Senior Software Engineer';
+      document.getElementById('prep-jd').value = currentModalJob.job_description || '';
+      document.getElementById('btn-generate-prep')?.click();
+    });
+
+    document.getElementById('modal-btn-tailor')?.addEventListener('click', () => {
+      if (!currentModalJob) return;
+      document.getElementById('job-modal').classList.remove('show');
+      const tabBtn = document.querySelector('[data-tab="tab-tailor"]');
+      if (tabBtn) tabBtn.click();
+      document.getElementById('tailor-company-input').value = currentModalJob.company || '';
+      document.getElementById('tailor-title-input').value = currentModalJob.title || 'Senior Software Engineer';
+      document.getElementById('tailor-jd-input').value = currentModalJob.job_description || '';
+      document.getElementById('btn-run-tailor')?.click();
     });
 
     // Load Dashboard Stats
@@ -968,33 +1329,6 @@
     document.getElementById('jobs-refresh-btn')?.addEventListener('click', () => loadJobs(currentPage));
     document.getElementById('jobs-prev-btn')?.addEventListener('click', () => { if (currentPage > 1) loadJobs(currentPage - 1); });
     document.getElementById('jobs-next-btn')?.addEventListener('click', () => loadJobs(currentPage + 1));
-
-    // Job Modal
-    function showJobModal(job) {
-      document.getElementById('modal-job-title').textContent = job.title || 'Job Details';
-      document.getElementById('modal-job-comp').textContent = `${job.company || ''} • ${job.job_id || ''}`;
-      document.getElementById('modal-job-platform').textContent = job.platform || '-';
-      document.getElementById('modal-job-status').textContent = job.status || '-';
-      document.getElementById('modal-job-location').textContent = job.location || '-';
-      document.getElementById('modal-job-date').textContent = job.created_at || '-';
-      document.getElementById('modal-job-notes').textContent = job.salary_notes || job.notes || 'None recorded';
-
-      const shotWrap = document.getElementById('modal-screenshot-wrap');
-      const shotImg = document.getElementById('modal-screenshot-img');
-      if (job.screenshot) {
-        const fname = job.screenshot.split('/').pop().split('\\\\').pop();
-        shotImg.src = `/api/screenshot/${fname}`;
-        shotWrap.style.display = 'block';
-      } else {
-        shotWrap.style.display = 'none';
-      }
-
-      document.getElementById('job-modal').classList.add('show');
-    }
-
-    document.getElementById('modal-close-btn').addEventListener('click', () => {
-      document.getElementById('job-modal').classList.remove('show');
-    });
 
     // Screenshots Gallery
     async function loadScreenshots() {
@@ -1444,9 +1778,343 @@
       alert('Recruiter pitch copied to clipboard!');
     });
 
+    // ==========================================
+    // KANBAN PIPELINE BOARD
+    // ==========================================
+    async function loadKanban() {
+      try {
+        const res = await fetch('/api/jobs?page=1&limit=100');
+        const data = await res.json();
+        const jobs = data.jobs || [];
+
+        const stages = {
+          applied: [],
+          reviewing: [],
+          interview: [],
+          offer: [],
+          archived: []
+        };
+
+        jobs.forEach(j => {
+          const s = (j.status || '').toLowerCase();
+          if (s === 'interview_scheduled' || s === 'interview') {
+            stages.interview.push(j);
+          } else if (s === 'offer') {
+            stages.offer.push(j);
+          } else if (s === 'reviewing' || s === 'needs_review') {
+            stages.reviewing.push(j);
+          } else if (s === 'archived' || s === 'rejected' || s === 'failed' || s === 'skipped') {
+            stages.archived.push(j);
+          } else {
+            stages.applied.push(j);
+          }
+        });
+
+        document.getElementById('count-applied').textContent = stages.applied.length;
+        document.getElementById('count-reviewing').textContent = stages.reviewing.length;
+        document.getElementById('count-interview').textContent = stages.interview.length;
+        document.getElementById('count-offer').textContent = stages.offer.length;
+        document.getElementById('count-archived').textContent = stages.archived.length;
+
+        function renderStageCards(stageId, jobList) {
+          const container = document.getElementById('cards-' + stageId);
+          if (!container) return;
+          container.innerHTML = '';
+          if (jobList.length === 0) {
+            container.innerHTML = '<div style="font-size: 11px; color: var(--fg-subtle); text-align: center; padding: 16px;">No jobs in this stage</div>';
+            return;
+          }
+          jobList.forEach(job => {
+            const card = document.createElement('div');
+            card.className = 'kanban-card';
+            card.innerHTML = `
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                <span class="kanban-card-title">${escapeHtml(job.title || '')}</span>
+                <span class="badge-cyan" style="font-size: 9px; padding: 2px 6px;">${escapeHtml(job.platform || '')}</span>
+              </div>
+              <div class="kanban-card-company">${escapeHtml(job.company || '')} ${job.location ? '• ' + escapeHtml(job.location) : ''}</div>
+              <div style="display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap;">
+                <button class="kanban-stage-btn" onclick='quickLaunchOutreach(${JSON.stringify(job).replace(/'/g, "&apos;")})'>✉️ Outreach</button>
+                <button class="kanban-stage-btn" onclick='quickLaunchPrep(${JSON.stringify(job).replace(/'/g, "&apos;")})'>🎯 Prep</button>
+                <button class="kanban-stage-btn" onclick='showJobModal(${JSON.stringify(job).replace(/'/g, "&apos;")})'>🔍 Inspect</button>
+              </div>
+              <div class="kanban-card-footer">
+                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--fg-subtle);">${job.created_at ? job.created_at.substring(0, 10) : ''}</span>
+                <select class="select-field" style="font-size: 10px; padding: 2px 4px; height: 22px;" onchange="updateJobStatus('${job.job_id}', this.value)">
+                  <option value="" disabled selected>Move stage...</option>
+                  <option value="applied">📥 Applied</option>
+                  <option value="reviewing">🧐 In Review</option>
+                  <option value="interview_scheduled">📅 Interview</option>
+                  <option value="offer">🏆 Offer</option>
+                  <option value="archived">📦 Archive</option>
+                </select>
+              </div>
+            `;
+            container.appendChild(card);
+          });
+        }
+
+        renderStageCards('applied', stages.applied);
+        renderStageCards('reviewing', stages.reviewing);
+        renderStageCards('interview', stages.interview);
+        renderStageCards('offer', stages.offer);
+        renderStageCards('archived', stages.archived);
+      } catch (e) {
+        console.error('Failed to load kanban:', e);
+      }
+    }
+
+    async function updateJobStatus(jobId, newStatus) {
+      try {
+        const res = await fetch('/api/jobs/update-status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ job_id: jobId, status: newStatus })
+        });
+        const data = await res.json();
+        if (data.success) {
+          loadKanban();
+          loadStats();
+        } else {
+          alert('Failed to update status: ' + (data.error || 'Unknown error'));
+        }
+      } catch (e) {
+        alert('Error updating status: ' + e);
+      }
+    }
+
+    window.quickLaunchOutreach = function(job) {
+      const tabBtn = document.querySelector('[data-tab="tab-outreach"]');
+      if (tabBtn) tabBtn.click();
+      document.getElementById('outreach-company').value = job.company || '';
+      document.getElementById('outreach-title').value = job.title || 'Senior Software Engineer';
+      document.getElementById('outreach-name').value = job.hiring_manager_name || '';
+      document.getElementById('btn-generate-outreach')?.click();
+    };
+
+    window.quickLaunchPrep = function(job) {
+      const tabBtn = document.querySelector('[data-tab="tab-prep"]');
+      if (tabBtn) tabBtn.click();
+      document.getElementById('prep-company').value = job.company || '';
+      document.getElementById('prep-title').value = job.title || 'Senior Software Engineer';
+      document.getElementById('prep-jd').value = job.job_description || '';
+      document.getElementById('btn-generate-prep')?.click();
+    };
+
+    document.getElementById('btn-kanban-refresh')?.addEventListener('click', () => loadKanban());
+
+    document.getElementById('btn-kanban-dedup')?.addEventListener('click', async () => {
+      const banner = document.getElementById('kanban-dedup-banner');
+      const list = document.getElementById('kanban-dedup-list');
+      list.innerHTML = 'Scanning database for cross-platform duplicates...';
+      banner.style.display = 'block';
+
+      try {
+        const res = await fetch('/api/dedup/audit');
+        const data = await res.json();
+        if (!data.groups || data.groups.length === 0) {
+          list.innerHTML = '<span style="color: #4ade80;">✅ Zero cross-platform duplicates found! Your job database is clean.</span>';
+        } else {
+          list.innerHTML = `<div style="margin-bottom: 8px; font-weight: 600; color: #fbbf24;">⚠️ Found ${data.total_duplicate_groups} potential duplicate groups:</div>` +
+            data.groups.map((g, i) => `
+              <div style="background: var(--bg-elev-1); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; margin-bottom: 6px;">
+                <strong>#${i + 1} Primary:</strong> '${escapeHtml(g.primary.title)}' @ ${escapeHtml(g.primary.company)} [${(g.primary.platform||'').toUpperCase()}] (${g.primary.status})
+                <div style="margin-left: 12px; font-size: 12px; color: var(--fg-subtle);">
+                  ↳ Matches: ${g.duplicates.map(d => `'${escapeHtml(d.title)}' [${(d.platform||'').toUpperCase()}]`).join(', ')}
+                </div>
+              </div>
+            `).join('');
+        }
+      } catch (e) {
+        list.innerHTML = '<span style="color: #f43f5e;">Failed to run audit: ' + e + '</span>';
+      }
+    });
+
+    // ==========================================
+    // RECRUITER OUTREACH SYNTHESIZER
+    // ==========================================
+    document.getElementById('btn-generate-outreach')?.addEventListener('click', async () => {
+      const comp = document.getElementById('outreach-company').value.trim();
+      const title = document.getElementById('outreach-title').value.trim() || 'Senior Software Engineer';
+      const name = document.getElementById('outreach-name').value.trim();
+      const btn = document.getElementById('btn-generate-outreach');
+
+      if (!comp) {
+        alert('Please enter a target company name.');
+        return;
+      }
+
+      const origText = btn.innerHTML;
+      btn.innerHTML = '<span>⏳</span> Synthesizing Outreach Kit...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/outreach/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ company: comp, job_title: title, target_name: name })
+        });
+        const data = await res.json();
+
+        document.getElementById('outreach-results').style.display = 'block';
+        document.getElementById('outreach-domain-txt').textContent = data.predicted_domain || '';
+
+        // Emails
+        const emailsWrap = document.getElementById('outreach-emails-list');
+        emailsWrap.innerHTML = (data.email_permutations || []).map(em => `
+          <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-elev-1); border: 1px solid var(--border); padding: 8px 12px; border-radius: 6px;">
+            <code style="font-family: var(--font-mono); font-size: 12px; color: var(--brand-cyan);">${escapeHtml(em)}</code>
+            <button class="btn-ghost" style="font-size: 11px; padding: 2px 8px;" onclick="navigator.clipboard.writeText('${escapeHtml(em)}'); alert('Email copied!');">📋 Copy</button>
+          </div>
+        `).join('') || '<span style="color: var(--fg-subtle); font-size: 12px;">No email permutations generated.</span>';
+
+        // Search Queries
+        const queriesWrap = document.getElementById('outreach-queries-list');
+        queriesWrap.innerHTML = (data.talent_discovery_queries || []).map(q => `
+          <div style="background: var(--bg-elev-1); border: 1px solid var(--border); padding: 8px 12px; border-radius: 6px;">
+            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 4px;">${escapeHtml(q.channel)}: ${escapeHtml(q.label)}</div>
+            <a href="${q.search_url}" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; font-size: 12px; text-decoration: none; word-break: break-all;">
+              🔗 ${escapeHtml(q.query)}
+            </a>
+          </div>
+        `).join('') || '<span style="color: var(--fg-subtle); font-size: 12px;">No search queries generated.</span>';
+
+        // 3 Email Templates
+        const templatesWrap = document.getElementById('outreach-templates-grid');
+        templatesWrap.innerHTML = (data.email_frameworks || []).map((t, idx) => `
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border-top: 3px solid ${idx === 0 ? 'var(--brand-orange)' : (idx === 1 ? 'var(--brand-cyan)' : '#a855f7')};">
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: var(--brand-cyan); text-transform: uppercase; margin-bottom: 4px;">FRAMEWORK #${idx + 1}</div>
+              <h5 style="font-family: var(--font-display); font-size: 15px; margin-bottom: 8px;">${escapeHtml(t.name)}</h5>
+              <div style="font-size: 11px; color: var(--fg-subtle); margin-bottom: 12px;">Target: ${escapeHtml(t.ideal_target)}</div>
+              <div style="font-size: 12px; font-weight: 600; color: var(--fg); margin-bottom: 6px;">Subject: ${escapeHtml(t.subject)}</div>
+              <div style="background: var(--bg-elev-1); border: 1px solid var(--border); border-radius: 6px; padding: 10px; font-size: 12px; line-height: 1.5; color: var(--fg-muted); white-space: pre-wrap; max-height: 240px; overflow-y: auto; margin-bottom: 12px;">${escapeHtml(t.body)}</div>
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 12px;">
+              <button class="btn-ghost" style="flex: 1; font-size: 11px;" onclick="navigator.clipboard.writeText('${escapeHtml(t.body.replace(/'/g, "\\'"))}'); alert('Email copied!');">📋 Copy</button>
+              <a href="${t.mailto_link}" class="btn-orange" style="flex: 1; font-size: 11px; text-align: center; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">🚀 Launch</a>
+            </div>
+          </div>
+        `).join('');
+
+        document.getElementById('outreach-results').scrollIntoView({ behavior: 'smooth' });
+      } catch (e) {
+        alert('Outreach synthesis failed: ' + e);
+      } finally {
+        btn.innerHTML = origText;
+        btn.disabled = false;
+      }
+    });
+
+    // ==========================================
+    // INTERVIEW PREP & STAR SIMULATOR
+    // ==========================================
+    document.getElementById('btn-generate-prep')?.addEventListener('click', async () => {
+      const comp = document.getElementById('prep-company').value.trim();
+      const title = document.getElementById('prep-title').value.trim() || 'Senior Software Engineer';
+      const jd = document.getElementById('prep-jd').value.trim();
+      const btn = document.getElementById('btn-generate-prep');
+
+      if (!comp) {
+        alert('Please enter a target company name.');
+        return;
+      }
+
+      const origText = btn.innerHTML;
+      btn.innerHTML = '<span>⏳</span> Synthesizing Prep Kit...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/interview/prep', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ company: comp, job_title: title, job_description: jd })
+        });
+        const data = await res.json();
+
+        document.getElementById('prep-results').style.display = 'block';
+        document.getElementById('prep-focus-summary').textContent = data.role_focus_summary || '';
+
+        // System design
+        const sd = data.system_design_challenge || {};
+        document.getElementById('prep-system-design').innerHTML = `
+          <h5 style="font-size: 15px; font-weight: 700; color: var(--fg); margin-bottom: 6px;">${escapeHtml(sd.title || 'System Design Challenge')}</h5>
+          <p style="margin-bottom: 10px;">${escapeHtml(sd.problem_statement || '')}</p>
+          <div style="margin-bottom: 10px;">
+            <strong style="color: var(--brand-cyan); font-size: 12px; font-family: var(--font-mono); display: block; margin-bottom: 4px;">SCALE REQUIREMENTS:</strong>
+            <ul style="margin-left: 20px;">${(sd.scale_requirements || []).map(r => `<li>${escapeHtml(r)}</li>`).join('')}</ul>
+          </div>
+          <div style="margin-bottom: 10px;">
+            <strong style="color: #fbbf24; font-size: 12px; font-family: var(--font-mono); display: block; margin-bottom: 4px;">HIGH-LEVEL ARCHITECTURE:</strong>
+            <ul style="margin-left: 20px;">${(sd.high_level_architecture || []).map(r => `<li>${escapeHtml(r)}</li>`).join('')}</ul>
+          </div>
+          <div>
+            <strong style="color: #f43f5e; font-size: 12px; font-family: var(--font-mono); display: block; margin-bottom: 4px;">KEY TRADE-OFFS & BOTTLENECK MITIGATION:</strong>
+            <ul style="margin-left: 20px;">${(sd.key_tradeoffs || []).map(r => `<li>${escapeHtml(r)}</li>`).join('')}</ul>
+          </div>
+        `;
+
+        // Technical drills
+        const drillsWrap = document.getElementById('prep-drills-list');
+        drillsWrap.innerHTML = (data.technical_drills || []).map((dr, idx) => `
+          <div style="background: var(--bg-elev-1); border: 1px solid var(--border); border-radius: var(--radius-control); padding: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+              <span style="font-family: var(--font-mono); font-size: 11px; color: var(--brand-cyan);">QUESTION #${idx + 1} • ${escapeHtml(dr.topic || '')}</span>
+            </div>
+            <p style="font-weight: 600; font-size: 13px; color: var(--fg); margin-bottom: 8px;">${escapeHtml(dr.question || '')}</p>
+            <details style="font-size: 12px; color: var(--fg-muted); cursor: pointer;">
+              <summary style="color: #4ade80; font-family: var(--font-mono); font-size: 11px; margin-bottom: 6px;">💡 View Solution Rubric & Key Points</summary>
+              <div style="background: rgba(0,0,0,0.3); border-radius: 4px; padding: 10px; margin-top: 6px; line-height: 1.5; white-space: pre-wrap;">${escapeHtml(dr.ideal_answer_rubric || '')}</div>
+            </details>
+          </div>
+        `).join('');
+
+        // STAR Stories
+        const starWrap = document.getElementById('prep-star-list');
+        starWrap.innerHTML = (data.behavioral_star_stories || []).map((st, idx) => `
+          <div style="background: var(--bg-elev-1); border: 1px solid var(--border); border-radius: var(--radius-control); padding: 14px;">
+            <div style="font-family: var(--font-mono); font-size: 11px; color: #a855f7; margin-bottom: 4px;">COMPETENCY: ${escapeHtml(st.competency || '')}</div>
+            <h5 style="font-size: 14px; font-weight: 700; color: var(--fg); margin-bottom: 10px;">${escapeHtml(st.story_title || '')}</h5>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; font-size: 12px; line-height: 1.4;">
+              <div style="background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; border-left: 2px solid #60a5fa;">
+                <strong style="color: #60a5fa; display: block; font-family: var(--font-mono); font-size: 10px; margin-bottom: 4px;">SITUATION</strong>
+                ${escapeHtml(st.situation || '')}
+              </div>
+              <div style="background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; border-left: 2px solid #fbbf24;">
+                <strong style="color: #fbbf24; display: block; font-family: var(--font-mono); font-size: 10px; margin-bottom: 4px;">TASK</strong>
+                ${escapeHtml(st.task || '')}
+              </div>
+              <div style="background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; border-left: 2px solid #a855f7;">
+                <strong style="color: #a855f7; display: block; font-family: var(--font-mono); font-size: 10px; margin-bottom: 4px;">ACTION</strong>
+                ${escapeHtml(st.action || '')}
+              </div>
+              <div style="background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; border-left: 2px solid #4ade80;">
+                <strong style="color: #4ade80; display: block; font-family: var(--font-mono); font-size: 10px; margin-bottom: 4px;">RESULT</strong>
+                ${escapeHtml(st.result || '')}
+              </div>
+            </div>
+          </div>
+        `).join('');
+
+        // Reverse questions
+        const revWrap = document.getElementById('prep-reverse-list');
+        revWrap.innerHTML = (data.reverse_interview_questions || []).map(q => `
+          <li style="margin-bottom: 6px;">${escapeHtml(q)}</li>
+        `).join('');
+
+        document.getElementById('prep-results').scrollIntoView({ behavior: 'smooth' });
+      } catch (e) {
+        alert('Interview prep synthesis failed: ' + e);
+      } finally {
+        btn.innerHTML = origText;
+        btn.disabled = false;
+      }
+    });
+
     // Initial Load
     loadStats();
     loadAutopilotStatus();
+    loadKanban();
   </script>
 </body>
 </html>

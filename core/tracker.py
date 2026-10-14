@@ -183,11 +183,24 @@ class ApplicationTracker:
             status = self.applied_cache[str(job_id)].get("status")
             if status in ("applied", "dry_run_completed"):
                 return True
+
+        # Exact match
         key = f"{job_title.strip().lower()}@@@{company.strip().lower()}"
         for entry in self.applied_cache.values():
             entry_key = f"{entry.get('title', '').strip().lower()}@@@{entry.get('company', '').strip().lower()}"
             if key == entry_key and entry.get("status") in ("applied", "dry_run_completed"):
                 return True
+
+        # Fuzzy cross-platform match
+        if job_title and company:
+            from core.smart_dedup import smart_deduplicator
+            for entry in self.applied_cache.values():
+                if entry.get("status") in ("applied", "dry_run_completed"):
+                    if smart_deduplicator.is_match(
+                        job_title, company,
+                        entry.get("title", ""), entry.get("company", "")
+                    ):
+                        return True
         return False
 
     def record_application(
