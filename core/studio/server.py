@@ -173,6 +173,47 @@ class StudioRequestHandler(BaseHTTPRequestHandler):
             self.send_json(autopilot.get_status())
             return
 
+        # API: Pipeline Analytics & Insights
+        if path == "/api/analytics":
+            from core.analytics_exporter import analytics_exporter
+            self.send_json(analytics_exporter.get_analytics_summary())
+            return
+
+        # API: Export Applications (CSV / JSON / Markdown download)
+        if path == "/api/export":
+            from core.analytics_exporter import analytics_exporter
+            fmt = query.get("format", ["csv"])[0].lower()
+            if fmt == "json":
+                out_path = analytics_exporter.export_json()
+                content = Path(out_path).read_bytes()
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.send_header("Content-Disposition", 'attachment; filename="applications_export.json"')
+                self.send_header("Content-Length", str(len(content)))
+                self.end_headers()
+                self.wfile.write(content)
+                return
+            elif fmt in ("markdown", "md"):
+                out_path = analytics_exporter.export_markdown()
+                content = Path(out_path).read_bytes()
+                self.send_response(200)
+                self.send_header("Content-Type", "text/markdown; charset=utf-8")
+                self.send_header("Content-Disposition", 'attachment; filename="applications_report.md"')
+                self.send_header("Content-Length", str(len(content)))
+                self.end_headers()
+                self.wfile.write(content)
+                return
+            else:
+                out_path = analytics_exporter.export_csv()
+                content = Path(out_path).read_bytes()
+                self.send_response(200)
+                self.send_header("Content-Type", "text/csv; charset=utf-8")
+                self.send_header("Content-Disposition", 'attachment; filename="applications_export.csv"')
+                self.send_header("Content-Length", str(len(content)))
+                self.end_headers()
+                self.wfile.write(content)
+                return
+
         self.send_json({"error": "Not Found", "path": path}, 404)
 
     def do_POST(self):
@@ -188,6 +229,36 @@ class StudioRequestHandler(BaseHTTPRequestHandler):
             except Exception as e:
                 self.send_json({"error": f"Invalid JSON payload: {e}"}, 400)
                 return
+
+        # API: ATS Resume Tailoring
+        if path == "/api/resume/tailor":
+            from core.resume_tailor import resume_tailor
+            job_title = body_data.get("job_title", "Software Engineer")
+            company = body_data.get("company", "Tech Company")
+            job_description = body_data.get("job_description", "")
+            target_role = body_data.get("target_role")
+            job_id = body_data.get("job_id")
+            if job_id and not job_description:
+                try:
+                    conn = sqlite3.connect(DB_PATH)
+                    c = conn.cursor()
+                    c.execute("SELECT title, company, job_description FROM applications WHERE job_id = ? LIMIT 1", (job_id,))
+                    row = c.fetchone()
+                    conn.close()
+                    if row:
+                        job_title = job_title or row[0]
+                        company = company or row[1]
+                        job_description = row[2] or ""
+                except Exception:
+                    pass
+            report = resume_tailor.tailor_for_job(
+                job_title=job_title,
+                job_description=job_description,
+                company=company,
+                target_role=target_role
+            )
+            self.send_json(report.to_dict())
+            return
 
         # API: Auto-Pilot Start
         if path == "/api/autopilot/start":

@@ -28,6 +28,8 @@ jobs.db
 jobs.db-journal
 applied_jobs.csv
 applied_jobs.json
+applications_export.*
+applications_report.md
 
 # Screenshots & Verification Media
 screenshots/

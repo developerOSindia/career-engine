@@ -331,6 +331,7 @@
       <button class="tab-btn active" data-tab="tab-dashboard">Dashboard</button>
       <button class="tab-btn" data-tab="tab-autopilot">Auto-Pilot</button>
       <button class="tab-btn" data-tab="tab-jobs">Applications</button>
+      <button class="tab-btn" data-tab="tab-tailor">Resume Tailor</button>
       <button class="tab-btn" data-tab="tab-runner">Run Engine</button>
       <button class="tab-btn" data-tab="tab-screenshots">Screenshots</button>
       <button class="tab-btn" data-tab="tab-profile">Profile & Memory</button>
@@ -465,7 +466,7 @@
         </div>
         <div>
           <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">TARGET PLATFORMS (ROUND-ROBIN)</label>
-          <div style="display: flex; gap: 20px; align-items: center; font-size: 13px;">
+          <div style="display: flex; gap: 20px; align-items: center; font-size: 13px; flex-wrap: wrap;">
             <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
               <input type="checkbox" id="ap-plat-linkedin" checked> LinkedIn
             </label>
@@ -477,6 +478,15 @@
             </label>
             <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
               <input type="checkbox" id="ap-plat-instahyre" checked> Instahyre
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" id="ap-plat-indeed" checked> Indeed
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" id="ap-plat-glassdoor" checked> Glassdoor
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" id="ap-plat-foundit" checked> Foundit
             </label>
           </div>
         </div>
@@ -514,6 +524,9 @@
           <option value="naukri">Naukri</option>
           <option value="instahyre">Instahyre</option>
           <option value="wellfound">Wellfound</option>
+          <option value="indeed">Indeed</option>
+          <option value="glassdoor">Glassdoor</option>
+          <option value="foundit">Foundit</option>
         </select>
         <select id="jobs-status-select" class="select-field">
           <option value="all">All Statuses</option>
@@ -523,6 +536,7 @@
           <option value="failed">Failed</option>
         </select>
         <button id="jobs-refresh-btn" class="btn-ghost">Refresh</button>
+        <button id="btn-export-csv" class="btn-orange" style="display: inline-flex; align-items: center; gap: 6px;">📥 Export CSV</button>
       </div>
 
       <div class="data-table-wrap">
@@ -566,6 +580,9 @@
               <option value="naukri">Naukri Quick Apply</option>
               <option value="instahyre">Instahyre Opportunities</option>
               <option value="wellfound">Wellfound Startups</option>
+              <option value="indeed">Indeed Easily Apply</option>
+              <option value="glassdoor">Glassdoor Easy Apply</option>
+              <option value="foundit">Foundit Monster India</option>
             </select>
           </div>
           <div>
@@ -698,6 +715,128 @@
         <textarea id="profile-json-editor" style="width: 100%; height: 500px; background: #020407; border: 1px solid var(--border); border-radius: 8px; color: #67e8f9; font-family: var(--font-mono); font-size: 12px; padding: 16px; outline: none;"></textarea>
       </div>
     </section>
+
+    <!-- VIEW 6: RESUME TAILOR & ATS KEYWORD OPTIMIZER -->
+    <section id="tab-tailor" class="view-section">
+      <div class="card" style="border-left: 4px solid var(--brand-cyan); margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 800; margin: 0 0 6px 0;">ATS Resume Keyword Tailor & Achievement Bullet Synthesizer</h3>
+            <p style="font-size: 13px; color: var(--fg-muted); margin: 0;">
+              Audits any Job Description against your candidate profile, reveals keyword match gaps, and synthesizes Google XYZ-format bullets and recruiter pitch notes.
+            </p>
+          </div>
+          <span class="badge-cyan">AI-POWERED TAILORING</span>
+        </div>
+      </div>
+
+      <!-- Input Form Card -->
+      <div class="card" style="margin-bottom: 24px;">
+        <h4 style="font-family: var(--font-display); font-size: 16px; margin-bottom: 16px;">Target Opportunity Details</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">JOB TITLE</label>
+            <input type="text" id="tailor-title-input" class="input-field" placeholder="e.g. Senior Data Engineer" style="width: 100%;">
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">COMPANY NAME</label>
+            <input type="text" id="tailor-company-input" class="input-field" placeholder="e.g. Stripe / Databricks" style="width: 100%;">
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">ROLE TRACK OVERRIDE</label>
+            <select id="tailor-role-select" class="select-field" style="width: 100%;">
+              <option value="">Auto-Detect from Title</option>
+              <option value="data_engineering">Data Engineering (_DE)</option>
+              <option value="data_science">Data Science (_DS)</option>
+              <option value="ai_engineer">AI & LLM Systems (_AI)</option>
+              <option value="software_engineering">Software Engineering (_SWE)</option>
+              <option value="mlops">MLOps & Infrastructure (_MLOps)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">PASTE JOB DESCRIPTION</label>
+          <textarea id="tailor-jd-input" class="input-field" style="width: 100%; height: 160px; font-family: var(--font-sans); font-size: 13px; line-height: 1.5; resize: vertical;" placeholder="Paste the job description, technical requirements, or key responsibilities here..."></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <span style="font-size: 12px; color: var(--fg-subtle);">Or load from applied job:</span>
+            <select id="tailor-saved-jobs-select" class="select-field" style="max-width: 280px;">
+              <option value="">-- Choose tracked application --</option>
+            </select>
+          </div>
+          <button id="btn-run-tailor" class="btn-orange" style="display: inline-flex; align-items: center; gap: 8px;">
+            <span>🚀</span> Generate Tailored Bullets & Pitch
+          </button>
+        </div>
+      </div>
+
+      <!-- Output Results Card (Hidden until tailored) -->
+      <div id="tailor-results-container" style="display: none;">
+        <!-- Scores & Resumes Banner -->
+        <div class="stats-grid" style="margin-bottom: 24px;">
+          <div class="stat-box">
+            <span class="stat-label">Baseline ATS Fit</span>
+            <span class="stat-val" id="tailor-score-baseline" style="color: #f59e0b;">--%</span>
+            <span style="font-size: 11px; color: var(--fg-subtle);">Without tailoring</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Optimized ATS Score</span>
+            <span class="stat-val" id="tailor-score-optimized" style="color: #4ade80;">--%</span>
+            <span style="font-size: 11px; color: #4ade80;">With synthesized bullets</span>
+          </div>
+          <div class="stat-box" style="grid-column: span 2;">
+            <span class="stat-label">Recommended Resume Variant</span>
+            <div id="tailor-recommended-resume" style="font-family: var(--font-mono); font-size: 14px; color: var(--brand-cyan); margin-top: 4px; font-weight: 600;">--</div>
+            <span id="tailor-target-track" style="font-size: 11px; color: var(--fg-subtle);">Target track: --</span>
+          </div>
+        </div>
+
+        <!-- Keyword Match Breakdown -->
+        <div class="card" style="margin-bottom: 24px;">
+          <h4 style="font-family: var(--font-display); font-size: 16px; margin-bottom: 16px;">Keyword Intelligence Audit</h4>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #4ade80; text-transform: uppercase; margin-bottom: 8px;">✓ Verified Matching Skills</div>
+              <div id="tailor-matched-skills" style="display: flex; flex-wrap: wrap; gap: 6px;"></div>
+            </div>
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #fbbf24; text-transform: uppercase; margin-bottom: 8px;">⚠️ Missing High-Priority Keywords</div>
+              <div id="tailor-missing-keywords" style="display: flex; flex-wrap: wrap; gap: 6px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Synthesized XYZ Bullets -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div>
+              <h4 style="font-family: var(--font-display); font-size: 16px; margin: 0 0 4px 0;">Tailored Achievement Bullets (XYZ Format)</h4>
+              <p style="font-size: 12px; color: var(--fg-subtle); margin: 0;">Copy these into your resume under your most recent role to immediately boost ATS matching.</p>
+            </div>
+            <button id="btn-copy-all-bullets" class="btn-ghost" style="font-size: 12px;">📋 Copy All</button>
+          </div>
+          <div id="tailor-bullets-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
+        </div>
+
+        <!-- Recruiter Pitch Note -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h4 style="font-family: var(--font-display); font-size: 16px; margin: 0;">Personalized Recruiter Outreach Pitch</h4>
+            <button id="btn-copy-pitch" class="btn-ghost" style="font-size: 12px;">📋 Copy Pitch</button>
+          </div>
+          <div id="tailor-pitch-text" style="background: var(--bg-elev-1); border: 1px solid var(--border); border-radius: var(--radius-control); padding: 16px; font-size: 13px; line-height: 1.6; color: var(--fg-muted);"></div>
+        </div>
+
+        <!-- ATS Optimization Tips -->
+        <div class="card" style="background: rgba(6, 182, 212, 0.05); border: 1px solid rgba(6, 182, 212, 0.2);">
+          <h4 style="font-family: var(--font-mono); font-size: 12px; color: var(--brand-cyan); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">💡 Strategic ATS Submission Tips</h4>
+          <ul id="tailor-tips-list" style="margin-left: 20px; font-size: 13px; color: var(--fg-muted); line-height: 1.6;"></ul>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Job Details Modal -->
@@ -741,6 +880,7 @@
 
         if (btn.getAttribute('data-tab') === 'tab-jobs') loadJobs(1);
         if (btn.getAttribute('data-tab') === 'tab-autopilot') loadAutopilotStatus();
+        if (btn.getAttribute('data-tab') === 'tab-tailor') loadTailorPresets();
         if (btn.getAttribute('data-tab') === 'tab-screenshots') loadScreenshots();
         if (btn.getAttribute('data-tab') === 'tab-profile') loadProfile();
       });
@@ -1125,15 +1265,23 @@
       }
     }
 
+    // Export Applications CSV
+    document.getElementById('btn-export-csv')?.addEventListener('click', () => {
+      window.location.href = '/api/export?format=csv';
+    });
+
     document.getElementById('btn-start-autopilot')?.addEventListener('click', async () => {
       const daily_limit = parseInt(document.getElementById('ap-input-limit').value, 10);
       const interval_minutes = parseInt(document.getElementById('ap-input-interval').value, 10);
       const mode = document.getElementById('ap-input-mode').value;
       const platforms = [];
-      if (document.getElementById('ap-plat-linkedin').checked) platforms.push('linkedin');
-      if (document.getElementById('ap-plat-naukri').checked) platforms.push('naukri');
-      if (document.getElementById('ap-plat-wellfound').checked) platforms.push('wellfound');
-      if (document.getElementById('ap-plat-instahyre').checked) platforms.push('instahyre');
+      if (document.getElementById('ap-plat-linkedin')?.checked) platforms.push('linkedin');
+      if (document.getElementById('ap-plat-naukri')?.checked) platforms.push('naukri');
+      if (document.getElementById('ap-plat-wellfound')?.checked) platforms.push('wellfound');
+      if (document.getElementById('ap-plat-instahyre')?.checked) platforms.push('instahyre');
+      if (document.getElementById('ap-plat-indeed')?.checked) platforms.push('indeed');
+      if (document.getElementById('ap-plat-glassdoor')?.checked) platforms.push('glassdoor');
+      if (document.getElementById('ap-plat-foundit')?.checked) platforms.push('foundit');
 
       try {
         const res = await fetch('/api/autopilot/start', {
@@ -1155,6 +1303,145 @@
       } catch (e) {
         alert('Failed to stop Auto-Pilot: ' + e);
       }
+    });
+
+    // Resume Tailor Client Logic
+    let cachedTailoredReport = null;
+
+    async function loadTailorPresets() {
+      try {
+        const res = await fetch('/api/jobs?limit=50');
+        const data = await res.json();
+        const sel = document.getElementById('tailor-saved-jobs-select');
+        if (sel && data.jobs) {
+          sel.innerHTML = '<option value="">-- Choose tracked application --</option>';
+          data.jobs.forEach(j => {
+            const opt = document.createElement('option');
+            opt.value = j.job_id || j.id;
+            opt.textContent = `${j.title} @ ${j.company} (${(j.platform || '').toUpperCase()})`;
+            opt.dataset.title = j.title || '';
+            opt.dataset.company = j.company || '';
+            opt.dataset.notes = j.notes || '';
+            opt.dataset.jd = j.job_description || '';
+            sel.appendChild(opt);
+          });
+        }
+      } catch (e) {
+        console.error('Failed to load tailor presets:', e);
+      }
+    }
+
+    document.getElementById('tailor-saved-jobs-select')?.addEventListener('change', (e) => {
+      const opt = e.target.selectedOptions[0];
+      if (opt && opt.value) {
+        document.getElementById('tailor-title-input').value = opt.dataset.title || '';
+        document.getElementById('tailor-company-input').value = opt.dataset.company || '';
+        if (opt.dataset.jd) {
+          document.getElementById('tailor-jd-input').value = opt.dataset.jd;
+        } else if (opt.dataset.notes) {
+          document.getElementById('tailor-jd-input').value = opt.dataset.notes;
+        }
+      }
+    });
+
+    document.getElementById('btn-run-tailor')?.addEventListener('click', async () => {
+      const title = document.getElementById('tailor-title-input').value.trim();
+      const company = document.getElementById('tailor-company-input').value.trim();
+      const target_role = document.getElementById('tailor-role-select').value;
+      const jd = document.getElementById('tailor-jd-input').value.trim();
+      const btn = document.getElementById('btn-run-tailor');
+
+      if (!title && !jd) {
+        alert('Please provide a Job Title or paste the Job Description.');
+        return;
+      }
+
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span>⏳</span> Synthesizing Tailored Bullets...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/resume/tailor', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            job_title: title,
+            company: company,
+            job_description: jd,
+            target_role: target_role || undefined
+          })
+        });
+        const data = await res.json();
+        cachedTailoredReport = data;
+
+        // Render output
+        document.getElementById('tailor-results-container').style.display = 'block';
+        document.getElementById('tailor-score-baseline').textContent = data.baseline_ats_score + '%';
+        document.getElementById('tailor-score-optimized').textContent = data.optimized_ats_score + '%';
+        document.getElementById('tailor-recommended-resume').textContent = '📄 ' + data.recommended_resume_file;
+        document.getElementById('tailor-target-track').textContent = 'Target role tag: ' + data.target_role_tag;
+
+        // Matching skills
+        const matchWrap = document.getElementById('tailor-matched-skills');
+        matchWrap.innerHTML = (data.matched_skills || []).map(s => `
+          <span style="font-family: var(--font-mono); font-size: 11px; color: #4ade80; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 3px 8px; border-radius: 4px;">
+            ✓ ${escapeHtml(s)}
+          </span>
+        `).join('') || '<span style="color: var(--fg-subtle); font-size: 12px;">No direct keyword matches detected.</span>';
+
+        // Missing keywords
+        const missWrap = document.getElementById('tailor-missing-keywords');
+        missWrap.innerHTML = (data.missing_critical_keywords || []).map(s => `
+          <span style="font-family: var(--font-mono); font-size: 11px; color: #fbbf24; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); padding: 3px 8px; border-radius: 4px;">
+            ⚠️ ${escapeHtml(s)}
+          </span>
+        `).join('') || '<span style="color: #4ade80; font-size: 12px;">Full keyword coverage achieved!</span>';
+
+        // Achievement bullets
+        const bulletsWrap = document.getElementById('tailor-bullets-list');
+        bulletsWrap.innerHTML = (data.tailored_achievement_bullets || []).map((b, i) => `
+          <div style="background: var(--bg-elev-1); border: 1px solid var(--border); border-radius: var(--radius-control); padding: 14px; position: relative;">
+            <div style="font-size: 11px; font-family: var(--font-mono); color: var(--brand-cyan); margin-bottom: 6px;">
+              BULLET #${i + 1} (GOOGLE XYZ FORMAT)
+            </div>
+            <p style="font-size: 13px; line-height: 1.5; color: var(--fg); margin: 0 0 10px 0;">${escapeHtml(b)}</p>
+            <button class="btn-ghost" style="font-size: 11px; padding: 3px 8px;" onclick="navigator.clipboard.writeText('${escapeHtml(b.replace(/'/g, "\\'"))}'); alert('Bullet #${i + 1} copied!');">
+              📋 Copy Bullet
+            </button>
+          </div>
+        `).join('');
+
+        // Pitch Note
+        document.getElementById('tailor-pitch-text').textContent = data.bespoke_pitch_note || '';
+
+        // Tips
+        const tipsWrap = document.getElementById('tailor-tips-list');
+        tipsWrap.innerHTML = (data.actionable_ats_tips || []).map(t => `
+          <li style="margin-bottom: 4px;">${escapeHtml(t)}</li>
+        `).join('');
+
+        // Scroll smoothly to results
+        document.getElementById('tailor-results-container').scrollIntoView({ behavior: 'smooth' });
+      } catch (e) {
+        alert('Tailoring request failed: ' + e);
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    });
+
+    document.getElementById('btn-copy-all-bullets')?.addEventListener('click', () => {
+      if (!cachedTailoredReport || !cachedTailoredReport.tailored_achievement_bullets) return;
+      const text = cachedTailoredReport.tailored_achievement_bullets.map(b => '• ' + b).join('\n\n');
+      navigator.clipboard.writeText(text);
+      alert('All tailored bullets copied to clipboard!');
+    });
+
+    document.getElementById('btn-copy-pitch')?.addEventListener('click', () => {
+      const pitch = document.getElementById('tailor-pitch-text').textContent;
+      if (!pitch) return;
+      navigator.clipboard.writeText(pitch);
+      alert('Recruiter pitch copied to clipboard!');
     });
 
     // Initial Load

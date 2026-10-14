@@ -53,10 +53,23 @@ Automating job applications can breach the terms of service of platforms like Li
   - Analyzes the job title and description in real-time and attaches the best matching resume PDF from `resumes/` (`_DE`, `_DS`, `_AI`, `_SWE`, `_MLOps`).
 - **Recruiter InMail Auto-Reply Engine**:
   - Inspects incoming LinkedIn messaging threads and drafts personalized responses highlighting candidate strengths, confirmed notice period (e.g. 30 days), and expected compensation.
-- **Supported Platforms**:
-  - Pre-built connectors for **LinkedIn** (Easy Apply & InMail fully operational) and **Naukri** (Batch Quick Apply & Chatbot questions scaffolds ready; test with `--preview`).
+- **7 Fully Supported Platforms**:
+  - **LinkedIn**: Easy Apply automation, multi-step screening Q&A, and Recruiter InMail auto-responder.
+  - **Naukri**: Batch Quick Apply, keyword and location filtering, chatbot question solver.
+  - **Wellfound (AngelList)**: Startup opportunities with dynamic personalized cover pitch notes.
+  - **Instahyre**: Curated tech openings with automated compensation and experience solving.
+  - **Indeed**: Global and India Easily Apply modal automation, resume uploading, and dry-run preview verification.
+  - **Glassdoor**: Easy Apply automation, salary expectations, and screening form completion.
+  - **Foundit (Monster India)**: Quick Apply pipeline with instant dry-run audits and job card pagination.
+- **ATS Resume Keyword Tailor & Achievement Bullet Synthesizer**:
+  - Compares any Job Description against your candidate profile facts and role tags.
+  - Detects high-priority keyword gaps and calculates baseline vs optimized ATS match scores.
+  - Synthesizes 3-4 quantified Google/Amazon XYZ-format achievement bullets and bespoke recruiter outreach pitch notes via multi-provider AI (Claude, OpenAI, Gemini, NVIDIA).
+- **Application Pipeline Analytics & Multi-Format Exporter**:
+  - Computes conversion rates, daily velocity, platform distribution, and top targeted companies.
+  - Exports tracking history to standardized **CSV**, structured **JSON**, and executive **Markdown** reports.
 - **Relational Local History**:
-  - Stored in SQLite database (`jobs.db`) and exported to spreadsheet format (`applied_jobs.csv`).
+  - Stored in SQLite database (`jobs.db`) with preview screenshots saved in `screenshots/`.
 
 ---
 
@@ -215,14 +228,66 @@ python3 main.py apply --platform wellfound --live --limit 5
 python3 main.py apply --platform instahyre --dry-run --limit 5
 ```
 
-#### Apply to All Configured Platforms in Batch:
+#### Autonomous Applications on Indeed, Glassdoor & Foundit:
+```bash
+# Preview Indeed Easily Apply jobs in dry-run mode:
+python3 main.py apply --platform indeed --dry-run --limit 5
+
+# Live auto-submit Indeed applications:
+python3 main.py apply --platform indeed --live --limit 10
+
+# Preview Glassdoor Easy Apply jobs:
+python3 main.py apply --platform glassdoor --dry-run --limit 5
+
+# Preview Foundit (Monster India) Quick Apply jobs:
+python3 main.py apply --platform foundit --dry-run --limit 5
+```
+
+#### Apply to All 7 Supported Platforms in Round-Robin Batch:
 ```bash
 python3 main.py apply --platform all --dry-run --limit 10
 ```
 
 ---
 
-### 2. Local Web Studio Dashboard GUI (`studio`)
+### 2. ATS Resume Keyword Tailoring (`tailor`)
+
+Analyze any job description against your candidate profile facts, calculate baseline vs optimized ATS match scores, detect missing high-priority technical keywords, and synthesize 3-4 quantified Google/Amazon XYZ-format achievement bullets and personalized recruiter pitch notes:
+
+```bash
+# Tailor resume by pasting job description text:
+python3 main.py tailor --title "Senior Backend Engineer" --company "Stripe" --jd "Looking for Python, FastAPI, PostgreSQL, Distributed Systems, Redis, and Kubernetes..."
+
+# Tailor resume from a local JD text file:
+python3 main.py tailor --title "Lead Data Engineer" --company "Snowflake" --file path/to/job_description.txt
+
+# Tailor resume directly for an already tracked application in jobs.db:
+python3 main.py tailor --job-id "ind_104928"
+```
+
+---
+
+### 3. Application Pipeline Analytics & Export (`export` & `analytics`)
+
+Export your full job application history from SQLite (`jobs.db`) to standard formats for spreadsheet analysis or team sharing:
+
+```bash
+# Export all applications to CSV:
+python3 main.py export --format csv
+
+# Export to structured JSON:
+python3 main.py export --format json
+
+# Export an executive Markdown pipeline report:
+python3 main.py export --format markdown --output weekly_report.md
+
+# View real-time pipeline conversion rates and platform breakdown:
+python3 main.py analytics
+```
+
+---
+
+### 4. Local Web Studio Dashboard GUI (`studio`)
 
 Launch the zero-dependency developerOS Web Studio dashboard in your browser to inspect database metrics, preview form screenshots, manage candidate profile memory, and trigger CLI runs:
 
@@ -235,17 +300,18 @@ python3 main.py studio --port 8599 --host 127.0.0.1
 ```
 
 - **Dashboard**: Real-time KPI counters (`Applied`, `Dry Run Completed`, `Failed`), status breakdown, and recent applications.
-- **Applications Explorer**: Searchable, filterable table of every job record with direct URLs, salary notes, and timestamps.
-- **Run Orchestrator**: Select platform, mode (`Live` or `Dry Run`), and application limit with real-time terminal output streaming.
+- **Applications Explorer**: Searchable, filterable table of every job record with direct URLs, salary notes, timestamps, and 1-click **Export to CSV**.
+- **Resume Tailor**: Dedicated interactive ATS keyword optimizer, bullet generator, and recruiter pitch writer.
+- **Run Orchestrator**: Select platform (LinkedIn, Naukri, Wellfound, Instahyre, Indeed, Glassdoor, Foundit), mode (`Live` or `Dry Run`), and application limit with real-time terminal output streaming.
 - **Screenshot Lightbox**: Visual gallery of review screenshots captured during `--preview` and live runs.
 - **Profile JSON Editor**: Live viewer and editor for `profile_config.json` candidate facts and learned screening memory.
 - **100% On-Device**: Built natively on Python's standard library `ThreadingHTTPServer` with zero cloud telemetry or data leaks.
 
 ---
 
-### 3. Autonomous Auto-Pilot Mode (`auto`)
+### 5. Autonomous Auto-Pilot Mode (`auto`)
 
-Run CareerEngine on autonomous background auto-pilot with human circadian pacing, daily safety quota limits, multi-platform round-robin cycling, and automatic recruiter InMail answering:
+Run CareerEngine on autonomous background auto-pilot with human circadian pacing, daily safety quota limits, multi-platform round-robin cycling across all 7 supported job boards, and automatic recruiter InMail answering:
 
 ```bash
 # Launch Auto-Pilot in preview mode with safe defaults (180 min interval, 20 daily apps cap):
@@ -260,14 +326,14 @@ python3 main.py auto --interval 60 --session-limit 3 --all-hours --dry-run
 
 - **Circadian Pacing**: Only operates during business hours (09:00 - 19:00 local time) by default to avoid unnatural overnight bot activity.
 - **Daily Safety Quotas**: Enforces hard caps (e.g. 20 applications/day total) in SQLite `jobs.db`. Once reached, rests until the next day.
-- **Round-Robin Multi-Platform**: Cycles evenly across LinkedIn, Naukri, Wellfound, and Instahyre.
+- **Round-Robin Multi-Platform**: Cycles evenly across LinkedIn, Naukri, Wellfound, Instahyre, Indeed, Glassdoor, and Foundit.
 - **InMail Monitoring Loop**: Automatically inspects and answers unread recruiter inquiries after each batch.
 - **Randomized Jitter**: Varies sleep intervals by ±10% to eliminate static cron fingerprints.
 - **GUI Controls**: Can also be started, paused, and monitored visually from the Web Studio dashboard (`http://localhost:8501`).
 
 ---
 
-### 4. Recruiter InMail & Message Auto-Reply (`inmail`)
+### 6. Recruiter InMail & Message Auto-Reply (`inmail`)
 
 #### Preview InMail Drafts (Dry-Run):
 Scans your unread LinkedIn messages, analyzes recruiter inquiries, and displays proposed replies in the terminal without sending:
@@ -288,7 +354,7 @@ python3 main.py inmail --preview --all
 
 ---
 
-### 5. Application Status Dashboard (`status`)
+### 7. Application Status Dashboard (`status`)
 
 Inspect your complete application pipeline, status breakdown, and recent recruiter contacts:
 ```bash

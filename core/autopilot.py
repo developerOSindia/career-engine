@@ -17,7 +17,7 @@ from core.config_loader import get_config
 from core.tracker import ApplicationTracker
 from messaging.auto_responder import RecruiterAutoResponder
 
-DEFAULT_PLATFORMS = ["linkedin", "naukri", "wellfound", "instahyre"]
+DEFAULT_PLATFORMS = ["linkedin", "naukri", "wellfound", "instahyre", "indeed", "glassdoor", "foundit"]
 
 class AutoPilotEngine:
     """
@@ -108,6 +108,18 @@ class AutoPilotEngine:
         elif platform_name == "instahyre":
             from platforms.instahyre.connector import InstahyrePlatform
             agent = InstahyrePlatform(dry_run=self.dry_run, limit=limit)
+        elif platform_name == "indeed":
+            from platforms.indeed.connector import IndeedPlatform
+            agent = IndeedPlatform(dry_run=self.dry_run, limit=limit)
+        elif platform_name == "glassdoor":
+            from platforms.glassdoor.connector import GlassdoorPlatform
+            agent = GlassdoorPlatform(dry_run=self.dry_run, limit=limit)
+        elif platform_name == "foundit":
+            from platforms.foundit.connector import FounditPlatform
+            agent = FounditPlatform(dry_run=self.dry_run, limit=limit)
+        elif platform_name == "hirist":
+            from platforms.hirist.connector import HiristPlatform
+            agent = HiristPlatform(dry_run=self.dry_run, limit=limit)
 
         if not agent:
             print(f"⚠️ [Auto-Pilot] Unknown platform {platform_name}")
