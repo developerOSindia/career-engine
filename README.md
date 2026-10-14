@@ -53,7 +53,7 @@ Automating job applications can breach the terms of service of platforms like Li
   - Analyzes the job title and description in real-time and attaches the best matching resume PDF from `resumes/` (`_DE`, `_DS`, `_AI`, `_SWE`, `_MLOps`).
 - **Recruiter InMail Auto-Reply Engine**:
   - Inspects incoming LinkedIn messaging threads and drafts personalized responses highlighting candidate strengths, confirmed notice period (e.g. 30 days), and expected compensation.
-- **7 Fully Supported Platforms**:
+- **8 Fully Supported Platforms**:
   - **LinkedIn**: Easy Apply automation, multi-step screening Q&A, and Recruiter InMail auto-responder.
   - **Naukri**: Batch Quick Apply, keyword and location filtering, chatbot question solver.
   - **Wellfound (AngelList)**: Startup opportunities with dynamic personalized cover pitch notes.
@@ -61,6 +61,18 @@ Automating job applications can breach the terms of service of platforms like Li
   - **Indeed**: Global and India Easily Apply modal automation, resume uploading, and dry-run preview verification.
   - **Glassdoor**: Easy Apply automation, salary expectations, and screening form completion.
   - **Foundit (Monster India)**: Quick Apply pipeline with instant dry-run audits and job card pagination.
+  - **Hirist**: Premium tech & startup opportunities in India with automated experience matching and one-click application support.
+- **AI Cover Letter & Executive Memo Generator**:
+  - Synthesizes personalized, high-converting cover letters across 3 tones (`startup`, `enterprise`, `concise`).
+  - Injects candidate metrics, solves hiring manager salutations, matches ATS keywords, and saves to `cover_letters/` in Markdown and plain text.
+- **Salary & Offer Negotiation Copilot**:
+  - Benchmarks current vs offered compensation against empirical tech market distributions (`india_inr_lpa`, `us_remote_usd_k`, `eu_remote_eur_k`).
+  - Evaluates offers across P25, P50, P75, and P90 market bands.
+  - Generates 3 tactical counter-offer scenarios: standard counter, competing offer leverage, and total rewards pivot (sign-on bonus, equity/RSUs, remote flexibility).
+  - Supplies word-for-word email negotiation templates and live telephone talking points.
+- **Stealth & Bot-Detection Safety Auditor**:
+  - Pre-flight diagnostic engine checking Chrome CDP profile integrity, circadian pacing compliance (09:00–19:00), randomized jitter, session health, and daily velocity caps.
+  - Computes a comprehensive 0–100 Safety Score with risk classification (`OPTIMAL_STEALTH`, `MODERATE_RISK`, `HIGH_RISK`).
 - **ATS Resume Keyword Tailor & Achievement Bullet Synthesizer**:
   - Compares any Job Description against your candidate profile facts and role tags.
   - Detects high-priority keyword gaps and calculates baseline vs optimized ATS match scores.
@@ -101,24 +113,34 @@ career-engine/
 │   ├── config_loader.py              # Loads .env & YAML with strict validation
 │   ├── browser_engine.py             # Playwright CDP connection & stealth Chrome manager
 │   ├── tracker.py                    # SQLite (jobs.db) & CSV (applied_jobs.csv) tracking
-│   └── models.py                     # Typed dataclasses (JobPosting, ApplicationRecord, InMailMessage)
+│   ├── models.py                     # Typed dataclasses (JobPosting, ApplicationRecord, InMailMessage)
+│   ├── cover_letter.py               # AI Cover Letter & Executive Memo Generator
+│   ├── salary_negotiator.py          # Salary & Offer Negotiation Copilot
+│   ├── stealth_auditor.py            # Stealth & Anti-Bot Safety Pre-Flight Auditor
+│   ├── ats_tailor.py                 # ATS resume keyword matching & XYZ bullet engine
+│   ├── dedup_auditor.py              # Cross-platform SHA-256 deduplication
+│   ├── recruiter_outreach.py         # Recruiter cold email & LinkedIn InMail synthesizer
+│   ├── interview_prep.py             # System design & behavioral STAR drill generator
+│   └── studio/                       # Local Web Studio GUI (port 8501)
+│       ├── server.py                 # Python ThreadingHTTPServer REST API
+│       └── static/                   # Pure CSS/JS dark-mode dashboard & Kanban
 │
 ├── ai/                               # Multi-LLM reasoning engine
 │   ├── __init__.py
-│   ├── ai_solver.py                  # Rotational Gemini 3.x Flash-lite + NVIDIA DeepSeek V4
-│   └── prompts.py                    # Structured system prompts (Form QA & InMail replies)
+│   ├── ai_solver.py                  # Rotational Gemini 3.x Flash-lite + NVIDIA DeepSeek + Claude + OpenAI
+│   └── prompts.py                    # Structured system prompts (Form QA, InMail, Negotiation)
 │
 ├── platforms/                        # Multi-platform job board architecture
 │   ├── __init__.py
 │   ├── base.py                       # BasePlatform abstract contract
 │   ├── linkedin/                     # LinkedIn Easy Apply implementation
-│   │   ├── __init__.py
-│   │   ├── scanner.py                # Job search, card parsing, and URL generator
-│   │   ├── form_filler.py            # Questionnaire solver, dropdowns, and radio handler
-│   │   └── agent.py                  # LinkedIn job application coordinator
 │   ├── naukri/                       # Naukri.com automated batch applicant & chatbot solver
 │   ├── wellfound/                    # Connector for Wellfound / AngelList
-│   └── indeed/                       # Connector for Indeed Apply
+│   ├── instahyre/                    # Connector for Instahyre curated tech openings
+│   ├── indeed/                       # Connector for Indeed Apply
+│   ├── glassdoor/                    # Connector for Glassdoor Easy Apply
+│   ├── foundit/                      # Connector for Foundit (Monster India)
+│   └── hirist/                       # Connector for Hirist India tech jobs
 │
 ├── messaging/                        # Recruiter InMail auto-reply engine
 │   ├── __init__.py
@@ -228,7 +250,7 @@ python3 main.py apply --platform wellfound --live --limit 5
 python3 main.py apply --platform instahyre --dry-run --limit 5
 ```
 
-#### Autonomous Applications on Indeed, Glassdoor & Foundit:
+#### Autonomous Applications on Indeed, Glassdoor, Foundit & Hirist:
 ```bash
 # Preview Indeed Easily Apply jobs in dry-run mode:
 python3 main.py apply --platform indeed --dry-run --limit 5
@@ -241,9 +263,12 @@ python3 main.py apply --platform glassdoor --dry-run --limit 5
 
 # Preview Foundit (Monster India) Quick Apply jobs:
 python3 main.py apply --platform foundit --dry-run --limit 5
+
+# Preview Hirist tech job openings:
+python3 main.py apply --platform hirist --dry-run --limit 5
 ```
 
-#### Apply to All 7 Supported Platforms in Round-Robin Batch:
+#### Apply to All 8 Supported Platforms in Round-Robin Batch:
 ```bash
 python3 main.py apply --platform all --dry-run --limit 10
 ```
@@ -390,7 +415,7 @@ Example Output:
 
 ---
 
-### 6. Candidate Profile Scoring & ATS Audit (`score` / `audit`)
+### 8. Candidate Profile Scoring & ATS Audit (`score` / `audit`)
 
 Audit and benchmark your candidate profile completeness, market readiness, and ATS fit before launching automated application campaigns:
 ```bash
@@ -409,6 +434,71 @@ python3 main.py score --llm
 5. **Screening Memory & Automation Defaults (20 pts)**: Legal work authorization, visa sponsorship flags, joining availability, and cached `custom_answers` depth.
 
 Produces an overall score, letter grade (`A+`, `A`, `B+`, `B`, `C`), multi-role fit % for 5 engineering tracks, and prioritized actionable recommendations to achieve 100%.
+
+---
+
+### 9. AI Cover Letter & Executive Memo Generator (`cover-letter`)
+
+Generate high-converting, ATS-tailored cover letters that automatically pull your verified profile facts, match target role requirements, and export clean Markdown into `cover_letters/`:
+
+```bash
+# Generate a startup-tone cover letter:
+python3 main.py cover-letter --company "Netflix" --title "Senior Distributed Systems Engineer" --tone startup
+
+# Enterprise executive tone with specific hiring manager salutation:
+python3 main.py cover-letter --company "Goldman Sachs" --title "Lead Cloud Architect" --hiring-manager "Sarah Jenkins" --tone enterprise
+
+# Concise 3-paragraph executive memo:
+python3 main.py cover-letter --company "Stripe" --title "Staff Software Engineer" --tone concise --save custom_letter.md
+```
+
+- **3 Calibrated Tones**: `startup` (mission-driven, high agency), `enterprise` (structured impact, governance, scale), `concise` (tight executive pitch under 250 words).
+- **Fact-Grounded**: Uses your actual skills, experience, and key accomplishments from `profile_config.json`.
+- **Zero Cloud Leak Fallback**: If no AI API key is configured or offline, seamlessly falls back to a deterministic heuristic template generator.
+
+---
+
+### 10. Salary & Offer Negotiation Copilot (`negotiate`)
+
+Data-driven compensation benchmarking and tactical counter-offer script generator. Evaluates candidate offers against real-world tech salary distributions across India, US, and European markets:
+
+```bash
+# Benchmark an offer for a Senior Backend Engineer in India (INR LPA):
+python3 main.py negotiate --role "Senior Backend Engineer" --experience 6 --offered 34 --current 26 --market india_inr_lpa
+
+# Benchmark a US Remote Staff Engineer offer (USD $k):
+python3 main.py negotiate --role "Staff Software Engineer" --experience 9 --offered 195 --target 225 --market us_remote_usd_k
+
+# Leverage a competing offer in tactical negotiation scripts:
+python3 main.py negotiate --role "Lead Data Engineer" --experience 7 --offered 42 --competing 48 --market india_inr_lpa
+```
+
+- **Empirical Market Benchmarks**: Built-in P25, P50, P75, and P90 compensation distributions across India (INR LPA), US Remote (USD $k), and EU Remote (EUR €k) for SWE, Data, Cloud, and Engineering Leadership.
+- **Offer Health Rating**: Classifies offers from `BELOW_MARKET` to `TOP_PERCENTILE`.
+- **3 Tactical Action Plans**:
+  1. **Standard Counter-Offer**: Assertive, grounded in target percentiles.
+  2. **Competing Offer Leverage**: High-urgency professional counter script.
+  3. **Total Rewards Pivot**: Structured trade-offs for sign-on bonus, equity/RSU vesting, and remote schedule flexibility when base salary is fixed.
+- **Ready-to-Send Deliverables**: Generates word-for-word email draft responses and bulleted telephone talking points.
+
+---
+
+### 11. Stealth & Bot-Detection Safety Auditor (`audit-stealth`)
+
+Pre-flight diagnostic test checking your local automation environment to verify anti-bot compliance, humanized pacing, and Chrome CDP profile hygiene:
+
+```bash
+# Run local stealth and account safety audit:
+python3 main.py audit-stealth
+```
+
+- **Audited Vectors**:
+  - **Chrome CDP Profile**: Checks for authentic isolated user profile directory (`~/.chrome-job-agent`).
+  - **Circadian Pacing**: Verifies current time falls within human working hours (09:00–19:00 local time).
+  - **Timing Jitter**: Confirms randomized delay ranges (3.0s – 12.0s) to prevent static cron signature detection.
+  - **Daily Velocity Quota**: Audits `jobs.db` application count over the last 24 hours against safe daily caps (max 25/day).
+  - **Platform Session Status**: Checks for cached authentication cookies and active sessions across LinkedIn and Naukri.
+- **Safety Score**: Produces an overall 0–100 rating with clear risk tiers: `OPTIMAL_STEALTH` (85+), `MODERATE_RISK` (60–84), and `HIGH_RISK` (<60).
 
 ---
 

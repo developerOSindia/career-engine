@@ -89,5 +89,50 @@ class TestStudioApi(unittest.TestCase):
         self.assertIn("behavioral_star_stories", body)
 
 
+    def test_api_stealth_status(self):
+        handler = DummyStudioHandler("GET", "/api/stealth/status")
+        handler.do_GET()
+
+        self.assertEqual(handler.status, 200)
+        body = json.loads(handler.wfile.getvalue().decode("utf-8"))
+        self.assertIn("safety_score", body)
+        self.assertIn("risk_level", body)
+        self.assertIn("checks", body)
+
+    def test_api_cover_letter_generate(self):
+        payload = json.dumps({
+            "company": "Figma",
+            "job_title": "Senior Systems Engineer",
+            "style": "startup",
+            "hiring_manager_name": "Dylan Field"
+        }).encode("utf-8")
+        handler = DummyStudioHandler("POST", "/api/cover-letter/generate", payload)
+        handler.do_POST()
+
+        self.assertEqual(handler.status, 200)
+        body = json.loads(handler.wfile.getvalue().decode("utf-8"))
+        self.assertEqual(body["target_company"], "Figma")
+        self.assertIn("Dylan Field", body["salutation"])
+        self.assertIn("full_markdown", body)
+
+    def test_api_salary_negotiate(self):
+        payload = json.dumps({
+            "company": "Swiggy",
+            "job_title": "Lead Backend Engineer",
+            "offered_compensation": 50.0,
+            "current_compensation": 38.0,
+            "region": "india_inr_lpa"
+        }).encode("utf-8")
+        handler = DummyStudioHandler("POST", "/api/salary/negotiate", payload)
+        handler.do_POST()
+
+        self.assertEqual(handler.status, 200)
+        body = json.loads(handler.wfile.getvalue().decode("utf-8"))
+        self.assertEqual(body["target_company"], "Swiggy")
+        self.assertIn("market_percentiles", body)
+        self.assertIn("strategies", body)
+        self.assertEqual(len(body["strategies"]), 3)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -435,6 +435,8 @@
       <button class="tab-btn" data-tab="tab-autopilot">Auto-Pilot</button>
       <button class="tab-btn" data-tab="tab-kanban">Pipeline Kanban</button>
       <button class="tab-btn" data-tab="tab-jobs">Applications</button>
+      <button class="tab-btn" data-tab="tab-cover-letter">Cover Letter</button>
+      <button class="tab-btn" data-tab="tab-salary">Salary Copilot</button>
       <button class="tab-btn" data-tab="tab-outreach">Recruiter Outreach</button>
       <button class="tab-btn" data-tab="tab-prep">Interview Prep</button>
       <button class="tab-btn" data-tab="tab-tailor">Resume Tailor</button>
@@ -443,7 +445,8 @@
       <button class="tab-btn" data-tab="tab-profile">Profile & Memory</button>
     </nav>
 
-    <div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <button id="stealth-badge-btn" class="pill-status" style="background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); cursor: pointer; font-size: 11px; padding: 4px 10px; border-radius: 9999px;">🛡️ STEALTH: 100%</button>
       <span id="runner-status-pill" class="pill-status pill-preview" style="display: none;">● ENGINE RUNNING</span>
     </div>
   </header>
@@ -1129,7 +1132,178 @@
         </div>
       </div>
     </section>
+
+    <!-- VIEW 7: AI COVER LETTER & EXECUTIVE MEMO GENERATOR -->
+    <section id="tab-cover-letter" class="view-section">
+      <div class="card" style="border-left: 4px solid var(--brand-orange); margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 800; margin: 0 0 6px 0;">AI Cover Letter & Executive Memo Generator</h3>
+            <p style="font-size: 13px; color: var(--fg-muted); margin: 0;">
+              Synthesizes tailored, authentic cover letters across Startup, Enterprise, and Concise Executive Memo styles backed by candidate facts.
+            </p>
+          </div>
+          <span class="badge-orange">HIGH-CONVERSION FORMAT</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 24px;">
+        <h4 style="font-family: var(--font-display); font-size: 16px; margin-bottom: 16px;">Target Opportunity</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">COMPANY NAME</label>
+            <input type="text" id="cover-company" class="input-field" placeholder="e.g. Stripe, Databricks">
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">JOB TITLE</label>
+            <input type="text" id="cover-title" class="input-field" placeholder="e.g. Senior Data Engineer">
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">TONE STYLE</label>
+            <select id="cover-style" class="select-field">
+              <option value="startup" selected>🚀 High-Growth Startup (High Agency)</option>
+              <option value="enterprise">🏢 Enterprise Systems (Scale & SLAs)</option>
+              <option value="concise">⚡ Concise Executive Brief (15-Sec Scan)</option>
+            </select>
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">HIRING MANAGER (OPTIONAL)</label>
+            <input type="text" id="cover-manager" class="input-field" placeholder="e.g. Sarah Jenkins">
+          </div>
+        </div>
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">JOB DESCRIPTION / KEY REQUIREMENTS (OPTIONAL)</label>
+          <textarea id="cover-jd" class="input-field" rows="4" placeholder="Paste job description or requirements to extract matched keywords..."></textarea>
+        </div>
+        <button id="btn-generate-cover" class="btn-primary" style="font-size: 13px;">⚡ Synthesize Tailored Cover Letter</button>
+      </div>
+
+      <!-- Cover Letter Result Output -->
+      <div id="cover-result-card" class="card" style="display: none; margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <div id="cover-subject" style="font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--fg);"></div>
+            <div id="cover-skills" style="display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap;"></div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button id="btn-copy-cover-text" class="btn-ghost" style="font-size: 12px;">📋 Copy Text</button>
+            <button id="btn-copy-cover-md" class="btn-ghost" style="font-size: 12px;">📄 Copy Markdown</button>
+          </div>
+        </div>
+        <div id="cover-full-text" style="background: var(--bg-elev-1); border: 1px solid var(--border); border-radius: 8px; padding: 20px; font-size: 13px; line-height: 1.8; color: var(--fg-muted); white-space: pre-wrap; font-family: var(--font-sans);"></div>
+      </div>
+    </section>
+
+    <!-- VIEW 8: SALARY & OFFER NEGOTIATION COPILOT -->
+    <section id="tab-salary" class="view-section">
+      <div class="card" style="border-left: 4px solid #22c55e; margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 800; margin: 0 0 6px 0;">Salary & Offer Negotiation Copilot</h3>
+            <p style="font-size: 13px; color: var(--fg-muted); margin: 0;">
+              Market compensation percentiles, P75 anchoring targets, and ready-to-send counter-offer battlecards for tech professionals.
+            </p>
+          </div>
+          <span class="badge-cyan" style="border-color: rgba(34,197,94,0.4); color: #22c55e;">COMPENSATION INTELLIGENCE</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 24px;">
+        <h4 style="font-family: var(--font-display); font-size: 16px; margin-bottom: 16px;">Offer & Compensation Parameters</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">COMPANY NAME</label>
+            <input type="text" id="salary-company" class="input-field" placeholder="e.g. Uber, Razorpay">
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">ROLE TITLE</label>
+            <input type="text" id="salary-title" class="input-field" placeholder="e.g. Senior Data Engineer">
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">MARKET REGION</label>
+            <select id="salary-region" class="select-field">
+              <option value="india_inr_lpa" selected>🇮🇳 India (INR LPA)</option>
+              <option value="us_remote_usd_k">🇺🇸 US Remote ($k USD)</option>
+              <option value="eu_remote_eur_k">🇪🇺 EU Remote (€k EUR)</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 16px; margin-bottom: 16px;">
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">OFFERED COMPENSATION</label>
+            <input type="number" id="salary-offered" class="input-field" placeholder="e.g. 35 (LPA or $k)">
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">CURRENT COMPENSATION</label>
+            <input type="number" id="salary-current" class="input-field" placeholder="e.g. 30 (LPA or $k)">
+          </div>
+          <div>
+            <label style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 6px;">COMPETING OFFER CONTEXT (OPTIONAL)</label>
+            <input type="text" id="salary-competing" class="input-field" placeholder="e.g. Late-stage offer at 42 LPA from Flipkart">
+          </div>
+        </div>
+        <button id="btn-generate-salary" class="btn-primary" style="font-size: 13px;">💰 Formulate Negotiation Playbook</button>
+      </div>
+
+      <!-- Salary Plan Output -->
+      <div id="salary-result-wrap" style="display: none;">
+        <!-- Metrics strip -->
+        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 24px;">
+          <div class="stat-box">
+            <span class="stat-label">Seniority Bracket</span>
+            <div id="salary-res-seniority" class="stat-val" style="font-size: 18px; color: var(--fg);">--</div>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Offered vs Recommended Anchor</span>
+            <div id="salary-res-anchor" class="stat-val" style="font-size: 18px; color: #4ade80;">--</div>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Market Median (P50)</span>
+            <div id="salary-res-p50" class="stat-val" style="font-size: 18px; color: var(--brand-cyan);">--</div>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Top Market Band (P90)</span>
+            <div id="salary-res-p90" class="stat-val" style="font-size: 18px; color: var(--brand-orange);">--</div>
+          </div>
+        </div>
+
+        <!-- Strategy Cards -->
+        <div id="salary-strategies-list" style="display: flex; flex-direction: column; gap: 20px;"></div>
+      </div>
+    </section>
   </main>
+
+  <!-- Stealth & Safety Health Modal -->
+  <div class="modal-backdrop" id="stealth-modal">
+    <div class="modal-card" style="max-width: 680px;">
+      <button class="modal-close" onclick="closeStealthModal()">&times;</button>
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+        <div style="font-size: 28px;">🛡️</div>
+        <div>
+          <h3 style="font-family: var(--font-display); font-size: 20px; margin: 0;">Stealth & Bot-Detection Safety Audit</h3>
+          <p id="stealth-modal-summary" style="font-size: 13px; color: var(--fg-muted); margin: 0;"></p>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 16px; margin: 16px 0; padding: 12px; background: var(--bg-elev-1); border-radius: 8px; border: 1px solid var(--border);">
+        <div style="flex: 1;">
+          <span style="font-size: 11px; font-family: var(--font-mono); color: var(--fg-subtle);">SAFETY SCORE</span>
+          <div id="stealth-score-val" style="font-size: 24px; font-weight: 800; font-family: var(--font-display); color: #22c55e;">100/100</div>
+        </div>
+        <div style="flex: 1;">
+          <span style="font-size: 11px; font-family: var(--font-mono); color: var(--fg-subtle);">RISK TIER</span>
+          <div id="stealth-risk-val" style="font-size: 14px; font-weight: 700; margin-top: 4px; color: #22c55e;">SAFE (LOW RISK)</div>
+        </div>
+        <div style="flex: 1;">
+          <span style="font-size: 11px; font-family: var(--font-mono); color: var(--fg-subtle);">TODAY'S VELOCITY</span>
+          <div id="stealth-velocity-val" style="font-size: 14px; font-weight: 700; margin-top: 4px; color: var(--brand-cyan);">0 / 25 safe max</div>
+        </div>
+      </div>
+
+      <div style="font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); margin-bottom: 8px; text-transform: uppercase;">Diagnostic Checks</div>
+      <div id="stealth-checks-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 340px; overflow-y: auto;"></div>
+    </div>
+  </div>
 
   <!-- Job Details Modal -->
   <div class="modal-backdrop" id="job-modal">
@@ -1155,10 +1329,12 @@
         <img id="modal-screenshot-img" src="" alt="Application Screenshot" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
       </div>
 
-      <div style="display: flex; gap: 8px; margin-top: 18px; border-top: 1px solid var(--border); padding-top: 16px;">
-        <button id="modal-btn-outreach" class="btn-ghost" style="flex: 1; font-size: 12px;">✉️ Outreach Kit</button>
-        <button id="modal-btn-prep" class="btn-ghost" style="flex: 1; font-size: 12px;">🎯 Interview Prep</button>
-        <button id="modal-btn-tailor" class="btn-ghost" style="flex: 1; font-size: 12px;">📄 Tailor Resume</button>
+      <div style="display: flex; gap: 8px; margin-top: 18px; border-top: 1px solid var(--border); padding-top: 16px; flex-wrap: wrap;">
+        <button id="modal-btn-cover" class="btn-ghost" style="flex: 1; min-width: 100px; font-size: 12px;">📄 Cover Letter</button>
+        <button id="modal-btn-salary" class="btn-ghost" style="flex: 1; min-width: 100px; font-size: 12px;">💰 Negotiate</button>
+        <button id="modal-btn-outreach" class="btn-ghost" style="flex: 1; min-width: 100px; font-size: 12px;">✉️ Outreach</button>
+        <button id="modal-btn-prep" class="btn-ghost" style="flex: 1; min-width: 100px; font-size: 12px;">🎯 Prep</button>
+        <button id="modal-btn-tailor" class="btn-ghost" style="flex: 1; min-width: 100px; font-size: 12px;">📄 Tailor</button>
       </div>
     </div>
   </div>
@@ -1245,6 +1421,27 @@
       document.getElementById('tailor-title-input').value = currentModalJob.title || 'Senior Software Engineer';
       document.getElementById('tailor-jd-input').value = currentModalJob.job_description || '';
       document.getElementById('btn-run-tailor')?.click();
+    });
+
+    document.getElementById('modal-btn-cover')?.addEventListener('click', () => {
+      if (!currentModalJob) return;
+      document.getElementById('job-modal').classList.remove('show');
+      const tabBtn = document.querySelector('[data-tab="tab-cover-letter"]');
+      if (tabBtn) tabBtn.click();
+      document.getElementById('cover-company').value = currentModalJob.company || '';
+      document.getElementById('cover-title').value = currentModalJob.title || 'Senior Software Engineer';
+      document.getElementById('cover-jd').value = currentModalJob.job_description || '';
+      document.getElementById('btn-generate-cover')?.click();
+    });
+
+    document.getElementById('modal-btn-salary')?.addEventListener('click', () => {
+      if (!currentModalJob) return;
+      document.getElementById('job-modal').classList.remove('show');
+      const tabBtn = document.querySelector('[data-tab="tab-salary"]');
+      if (tabBtn) tabBtn.click();
+      document.getElementById('salary-company').value = currentModalJob.company || '';
+      document.getElementById('salary-title').value = currentModalJob.title || 'Senior Software Engineer';
+      document.getElementById('btn-generate-salary')?.click();
     });
 
     // Load Dashboard Stats
@@ -1834,6 +2031,8 @@
               </div>
               <div class="kanban-card-company">${escapeHtml(job.company || '')} ${job.location ? '• ' + escapeHtml(job.location) : ''}</div>
               <div style="display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap;">
+                <button class="kanban-stage-btn" onclick='quickLaunchCoverLetter(${JSON.stringify(job).replace(/'/g, "&apos;")})'>📄 Letter</button>
+                <button class="kanban-stage-btn" onclick='quickLaunchSalary(${JSON.stringify(job).replace(/'/g, "&apos;")})'>💰 Salary</button>
                 <button class="kanban-stage-btn" onclick='quickLaunchOutreach(${JSON.stringify(job).replace(/'/g, "&apos;")})'>✉️ Outreach</button>
                 <button class="kanban-stage-btn" onclick='quickLaunchPrep(${JSON.stringify(job).replace(/'/g, "&apos;")})'>🎯 Prep</button>
                 <button class="kanban-stage-btn" onclick='showJobModal(${JSON.stringify(job).replace(/'/g, "&apos;")})'>🔍 Inspect</button>
@@ -1882,6 +2081,23 @@
         alert('Error updating status: ' + e);
       }
     }
+
+    window.quickLaunchCoverLetter = function(job) {
+      const tabBtn = document.querySelector('[data-tab="tab-cover-letter"]');
+      if (tabBtn) tabBtn.click();
+      document.getElementById('cover-company').value = job.company || '';
+      document.getElementById('cover-title').value = job.title || 'Senior Software Engineer';
+      document.getElementById('cover-jd').value = job.job_description || '';
+      document.getElementById('btn-generate-cover')?.click();
+    };
+
+    window.quickLaunchSalary = function(job) {
+      const tabBtn = document.querySelector('[data-tab="tab-salary"]');
+      if (tabBtn) tabBtn.click();
+      document.getElementById('salary-company').value = job.company || '';
+      document.getElementById('salary-title').value = job.title || 'Senior Software Engineer';
+      document.getElementById('btn-generate-salary')?.click();
+    };
 
     window.quickLaunchOutreach = function(job) {
       const tabBtn = document.querySelector('[data-tab="tab-outreach"]');
@@ -2111,10 +2327,227 @@
       }
     });
 
+    // ==========================================
+    // AI COVER LETTER GENERATOR
+    // ==========================================
+    document.getElementById('btn-generate-cover')?.addEventListener('click', async () => {
+      const comp = document.getElementById('cover-company').value.trim();
+      const title = document.getElementById('cover-title').value.trim() || 'Senior Software Engineer';
+      const style = document.getElementById('cover-style').value;
+      const manager = document.getElementById('cover-manager').value.trim();
+      const jd = document.getElementById('cover-jd').value.trim();
+      const btn = document.getElementById('btn-generate-cover');
+
+      if (!comp) {
+        alert('Please enter a target company name.');
+        return;
+      }
+
+      const origText = btn.innerHTML;
+      btn.innerHTML = '<span>⏳</span> Synthesizing Cover Letter...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/cover-letter/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            company: comp,
+            job_title: title,
+            style: style,
+            hiring_manager_name: manager,
+            job_description: jd
+          })
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        document.getElementById('cover-result-card').style.display = 'block';
+        document.getElementById('cover-subject').textContent = data.subject_line || 'Application';
+        
+        const skillsWrap = document.getElementById('cover-skills');
+        skillsWrap.innerHTML = (data.target_skills_matched || []).map(s => 
+          `<span class="badge-cyan" style="font-size: 11px;">✓ ${escapeHtml(s)}</span>`
+        ).join('');
+
+        document.getElementById('cover-full-text').textContent = data.full_text || data.full_markdown || '';
+
+        document.getElementById('btn-copy-cover-text').onclick = () => {
+          navigator.clipboard.writeText(data.full_text || '');
+          alert('Plain text cover letter copied to clipboard!');
+        };
+        document.getElementById('btn-copy-cover-md').onclick = () => {
+          navigator.clipboard.writeText(data.full_markdown || '');
+          alert('Markdown cover letter copied to clipboard!');
+        };
+
+        document.getElementById('cover-result-card').scrollIntoView({ behavior: 'smooth' });
+      } catch (e) {
+        alert('Cover letter synthesis failed: ' + e);
+      } finally {
+        btn.innerHTML = origText;
+        btn.disabled = false;
+      }
+    });
+
+    // ==========================================
+    // SALARY & OFFER NEGOTIATION COPILOT
+    // ==========================================
+    document.getElementById('btn-generate-salary')?.addEventListener('click', async () => {
+      const comp = document.getElementById('salary-company').value.trim();
+      const title = document.getElementById('salary-title').value.trim() || 'Senior Software Engineer';
+      const offered = document.getElementById('salary-offered').value.trim();
+      const current = document.getElementById('salary-current').value.trim();
+      const region = document.getElementById('salary-region').value;
+      const competing = document.getElementById('salary-competing').value.trim();
+      const btn = document.getElementById('btn-generate-salary');
+
+      if (!comp) {
+        alert('Please enter a target company name.');
+        return;
+      }
+
+      const origText = btn.innerHTML;
+      btn.innerHTML = '<span>⏳</span> Formulating Negotiation Playbook...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/salary/negotiate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            company: comp,
+            job_title: title,
+            offered_compensation: offered ? parseFloat(offered) : null,
+            current_compensation: current ? parseFloat(current) : null,
+            region: region,
+            competing_offer: competing
+          })
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        document.getElementById('salary-result-wrap').style.display = 'block';
+        document.getElementById('salary-res-seniority').textContent = data.seniority_level || '--';
+        document.getElementById('salary-res-anchor').textContent = `${data.offered_compensation} ➔ ${data.target_recommendation}`;
+        document.getElementById('salary-res-p50').textContent = `${data.market_percentiles?.p50 || '--'} ${data.currency}`;
+        document.getElementById('salary-res-p90').textContent = `${data.market_percentiles?.p90 || '--'} ${data.currency}`;
+
+        const stratsWrap = document.getElementById('salary-strategies-list');
+        stratsWrap.innerHTML = (data.strategies || []).map((st, i) => `
+          <div class="card" style="border-top: 3px solid ${i === 0 ? '#22c55e' : (i === 1 ? 'var(--brand-cyan)' : 'var(--brand-orange)')};">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+              <div>
+                <span style="font-family: var(--font-mono); font-size: 11px; color: var(--brand-cyan); text-transform: uppercase;">SCENARIO #${i + 1}</span>
+                <h4 style="font-family: var(--font-display); font-size: 17px; margin: 2px 0 6px 0;">${escapeHtml(st.scenario_title)}</h4>
+                <div style="font-size: 13px; color: var(--fg-muted);">${escapeHtml(st.rationale)}</div>
+              </div>
+              <div style="text-align: right;">
+                <span class="badge-cyan" style="font-size: 12px; font-weight: 700; color: #4ade80;">Target: ${escapeHtml(st.recommended_target)}</span>
+              </div>
+            </div>
+
+            <!-- Email script -->
+            <div style="margin-top: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <strong style="font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); text-transform: uppercase;">📧 Ready-to-Send Email Script</strong>
+                <button class="btn-ghost" style="font-size: 11px; padding: 2px 8px;" onclick="navigator.clipboard.writeText('${escapeHtml(st.email_body.replace(/'/g, "\\'"))}'); alert('Email script copied!');">📋 Copy Script</button>
+              </div>
+              <div style="font-size: 12px; font-weight: 600; color: var(--fg); margin-bottom: 4px;">Subject: ${escapeHtml(st.email_subject)}</div>
+              <div style="background: var(--bg-elev-1); border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 12px; line-height: 1.6; color: var(--fg-muted); white-space: pre-wrap;">${escapeHtml(st.email_body)}</div>
+            </div>
+
+            <!-- Phone Talking Points -->
+            <div style="margin-top: 14px;">
+              <strong style="font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); text-transform: uppercase; display: block; margin-bottom: 6px;">📞 Phone Negotiation Talking Points</strong>
+              <ul style="margin-left: 18px; font-size: 12px; color: var(--fg-muted); line-height: 1.6;">
+                ${(st.phone_talking_points || []).map(p => `<li>${escapeHtml(p)}</li>`).join('')}
+              </ul>
+            </div>
+          </div>
+        `).join('');
+
+        document.getElementById('salary-result-wrap').scrollIntoView({ behavior: 'smooth' });
+      } catch (e) {
+        alert('Negotiation planning failed: ' + e);
+      } finally {
+        btn.innerHTML = origText;
+        btn.disabled = false;
+      }
+    });
+
+    // ==========================================
+    // STEALTH & BOT-DETECTION AUDIT
+    // ==========================================
+    async function loadStealthStatus() {
+      try {
+        const res = await fetch('/api/stealth/status');
+        const data = await res.json();
+        const badge = document.getElementById('stealth-badge-btn');
+        if (badge) {
+          const score = data.safety_score || 100;
+          if (score >= 80) {
+            badge.style.background = 'rgba(34,197,94,0.15)';
+            badge.style.color = '#22c55e';
+            badge.style.borderColor = 'rgba(34,197,94,0.3)';
+            badge.innerHTML = `🛡️ STEALTH: ${score}% SAFE`;
+          } else if (score >= 60) {
+            badge.style.background = 'rgba(251,191,36,0.15)';
+            badge.style.color = '#fbbf24';
+            badge.style.borderColor = 'rgba(251,191,36,0.3)';
+            badge.innerHTML = `🛡️ STEALTH: ${score}% MODERATE`;
+          } else {
+            badge.style.background = 'rgba(244,63,94,0.15)';
+            badge.style.color = '#f43f5e';
+            badge.style.borderColor = 'rgba(244,63,94,0.3)';
+            badge.innerHTML = `🛡️ STEALTH: ${score}% HIGH RISK`;
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load stealth status:', e);
+      }
+    }
+
+    window.openStealthModal = async function() {
+      const modal = document.getElementById('stealth-modal');
+      modal.classList.add('show');
+      const list = document.getElementById('stealth-checks-list');
+      list.innerHTML = '<div style="font-size: 12px; color: var(--fg-subtle); padding: 12px;">Auditing environment and platform sessions...</div>';
+
+      try {
+        const res = await fetch('/api/stealth/status');
+        const data = await res.json();
+        document.getElementById('stealth-score-val').textContent = `${data.safety_score || 100}/100`;
+        document.getElementById('stealth-risk-val').textContent = data.risk_level || 'SAFE';
+        document.getElementById('stealth-risk-val').style.color = (data.safety_score >= 80) ? '#22c55e' : (data.safety_score >= 60 ? '#fbbf24' : '#f43f5e');
+        document.getElementById('stealth-score-val').style.color = (data.safety_score >= 80) ? '#22c55e' : (data.safety_score >= 60 ? '#fbbf24' : '#f43f5e');
+        document.getElementById('stealth-modal-summary').textContent = data.summary || '';
+        document.getElementById('stealth-velocity-val').textContent = `${data.daily_applications_today || 0} / 25 safe max`;
+
+        list.innerHTML = (data.checks || []).map(c => `
+          <div style="background: var(--bg-elev-1); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-size: 13px; font-weight: 600; color: var(--fg);">${c.status === 'PASS' ? '✅' : (c.status === 'WARN' ? '⚠️' : '❌')} ${escapeHtml(c.name)}</span>
+              <span class="badge-cyan" style="font-size: 10px;">${c.score_points}/${c.max_points} pts</span>
+            </div>
+            <div style="font-size: 12px; color: var(--fg-muted);">${escapeHtml(c.finding)}</div>
+            ${c.remediation ? `<div style="font-size: 11px; color: #fbbf24; margin-top: 4px;">💡 Fix: ${escapeHtml(c.remediation)}</div>` : ''}
+          </div>
+        `).join('');
+      } catch (e) {
+        list.innerHTML = `<div style="color: #f43f5e; font-size: 12px;">Failed to load audit: ${e}</div>`;
+      }
+    };
+
+    window.closeStealthModal = function() {
+      document.getElementById('stealth-modal').classList.remove('show');
+    };
+
     // Initial Load
     loadStats();
     loadAutopilotStatus();
     loadKanban();
+    loadStealthStatus();
   </script>
 </body>
 </html>

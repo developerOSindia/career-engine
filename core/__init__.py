@@ -10,6 +10,9 @@ from .tracker import ApplicationTracker
 from .smart_dedup import smart_deduplicator, SmartDeduplicator
 from .cold_outreach import cold_outreach_synthesizer, ColdOutreachSynthesizer
 from .interview_prep import interview_prep_simulator, InterviewPrepSimulator
+from .cover_letter import CoverLetterGenerator, CoverLetterKit
+from .salary_negotiator import SalaryNegotiator, CompensationReport, NegotiationStrategy
+from .stealth_auditor import StealthAuditor, StealthAuditReport
 
 __all__ = [
     "Config",
@@ -24,5 +27,12 @@ __all__ = [
     "cold_outreach_synthesizer",
     "ColdOutreachSynthesizer",
     "interview_prep_simulator",
-    "InterviewPrepSimulator"
+    "InterviewPrepSimulator",
+    "CoverLetterGenerator",
+    "CoverLetterKit",
+    "SalaryNegotiator",
+    "CompensationReport",
+    "NegotiationStrategy",
+    "StealthAuditor",
+    "StealthAuditReport"
 ]

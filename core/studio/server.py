@@ -224,6 +224,14 @@ class StudioRequestHandler(BaseHTTPRequestHandler):
             })
             return
 
+        # API: Stealth & Safety Status
+        if path == "/api/stealth/status":
+            from core.stealth_auditor import StealthAuditor
+            auditor = StealthAuditor()
+            report = auditor.run_audit()
+            self.send_json(report.to_dict())
+            return
+
         self.send_json({"error": "Not Found", "path": path}, 404)
 
     def do_POST(self):
@@ -402,6 +410,92 @@ class StudioRequestHandler(BaseHTTPRequestHandler):
                 self.send_json({"success": True, "job_id": job_id, "status": new_status, "rows_updated": rows_updated})
             except Exception as e:
                 self.send_json({"error": f"Failed to update status: {e}"}, 500)
+            return
+
+        # API: Cover Letter Generation
+        if path == "/api/cover-letter/generate":
+            from core.cover_letter import CoverLetterGenerator
+            company = body_data.get("company", "")
+            title = body_data.get("job_title") or body_data.get("title", "Senior Engineer")
+            jd = body_data.get("job_description") or body_data.get("jd", "")
+            style = body_data.get("style", "startup")
+            manager = body_data.get("hiring_manager_name") or body_data.get("manager")
+            job_id = body_data.get("job_id")
+
+            if job_id and (not company or not jd):
+                try:
+                    conn = sqlite3.connect(DB_PATH)
+                    c = conn.cursor()
+                    c.execute("SELECT title, company, job_description FROM applications WHERE job_id = ? LIMIT 1", (job_id,))
+                    row = c.fetchone()
+                    conn.close()
+                    if row:
+                        title = title or row[0]
+                        company = company or row[1]
+                        jd = jd or row[2] or ""
+                except Exception:
+                    pass
+
+            if not company:
+                self.send_json({"error": "Company name is required"}, 400)
+                return
+
+            gen = CoverLetterGenerator()
+            kit = gen.generate(
+                company=company,
+                title=title,
+                job_description=jd,
+                style=style,
+                hiring_manager_name=manager
+            )
+            self.send_json(kit.to_dict())
+            return
+
+        # API: Salary Negotiation & Benchmarking
+        if path == "/api/salary/negotiate":
+            from core.salary_negotiator import SalaryNegotiator
+            company = body_data.get("company", "")
+            title = body_data.get("job_title") or body_data.get("title", "Senior Engineer")
+            offered = body_data.get("offered_compensation") or body_data.get("offered")
+            current = body_data.get("current_compensation") or body_data.get("current")
+            region = body_data.get("region", "india_inr_lpa")
+            competing = body_data.get("competing_offer") or body_data.get("competing")
+            job_id = body_data.get("job_id")
+
+            if job_id and not company:
+                try:
+                    conn = sqlite3.connect(DB_PATH)
+                    c = conn.cursor()
+                    c.execute("SELECT title, company FROM applications WHERE job_id = ? LIMIT 1", (job_id,))
+                    row = c.fetchone()
+                    conn.close()
+                    if row:
+                        title = title or row[0]
+                        company = company or row[1]
+                except Exception:
+                    pass
+
+            if offered is not None:
+                try:
+                    offered = float(offered)
+                except Exception:
+                    offered = None
+            if current is not None:
+                try:
+                    current = float(current)
+                except Exception:
+                    current = None
+
+            negotiator = SalaryNegotiator()
+            report = negotiator.analyze_and_plan(
+                company=company,
+                title=title,
+                offered_comp=offered,
+                current_comp=current,
+                market_region=region,
+                competing_offer=competing
+            )
+            self.send_json(report.to_dict())
             return
 
         # API: Update Profile Config

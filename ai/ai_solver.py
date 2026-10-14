@@ -384,5 +384,34 @@ Write the complete reply message to {sender_name}.
         print("  💌 [Profile Template] Drafted personalized InMail reply")
         return fallback
 
+    @property
+    def active_provider(self) -> Optional[str]:
+        """Returns the primary active configured AI provider name or None."""
+        if any(k and not k.startswith("your_") for k in self.gemini_keys):
+            return "Gemini"
+        if self.anthropic_api_key and not self.anthropic_api_key.startswith("your_"):
+            return "Claude"
+        if self.openai_api_key and not self.openai_api_key.startswith("your_"):
+            return "OpenAI"
+        if self.nvidia_api_key and not self.nvidia_api_key.startswith("your_"):
+            return "NVIDIA"
+        return None
+
+    def solve_complex_text(self, prompt: str, max_tokens: int = 1500) -> Optional[str]:
+        """Executes a long-form multi-provider reasoning prompt across configured LLMs."""
+        result = self._call_gemini(prompt, max_tokens=max_tokens)
+        if not result:
+            result = self._call_claude(prompt, max_tokens=max_tokens)
+        if not result:
+            result = self._call_openai(prompt, max_tokens=max_tokens)
+        if not result:
+            result = self._call_nvidia(prompt, max_tokens=max_tokens)
+        if not result:
+            result = self._call_ollama(prompt)
+        if result:
+            ans, _ = result
+            return ans.strip()
+        return None
+
 # Alias for backward compatibility
 AISolver = UnifiedAISolver

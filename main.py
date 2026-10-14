@@ -373,6 +373,123 @@ def handle_dedup_audit(args):
             print()
     print(f"{'='*68}\n")
 
+def handle_cover_letter(args):
+    """Generates an ATS-optimized, customized Cover Letter or Executive Memo."""
+    from core.cover_letter import CoverLetterGenerator
+    from core.config_loader import get_config
+    import sqlite3
+
+    company = args.company
+    title = args.title or "Senior Engineer"
+    jd_text = args.jd
+
+    if args.file and os.path.exists(args.file):
+        with open(args.file, "r", encoding="utf-8") as f:
+            jd_text = f.read()
+
+    if args.job_id:
+        db_path = get_config().database_path
+        conn = sqlite3.connect(db_path)
+        c = conn.cursor()
+        c.execute("SELECT title, company, job_description FROM applications WHERE job_id = ? LIMIT 1", (args.job_id,))
+        row = c.fetchone()
+        conn.close()
+        if row:
+            title = title or row[0]
+            company = company or row[1]
+            if not jd_text and row[2]:
+                jd_text = row[2]
+
+    if not company:
+        print("❌ Please specify a company name with --company 'CompanyName' or provide a --job-id.")
+        return
+
+    generator = CoverLetterGenerator()
+    print(f"\n⏳ Synthesizing {args.style.upper()} Cover Letter for {title} @ {company}...")
+    kit = generator.generate(
+        company=company,
+        title=title,
+        job_description=jd_text,
+        style=args.style,
+        hiring_manager_name=args.manager
+    )
+
+    print("\n" + "="*68)
+    print(f"  📄 COVER LETTER: {kit.target_title} @ {kit.target_company} ({kit.style.upper()})")
+    print(f"  Matched Skills: {', '.join(kit.target_skills_matched)}")
+    print("="*68 + "\n")
+    print(kit.full_text)
+    print("="*68)
+
+    save_path = generator.save_to_file(kit, output_dir=args.output)
+    print(f"  💾 Saved clean Markdown version to: {save_path}\n")
+
+def handle_negotiate(args):
+    """Generates compensation market benchmarks and negotiation battlecards."""
+    from core.salary_negotiator import SalaryNegotiator
+
+    negotiator = SalaryNegotiator()
+    company = args.company or "Target Company"
+    title = args.title or "Senior Engineer"
+
+    print(f"\n⏳ Analyzing compensation & formulating negotiation playbook for {title} @ {company}...")
+    report = negotiator.analyze_and_plan(
+        company=company,
+        title=title,
+        offered_comp=args.offered,
+        current_comp=args.current,
+        market_region=args.region,
+        competing_offer=args.competing
+    )
+
+    print("\n" + "="*68)
+    print(f"  💰 COMPENSATION COPILOT: {report.target_title} @ {report.target_company}")
+    print(f"  Seniority Bracket: {report.seniority_level} | Market: {args.region.upper()}")
+    print("="*68)
+    print(f"  Current Compensation:   {report.current_compensation}")
+    print(f"  Initial Offered:        {report.offered_compensation}")
+    print(f"  Recommended Anchor:     {report.target_recommendation}")
+    print(f"  Market Distribution:    P25: {report.market_percentiles.get('p25')} | P50: {report.market_percentiles.get('p50')} | P75: {report.market_percentiles.get('p75')} | P90: {report.market_percentiles.get('p90')} ({report.currency})")
+    print("="*68 + "\n")
+
+    for idx, strat in enumerate(report.strategies, 1):
+        print(f"  🎯 SCENARIO {idx}: {strat.scenario_title.upper()}")
+        print(f"  Target Anchor: {strat.recommended_target}")
+        print(f"  Rationale: {strat.rationale}\n")
+        print("  📧 Ready-to-Send Email Script:")
+        print(f"  Subject: {strat.email_subject}")
+        for line in strat.email_body.splitlines():
+            print(f"    {line}")
+        print("\n  📞 Phone Call Talking Points:")
+        for tp in strat.phone_talking_points:
+            print(f"    • {tp}")
+        print("\n" + "-"*68 + "\n")
+
+def handle_stealth_audit(args):
+    """Executes a diagnostic bot-detection and stealth safety audit."""
+    from core.stealth_auditor import StealthAuditor
+
+    auditor = StealthAuditor()
+    print("\n⏳ Running CareerEngine Stealth & Bot-Detection Safety Audit...")
+    report = auditor.run_audit()
+
+    print("\n" + "="*68)
+    print("  🛡️  CAREERENGINE STEALTH & BOT-DETECTION SAFETY AUDIT")
+    print(f"  Safety Score: {report.safety_score}/100 [{report.risk_level}]")
+    print(f"  Summary:      {report.summary}")
+    print(f"  Velocity:     {report.daily_applications_today}/{report.daily_limit} applications sent today")
+    print("="*68 + "\n")
+
+    for c in report.checks:
+        icon = "✅" if c.status == "PASS" else "⚠️" if c.status == "WARN" else "❌"
+        print(f"  {icon} [{c.status}] {c.name} ({c.score_points}/{c.max_points} pts)")
+        print(f"     ↳ {c.finding}")
+        if c.remediation:
+            print(f"     💡 Fix: {c.remediation}")
+        print()
+
+    print("="*68 + "\n")
+
 def handle_studio(args):
     """Launches the CareerEngine Local Web Studio GUI server."""
     from core.studio import start_studio_server
@@ -518,6 +635,29 @@ Examples:
     parser_audit = subparsers.add_parser("audit", help="Alias for score command")
     parser_audit.add_argument("--llm", action="store_true", help="Include AI executive critique from connected LLM")
 
+    # Command: cover-letter (AI Cover Letter & Executive Memo Generator)
+    parser_cover = subparsers.add_parser("cover-letter", help="Generate customized, high-converting cover letters and executive memos")
+    parser_cover.add_argument("--company", type=str, default=None, help="Target company name")
+    parser_cover.add_argument("--title", type=str, default=None, help="Target role title")
+    parser_cover.add_argument("--jd", type=str, default=None, help="Pasted job description text")
+    parser_cover.add_argument("--file", type=str, default=None, help="Path to job description text file")
+    parser_cover.add_argument("--job-id", type=str, default=None, help="Target application job ID from jobs.db")
+    parser_cover.add_argument("--style", type=str, default="startup", choices=["startup", "enterprise", "concise"], help="Tone style: startup (default), enterprise, or concise")
+    parser_cover.add_argument("--manager", type=str, default=None, help="Hiring manager or team lead name")
+    parser_cover.add_argument("--output", "-o", type=str, default=None, help="Custom directory to save generated markdown file")
+
+    # Command: negotiate (Salary & Offer Negotiation Copilot)
+    parser_negotiate = subparsers.add_parser("negotiate", help="Compensation benchmarks, percentile distributions, and negotiation counter-offer playbooks")
+    parser_negotiate.add_argument("--company", type=str, default=None, help="Hiring company name extending offer")
+    parser_negotiate.add_argument("--title", type=str, default=None, help="Target position title")
+    parser_negotiate.add_argument("--offered", type=float, default=None, help="Offered compensation number (e.g. 35 for 35 LPA or 180 for $180k)")
+    parser_negotiate.add_argument("--current", type=float, default=None, help="Current compensation number")
+    parser_negotiate.add_argument("--region", type=str, default="india_inr_lpa", choices=["india_inr_lpa", "us_remote_usd_k", "eu_remote_eur_k"], help="Market compensation benchmark region (default: india_inr_lpa)")
+    parser_negotiate.add_argument("--competing", type=str, default=None, help="Details or context of any competing offer (e.g., 'another offer at 42 LPA')")
+
+    # Command: audit-stealth (Safety & Bot Evasion Diagnostic Health Check)
+    subparsers.add_parser("audit-stealth", help="Run anti-detection, browser fingerprint, and circadian safety health checks")
+
     # Command: setup
     parser_setup = subparsers.add_parser("setup", help="Interactive onboarding agent to configure personal profile and API keys")
     parser_setup.add_argument("--defaults", action="store_true", help="Quick setup with default configuration placeholders")
@@ -542,6 +682,12 @@ Examples:
         handle_prep(args)
     elif args.command == "dedup-audit":
         handle_dedup_audit(args)
+    elif args.command == "cover-letter":
+        handle_cover_letter(args)
+    elif args.command == "negotiate":
+        handle_negotiate(args)
+    elif args.command == "audit-stealth":
+        handle_stealth_audit(args)
     elif args.command == "auto":
         handle_auto(args)
     elif args.command == "inmail":
