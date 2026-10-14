@@ -17,7 +17,7 @@ from core.config_loader import get_config
 from core.tracker import ApplicationTracker
 from messaging.auto_responder import RecruiterAutoResponder
 
-DEFAULT_PLATFORMS = ["linkedin", "naukri", "wellfound", "instahyre", "indeed", "glassdoor", "foundit"]
+DEFAULT_PLATFORMS = ["linkedin", "naukri", "wellfound", "instahyre", "indeed", "glassdoor", "foundit", "hirist"]
 
 class AutoPilotEngine:
     """

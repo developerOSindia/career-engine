@@ -133,6 +133,15 @@ class TestStudioApi(unittest.TestCase):
         self.assertIn("strategies", body)
         self.assertEqual(len(body["strategies"]), 3)
 
+    def test_api_autopilot_status(self):
+        handler = DummyStudioHandler("GET", "/api/autopilot/status")
+        handler.do_GET()
+
+        self.assertEqual(handler.status, 200)
+        body = json.loads(handler.wfile.getvalue().decode("utf-8"))
+        self.assertIn("configured_platforms", body)
+        self.assertIn("hirist", body["configured_platforms"])
+
 
 if __name__ == "__main__":
     unittest.main()

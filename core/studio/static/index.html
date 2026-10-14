@@ -597,6 +597,9 @@
             <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
               <input type="checkbox" id="ap-plat-foundit" checked> Foundit
             </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" id="ap-plat-hirist" checked> Hirist
+            </label>
           </div>
         </div>
       </div>
@@ -822,6 +825,7 @@
           <option value="indeed">Indeed</option>
           <option value="glassdoor">Glassdoor</option>
           <option value="foundit">Foundit</option>
+          <option value="hirist">Hirist</option>
         </select>
         <select id="jobs-status-select" class="select-field">
           <option value="all">All Statuses</option>
@@ -878,6 +882,7 @@
               <option value="indeed">Indeed Easily Apply</option>
               <option value="glassdoor">Glassdoor Easy Apply</option>
               <option value="foundit">Foundit Monster India</option>
+              <option value="hirist">Hirist Tech Openings</option>
             </select>
           </div>
           <div>
@@ -1813,6 +1818,7 @@
       if (document.getElementById('ap-plat-indeed')?.checked) platforms.push('indeed');
       if (document.getElementById('ap-plat-glassdoor')?.checked) platforms.push('glassdoor');
       if (document.getElementById('ap-plat-foundit')?.checked) platforms.push('foundit');
+      if (document.getElementById('ap-plat-hirist')?.checked) platforms.push('hirist');
 
       try {
         const res = await fetch('/api/autopilot/start', {
